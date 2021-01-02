@@ -1,0 +1,25 @@
+{
+  "name": "soundcloud",
+  "version": "0.1.0-a",
+  "description": "Browse and play SoundCloud tracks",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Patrick Kan",
+  "license": "GPL-3.0",
+  "volumio_info": {
+    "prettyName": "SoundCloud",
+    "plugin_type": "music_service",
+    "icon": "fa-music",
+    "boot_priority": 10
+  },
+  "dependencies": {
+    "kew": "^0.7.0",
+    "md5": "^2.3.0",
+    "node-cache": "^5.1.2",
+    "soundcloud-fetch": "github:patrickkfkan/soundcloud-fetch",
+    "string-format": "^2.0.0",
+    "v-conf": "^1.4.2"
+  }
+}
