@@ -36,7 +36,19 @@ class BasePlaylist extends BaseEntity {
             else if (offset) {
                 trackIds = trackIds.slice(offset);
             }
-            return self.getClient().getTracks(trackIds);
+            let tracks = await self.getClient().getTracks(trackIds);
+            // Tracks do not appear in the same order as trackIds, so
+            // we need to sort them ourselves
+            let orderedTracks = [];
+            tracks.forEach( (track) => {
+                    let trackIndex = trackIds.indexOf(track.getId());
+                    if (trackIndex >= 0) {
+                        orderedTracks[trackIndex] = track;
+                    }
+            });
+            // Make sure there are no 'gaps' in the array
+            orderedTracks = orderedTracks.filter( t => t !== undefined );
+            return orderedTracks;
         });
     }
 
