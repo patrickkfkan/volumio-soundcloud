@@ -2,6 +2,13 @@
 
 Volumio plugin for playing SoundCloud tracks.
 
+This repository has two branches:
+
+1. The `master` branch is targeted towards Volumio 3.
+2. The `volumio-2.x` branch is targeted towards Volumio 2.x.
+
+The focus is on the `master` branch. The `volumio-2.x` branch will only be maintained if it is practically feasible and still worthwhile to do so.
+
 ### Getting Started
 
 To install the plugin, first make sure you have [enabled SSH access](https://volumio.github.io/docs/User_Manual/SSH.html) on your Volumio device. Then, in a terminal:
@@ -13,6 +20,7 @@ volumio:~$ mkdir soundcloud-plugin
 volumio:~$ cd soundcloud-plugin
 volumio:~/soundcloud-plugin$ git clone https://github.com/patrickkfkan/volumio-soundcloud.git
 volumio:~/soundcloud-plugin$ cd volumio-soundcloud
+volumio:~/soundcloud-plugin$ git checkout volumio-2.x
 volumio:~/soundcloud-plugin/volumio-soundcloud$ volumio plugin install
 
 ...
@@ -33,6 +41,7 @@ When a new version of the plugin becomes available, you can ssh into your Volumi
 volumio:~$ cd ~/soundcloud-plugin/volumio-soundcloud/
 volumio:~/soundcloud-plugin/volumio-soundcloud$ git pull
 ...
+volumio:~/soundcloud-plugin/volumio-soundcloud$ git checkout volumio-2.x
 volumio:~/soundcloud-plugin/volumio-soundcloud$ volumio plugin update
 
 This command will update the plugin on your device
