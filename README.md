@@ -40,8 +40,9 @@ When a new version of the plugin becomes available, you can ssh into your Volumi
 ```
 volumio:~$ cd ~/soundcloud-plugin/volumio-soundcloud/
 volumio:~/soundcloud-plugin/volumio-soundcloud$ git pull
-...
 volumio:~/soundcloud-plugin/volumio-soundcloud$ git checkout volumio-2.x
+volumio:~/soundcloud-plugin/volumio-soundcloud$ git pull
+...
 volumio:~/soundcloud-plugin/volumio-soundcloud$ volumio plugin update
 
 This command will update the plugin on your device
