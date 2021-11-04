@@ -88,6 +88,9 @@ If you come across an album that you like, consider purchasing it to support the
 
 ### Changelog
 
+0.1.1
+- [Changed] Update readme after branching from `master` for Volumio 2.x
+
 0.1.0a-20210103
 - [Change] Update soundcloud-fetch module (fixes track ordering)
 - [Fix] Strip newline characters from MPD tags that could cause error
