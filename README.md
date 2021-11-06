@@ -89,6 +89,9 @@ If you come across an album that you like, consider purchasing it to support the
 
 ### Changelog
 
+0.1.2
+- [Changed] Minor change to loading of translations
+
 0.1.1
 - [Changed] Update readme after branching from `master` for Volumio 2.x
 
