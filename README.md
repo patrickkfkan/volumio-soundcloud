@@ -20,7 +20,7 @@ volumio:~$ mkdir soundcloud-plugin
 volumio:~$ cd soundcloud-plugin
 volumio:~/soundcloud-plugin$ git clone https://github.com/patrickkfkan/volumio-soundcloud.git
 volumio:~/soundcloud-plugin$ cd volumio-soundcloud
-volumio:~/soundcloud-plugin$ git checkout volumio-2.x
+volumio:~/soundcloud-plugin/volumio-soundcloud$ git checkout volumio-2.x
 volumio:~/soundcloud-plugin/volumio-soundcloud$ volumio plugin install
 
 ...
