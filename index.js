@@ -233,3 +233,7 @@ ControllerSoundCloud.prototype.previous = function () {
 ControllerSoundCloud.prototype.search = function(query) {
     return this.searchController.search(query);
 }
+
+ControllerSoundCloud.prototype.goto = function(data) {
+    return this.browseController.goto(data);
+}
