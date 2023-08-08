@@ -1,0 +1,1 @@
+{"version":3,"file":"PlaylistEntity.js","sourceRoot":"","sources":["../../../src/lib/entities/PlaylistEntity.ts"],"names":[],"mappings":"","sourcesContent":["import MusicFolderEntity from './MusicFolderEntity';\n\ninterface PlaylistEntity extends MusicFolderEntity {\n  type: 'playlist' | 'system-playlist';\n  id?: number | string;\n}\n\nexport default PlaylistEntity;\n"]}

@@ -1,0 +1,1 @@
+{"version":3,"file":"AlbumEntity.d.ts","sourceRoot":"","sources":["../../../src/lib/entities/AlbumEntity.ts"],"names":[],"mappings":"AAAA,OAAO,iBAAiB,MAAM,qBAAqB,CAAC;AAEpD,UAAU,WAAY,SAAQ,iBAAiB;IAC7C,IAAI,EAAE,OAAO,CAAC;IACd,EAAE,CAAC,EAAE,MAAM,CAAC;CACb;AAED,eAAe,WAAW,CAAC"}
