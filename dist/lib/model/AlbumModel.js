@@ -38,8 +38,8 @@ class AlbumModel extends BaseModel_1.default {
             albumId,
             ...options
         };
-        const info = await SoundCloudContext_1.default.getCache().getOrSet(this.getCacheKeyForFetch('album', cacheKeyParams), () => this.getSoundCloudAPI().getAlbum(albumId));
-        const album = info ? Mapper_1.default.mapAlbum(info) : null;
+        const info = await SoundCloudContext_1.default.getCache().getOrSet(this.getCacheKeyForFetch('album', cacheKeyParams), () => this.getSoundCloudAPI().getPlaylistOrAlbum(albumId));
+        const album = info && info instanceof soundcloud_fetch_1.Album ? Mapper_1.default.mapAlbum(info) : null;
         if (options.loadTracks && album && info) {
             const offset = options.tracksOffset || 0;
             const limit = options.tracksLimit || undefined;

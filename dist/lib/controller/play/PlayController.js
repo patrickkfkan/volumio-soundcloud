@@ -83,6 +83,9 @@ class PlayController {
             throw Error('No transcoding found');
         }
         const streamingUrl = await model.getStreamingUrl(transcodingUrl);
+        if (!streamingUrl) {
+            throw Error('No stream found');
+        }
         if (streamingUrl.includes('.128.mp3')) { // 128 kbps mp3
             track.samplerate = '128 kbps';
         }

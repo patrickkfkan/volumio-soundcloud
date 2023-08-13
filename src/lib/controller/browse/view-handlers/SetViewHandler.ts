@@ -5,10 +5,10 @@ import View from './View';
 import { RenderedList, RenderedPage } from './ViewHandler';
 import { RendererType } from './renderers';
 import BaseRenderer, { RenderedListItem } from './renderers/BaseRenderer';
-import MusicFolderEntity from '../../../entities/MusicFolderEntity';
+import SetEntity from '../../../entities/SetEntity';
 import { LoopFetchResult } from '../../../model/BaseModel';
 
-export interface MusicFolderView extends View {
+export interface SetView extends View {
   search?: string;
   userId?: string;
   title?: string;
@@ -16,7 +16,7 @@ export interface MusicFolderView extends View {
   combinedSearch?: '1';
 }
 
-export interface MusicFolderViewHandlerGetFoldersParams {
+export interface SetViewHandlerGetSetsParams {
   userId?: number;
   search?: string;
   pageToken?: string;
@@ -24,19 +24,19 @@ export interface MusicFolderViewHandlerGetFoldersParams {
   limit?: number;
 }
 
-export default abstract class MusicFolderViewHandler<T extends MusicFolderView, ID extends string | number, E extends MusicFolderEntity> extends ExplodableViewHandler<T> {
+export default abstract class SetViewHandler<T extends SetView, ID extends string | number, E extends SetEntity> extends ExplodableViewHandler<T> {
 
-  protected abstract getFolderIdFromView(): ID | null | undefined;
-  protected abstract getFolder(id: ID): Promise<{ folder: E, tracksOffset?: number, tracksLimit?: number }>;
-  protected abstract getFolders(modelParams: MusicFolderViewHandlerGetFoldersParams): Promise<LoopFetchResult<E>>;
-  protected abstract getFoldersListTitle(): string;
-  protected abstract getFolderRenderer(): BaseRenderer<E>;
+  protected abstract getSetIdFromView(): ID | null | undefined;
+  protected abstract getSet(id: ID): Promise<{ folder: E, tracksOffset?: number, tracksLimit?: number }>;
+  protected abstract getSets(modelParams: SetViewHandlerGetSetsParams): Promise<LoopFetchResult<E>>;
+  protected abstract getSetsListTitle(): string;
+  protected abstract getSetRenderer(): BaseRenderer<E>;
   protected abstract getExplodedTrackInfoFromParamName(): 'fromAlbumId' | 'fromPlaylistId';
   protected abstract getVisitLinkTitle(): string;
 
   browse(): Promise<RenderedPage> {
     const view = this.currentView;
-    const id = this.getFolderIdFromView();
+    const id = this.getSetIdFromView();
 
     if (view.search) {
       return this.browseSearch(view.search);
@@ -45,7 +45,7 @@ export default abstract class MusicFolderViewHandler<T extends MusicFolderView, 
       return this.browseByUser(Number(view.userId));
     }
     else if (id !== null && id !== undefined) {
-      return this.browseFolder(id);
+      return this.browseSet(id);
     }
 
     throw Error('Unknown criteria');
@@ -66,12 +66,12 @@ export default abstract class MusicFolderViewHandler<T extends MusicFolderView, 
     }
     modelParams.limit = limit;
 
-    const result = await this.getFolders(modelParams);
+    const result = await this.getSets(modelParams);
 
     return this.buildPageFromLoopFetchResult(
       result,
-      this.getFolderRenderer(),
-      this.getFoldersListTitle()
+      this.getSetRenderer(),
+      this.getSetsListTitle()
     );
   }
 
@@ -90,12 +90,12 @@ export default abstract class MusicFolderViewHandler<T extends MusicFolderView, 
     }
     modelParams.limit = limit;
 
-    const result = await this.getFolders(modelParams);
+    const result = await this.getSets(modelParams);
 
     const page = this.buildPageFromLoopFetchResult(
       result,
-      this.getFolderRenderer(),
-      this.getFoldersListTitle()
+      this.getSetRenderer(),
+      this.getSetsListTitle()
     );
 
     if (!inSection && page.navigation) {
@@ -111,8 +111,8 @@ export default abstract class MusicFolderViewHandler<T extends MusicFolderView, 
     return page;
   }
 
-  protected async browseFolder(id: ID): Promise<RenderedPage> {
-    const { folder, tracksOffset, tracksLimit } = await this.getFolder(id);
+  protected async browseSet(id: ID): Promise<RenderedPage> {
+    const { folder, tracksOffset, tracksLimit } = await this.getSet(id);
     const renderer = this.getRenderer(RendererType.Track);
     const listItems = folder.tracks.reduce<RenderedListItem[]>((result, track) => {
       const rendered = renderer.renderToListItem(track);
@@ -150,18 +150,18 @@ export default abstract class MusicFolderViewHandler<T extends MusicFolderView, 
     return {
       navigation: {
         prev: { uri: this.constructPrevUri() },
-        info: this.getFolderRenderer().renderToHeader(folder),
+        info: this.getSetRenderer().renderToHeader(folder),
         lists: [ list ]
       }
     };
   }
 
   protected async getTracksOnExplode(): Promise<ExplodedTrackInfo | ExplodedTrackInfo[]> {
-    const id = this.getFolderIdFromView();
+    const id = this.getSetIdFromView();
     if (id === undefined || id === null) {
       throw Error('Id of target not specified');
     }
-    const { folder } = await this.getFolder(id);
+    const { folder } = await this.getSet(id);
     const fromParamName = this.getExplodedTrackInfoFromParamName();
 
     const trackInfos = folder?.tracks.map((track) => {

@@ -1,6 +1,6 @@
 import AlbumEntity from '../../../../entities/AlbumEntity';
-import MusicFolderRenderer from './MusicFolderRenderer';
-export default class AlbumRenderer extends MusicFolderRenderer<AlbumEntity> {
+import SetRenderer from './SetRenderer';
+export default class AlbumRenderer extends SetRenderer<AlbumEntity> {
     protected getListItemUri(data: AlbumEntity): string;
     protected getListItemAlbum(): string;
 }

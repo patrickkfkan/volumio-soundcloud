@@ -1,8 +1,8 @@
 import sc from '../../../../SoundCloudContext';
-import MusicFolderEntity from '../../../../entities/MusicFolderEntity';
+import SetEntity from '../../../../entities/SetEntity';
 import BaseRenderer, { RenderedHeader, RenderedListItem } from './BaseRenderer';
 
-export default abstract class MusicFolderRenderer<T extends MusicFolderEntity> extends BaseRenderer<T> {
+export default abstract class SetRenderer<T extends SetEntity> extends BaseRenderer<T> {
 
   renderToListItem(data: T): RenderedListItem | null {
     if (data.id === undefined || data.id === null || data.id === '' || !data.title) {

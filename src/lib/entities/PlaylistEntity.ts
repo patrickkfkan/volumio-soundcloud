@@ -1,6 +1,6 @@
-import MusicFolderEntity from './MusicFolderEntity';
+import SetEntity from './SetEntity';
 
-interface PlaylistEntity extends MusicFolderEntity {
+interface PlaylistEntity extends SetEntity {
   type: 'playlist' | 'system-playlist';
   id?: number | string;
 }

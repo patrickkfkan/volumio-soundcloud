@@ -1,7 +1,7 @@
 import TrackEntity from './TrackEntity';
 import UserEntity from './UserEntity';
 
-interface MusicFolderEntity {
+interface SetEntity {
   id?: any;
   title?: string | null;
   description?: string | null;
@@ -12,4 +12,4 @@ interface MusicFolderEntity {
   trackCount?: number;
 }
 
-export default MusicFolderEntity;
+export default SetEntity;

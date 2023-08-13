@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const SoundCloudContext_1 = __importDefault(require("../../../../SoundCloudContext"));
 const BaseRenderer_1 = __importDefault(require("./BaseRenderer"));
-class MusicFolderRenderer extends BaseRenderer_1.default {
+class SetRenderer extends BaseRenderer_1.default {
     renderToListItem(data) {
         if (data.id === undefined || data.id === null || data.id === '' || !data.title) {
             return null;
@@ -34,5 +34,5 @@ class MusicFolderRenderer extends BaseRenderer_1.default {
         };
     }
 }
-exports.default = MusicFolderRenderer;
-//# sourceMappingURL=MusicFolderRenderer.js.map
+exports.default = SetRenderer;
+//# sourceMappingURL=SetRenderer.js.map

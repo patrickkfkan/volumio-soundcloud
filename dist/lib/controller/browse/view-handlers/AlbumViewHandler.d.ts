@@ -1,22 +1,22 @@
 import AlbumEntity from '../../../entities/AlbumEntity';
 import { LoopFetchResult } from '../../../model/BaseModel';
-import MusicFolderViewHandler, { MusicFolderView, MusicFolderViewHandlerGetFoldersParams } from './MusicFolderViewHandler';
+import SetViewHandler, { SetView, SetViewHandlerGetSetsParams } from './SetViewHandler';
 import BaseRenderer from './renderers/BaseRenderer';
-export interface AlbumView extends MusicFolderView {
+export interface AlbumView extends SetView {
     name: 'albums';
     albumId?: string;
 }
-export default class AlbumViewHandler extends MusicFolderViewHandler<AlbumView, number, AlbumEntity> {
+export default class AlbumViewHandler extends SetViewHandler<AlbumView, number, AlbumEntity> {
     #private;
-    protected getFolderIdFromView(): number | null | undefined;
-    protected getFolder(id: number): Promise<{
+    protected getSetIdFromView(): number | null | undefined;
+    protected getSet(id: number): Promise<{
         folder: AlbumEntity;
         tracksOffset?: number;
         tracksLimit?: number;
     }>;
-    protected getFolders(modelParams: MusicFolderViewHandlerGetFoldersParams): Promise<LoopFetchResult<AlbumEntity>>;
-    protected getFoldersListTitle(): string;
-    protected getFolderRenderer(): BaseRenderer<AlbumEntity, AlbumEntity>;
+    protected getSets(modelParams: SetViewHandlerGetSetsParams): Promise<LoopFetchResult<AlbumEntity>>;
+    protected getSetsListTitle(): string;
+    protected getSetRenderer(): BaseRenderer<AlbumEntity, AlbumEntity>;
     protected getExplodedTrackInfoFromParamName(): 'fromAlbumId' | 'fromPlaylistId';
     protected getVisitLinkTitle(): string;
 }

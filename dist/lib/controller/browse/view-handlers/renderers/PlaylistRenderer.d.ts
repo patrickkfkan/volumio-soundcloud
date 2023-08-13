@@ -1,6 +1,6 @@
 import PlaylistEntity from '../../../../entities/PlaylistEntity';
-import MusicFolderRenderer from './MusicFolderRenderer';
-export default class PlaylistRenderer extends MusicFolderRenderer<PlaylistEntity> {
+import SetRenderer from './SetRenderer';
+export default class PlaylistRenderer extends SetRenderer<PlaylistEntity> {
     protected getListItemUri(data: PlaylistEntity): string;
     protected getListItemAlbum(): string;
 }

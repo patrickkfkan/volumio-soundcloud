@@ -1,6 +1,6 @@
-import MusicFolderEntity from './MusicFolderEntity';
+import SetEntity from './SetEntity';
 
-interface AlbumEntity extends MusicFolderEntity {
+interface AlbumEntity extends SetEntity {
   type: 'album';
   id?: number;
 }

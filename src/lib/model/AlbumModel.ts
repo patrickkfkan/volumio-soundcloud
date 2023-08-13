@@ -86,9 +86,9 @@ export default class AlbumModel extends BaseModel {
     };
     const info = await sc.getCache().getOrSet(
       this.getCacheKeyForFetch('album', cacheKeyParams),
-      () => this.getSoundCloudAPI().getAlbum(albumId)
+      () => this.getSoundCloudAPI().getPlaylistOrAlbum(albumId)
     );
-    const album = info ? Mapper.mapAlbum(info) : null;
+    const album = info && info instanceof Album ? Mapper.mapAlbum(info) : null;
     if (options.loadTracks && album && info) {
       const offset = options.tracksOffset || 0;
       const limit = options.tracksLimit || undefined;

@@ -43,7 +43,7 @@ class PlaylistModel extends BaseModel_1.default {
                 return this.getSoundCloudAPI().getSystemPlaylist(playlistId);
             }
             else if (options.type !== 'system' && typeof playlistId === 'number') {
-                return this.getSoundCloudAPI().getPlaylist(playlistId);
+                return this.getSoundCloudAPI().getPlaylistOrAlbum(playlistId);
             }
             throw Error('[soundcloud] Failed to fetch playlist: playlistId type error.');
         });

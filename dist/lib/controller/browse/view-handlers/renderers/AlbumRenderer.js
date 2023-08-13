@@ -5,8 +5,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const SoundCloudContext_1 = __importDefault(require("../../../../SoundCloudContext"));
 const ViewHelper_1 = __importDefault(require("../ViewHelper"));
-const MusicFolderRenderer_1 = __importDefault(require("./MusicFolderRenderer"));
-class AlbumRenderer extends MusicFolderRenderer_1.default {
+const SetRenderer_1 = __importDefault(require("./SetRenderer"));
+class AlbumRenderer extends SetRenderer_1.default {
     getListItemUri(data) {
         const albumView = {
             name: 'albums',

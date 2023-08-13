@@ -11,26 +11,26 @@ var _PlaylistViewHandler_instances, _PlaylistViewHandler_getPlaylist;
 Object.defineProperty(exports, "__esModule", { value: true });
 const SoundCloudContext_1 = __importDefault(require("../../../SoundCloudContext"));
 const model_1 = require("../../../model");
-const MusicFolderViewHandler_1 = __importDefault(require("./MusicFolderViewHandler"));
+const SetViewHandler_1 = __importDefault(require("./SetViewHandler"));
 const renderers_1 = require("./renderers");
-class PlaylistViewHandler extends MusicFolderViewHandler_1.default {
+class PlaylistViewHandler extends SetViewHandler_1.default {
     constructor() {
         super(...arguments);
         _PlaylistViewHandler_instances.add(this);
     }
-    getFolderIdFromView() {
+    getSetIdFromView() {
         return this.currentView.playlistId;
     }
-    getFolder(id) {
+    getSet(id) {
         return __classPrivateFieldGet(this, _PlaylistViewHandler_instances, "m", _PlaylistViewHandler_getPlaylist).call(this, id);
     }
-    getFolders(modelParams) {
+    getSets(modelParams) {
         return this.getModel(model_1.ModelType.Playlist).getPlaylists(modelParams);
     }
-    getFoldersListTitle() {
+    getSetsListTitle() {
         return SoundCloudContext_1.default.getI18n('SOUNDCLOUD_LIST_TITLE_PLAYLISTS');
     }
-    getFolderRenderer() {
+    getSetRenderer() {
         return this.getRenderer(renderers_1.RendererType.Playlist);
     }
     getExplodedTrackInfoFromParamName() {

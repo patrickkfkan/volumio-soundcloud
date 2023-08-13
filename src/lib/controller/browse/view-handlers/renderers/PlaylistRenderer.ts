@@ -2,9 +2,9 @@ import sc from '../../../../SoundCloudContext';
 import PlaylistEntity from '../../../../entities/PlaylistEntity';
 import { PlaylistView } from '../PlaylistViewHandler';
 import ViewHelper from '../ViewHelper';
-import MusicFolderRenderer from './MusicFolderRenderer';
+import SetRenderer from './SetRenderer';
 
-export default class PlaylistRenderer extends MusicFolderRenderer<PlaylistEntity> {
+export default class PlaylistRenderer extends SetRenderer<PlaylistEntity> {
 
   protected getListItemUri(data: PlaylistEntity): string {
     const playlistView: PlaylistView = {

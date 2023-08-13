@@ -12,6 +12,6 @@ export default class TrackModel extends BaseModel {
     #private;
     getTracks(params: TrackModelGetTracksParams): Promise<LoopFetchResult<TrackEntity>>;
     getTrack(trackId: number): Promise<TrackEntity | null>;
-    getStreamingUrl(transcodingUrl: string): Promise<string>;
+    getStreamingUrl(transcodingUrl: string): Promise<string | null>;
 }
 //# sourceMappingURL=TrackModel.d.ts.map

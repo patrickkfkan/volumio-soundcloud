@@ -3,34 +3,34 @@ import AlbumEntity from '../../../entities/AlbumEntity';
 import { ModelType } from '../../../model';
 import { AlbumModelGetAlbumParams } from '../../../model/AlbumModel';
 import { LoopFetchResult } from '../../../model/BaseModel';
-import MusicFolderViewHandler, { MusicFolderView, MusicFolderViewHandlerGetFoldersParams } from './MusicFolderViewHandler';
+import SetViewHandler, { SetView, SetViewHandlerGetSetsParams } from './SetViewHandler';
 import { RendererType } from './renderers';
 import BaseRenderer from './renderers/BaseRenderer';
 
-export interface AlbumView extends MusicFolderView {
+export interface AlbumView extends SetView {
   name: 'albums';
   albumId?: string;
 }
 
-export default class AlbumViewHandler extends MusicFolderViewHandler<AlbumView, number, AlbumEntity> {
+export default class AlbumViewHandler extends SetViewHandler<AlbumView, number, AlbumEntity> {
 
-  protected getFolderIdFromView(): number | null | undefined {
+  protected getSetIdFromView(): number | null | undefined {
     return Number(this.currentView.albumId);
   }
 
-  protected getFolder(id: number): Promise<{ folder: AlbumEntity; tracksOffset?: number; tracksLimit?: number; }> {
+  protected getSet(id: number): Promise<{ folder: AlbumEntity; tracksOffset?: number; tracksLimit?: number; }> {
     return this.#getAlbum(id);
   }
 
-  protected getFolders(modelParams: MusicFolderViewHandlerGetFoldersParams): Promise<LoopFetchResult<AlbumEntity>> {
+  protected getSets(modelParams: SetViewHandlerGetSetsParams): Promise<LoopFetchResult<AlbumEntity>> {
     return this.getModel(ModelType.Album).getAlbums(modelParams);
   }
 
-  protected getFoldersListTitle(): string {
+  protected getSetsListTitle(): string {
     return sc.getI18n('SOUNDCLOUD_LIST_TITLE_ALBUMS');
   }
 
-  protected getFolderRenderer(): BaseRenderer<AlbumEntity, AlbumEntity> {
+  protected getSetRenderer(): BaseRenderer<AlbumEntity, AlbumEntity> {
     return this.getRenderer(RendererType.Album);
   }
 

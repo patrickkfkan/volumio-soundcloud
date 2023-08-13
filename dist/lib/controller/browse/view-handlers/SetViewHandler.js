@@ -7,10 +7,10 @@ const SoundCloudContext_1 = __importDefault(require("../../../SoundCloudContext"
 const model_1 = require("../../../model");
 const ExplodableViewHandler_1 = __importDefault(require("./ExplodableViewHandler"));
 const renderers_1 = require("./renderers");
-class MusicFolderViewHandler extends ExplodableViewHandler_1.default {
+class SetViewHandler extends ExplodableViewHandler_1.default {
     browse() {
         const view = this.currentView;
-        const id = this.getFolderIdFromView();
+        const id = this.getSetIdFromView();
         if (view.search) {
             return this.browseSearch(view.search);
         }
@@ -18,7 +18,7 @@ class MusicFolderViewHandler extends ExplodableViewHandler_1.default {
             return this.browseByUser(Number(view.userId));
         }
         else if (id !== null && id !== undefined) {
-            return this.browseFolder(id);
+            return this.browseSet(id);
         }
         throw Error('Unknown criteria');
     }
@@ -35,8 +35,8 @@ class MusicFolderViewHandler extends ExplodableViewHandler_1.default {
             modelParams.pageOffset = pageOffset;
         }
         modelParams.limit = limit;
-        const result = await this.getFolders(modelParams);
-        return this.buildPageFromLoopFetchResult(result, this.getFolderRenderer(), this.getFoldersListTitle());
+        const result = await this.getSets(modelParams);
+        return this.buildPageFromLoopFetchResult(result, this.getSetRenderer(), this.getSetsListTitle());
     }
     async browseByUser(userId) {
         const { pageRef, inSection } = this.currentView;
@@ -51,8 +51,8 @@ class MusicFolderViewHandler extends ExplodableViewHandler_1.default {
             modelParams.pageOffset = pageOffset;
         }
         modelParams.limit = limit;
-        const result = await this.getFolders(modelParams);
-        const page = this.buildPageFromLoopFetchResult(result, this.getFolderRenderer(), this.getFoldersListTitle());
+        const result = await this.getSets(modelParams);
+        const page = this.buildPageFromLoopFetchResult(result, this.getSetRenderer(), this.getSetsListTitle());
         if (!inSection && page.navigation) {
             const userData = await this.getModel(model_1.ModelType.User).getUser(userId);
             if (userData) {
@@ -64,8 +64,8 @@ class MusicFolderViewHandler extends ExplodableViewHandler_1.default {
         }
         return page;
     }
-    async browseFolder(id) {
-        const { folder, tracksOffset, tracksLimit } = await this.getFolder(id);
+    async browseSet(id) {
+        const { folder, tracksOffset, tracksLimit } = await this.getSet(id);
         const renderer = this.getRenderer(renderers_1.RendererType.Track);
         const listItems = folder.tracks.reduce((result, track) => {
             const rendered = renderer.renderToListItem(track);
@@ -95,17 +95,17 @@ class MusicFolderViewHandler extends ExplodableViewHandler_1.default {
         return {
             navigation: {
                 prev: { uri: this.constructPrevUri() },
-                info: this.getFolderRenderer().renderToHeader(folder),
+                info: this.getSetRenderer().renderToHeader(folder),
                 lists: [list]
             }
         };
     }
     async getTracksOnExplode() {
-        const id = this.getFolderIdFromView();
+        const id = this.getSetIdFromView();
         if (id === undefined || id === null) {
             throw Error('Id of target not specified');
         }
-        const { folder } = await this.getFolder(id);
+        const { folder } = await this.getSet(id);
         const fromParamName = this.getExplodedTrackInfoFromParamName();
         const trackInfos = folder?.tracks.map((track) => {
             const info = { ...track };
@@ -115,5 +115,5 @@ class MusicFolderViewHandler extends ExplodableViewHandler_1.default {
         return trackInfos;
     }
 }
-exports.default = MusicFolderViewHandler;
-//# sourceMappingURL=MusicFolderViewHandler.js.map
+exports.default = SetViewHandler;
+//# sourceMappingURL=SetViewHandler.js.map

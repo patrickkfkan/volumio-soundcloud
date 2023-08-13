@@ -2,9 +2,9 @@ import sc from '../../../../SoundCloudContext';
 import AlbumEntity from '../../../../entities/AlbumEntity';
 import { AlbumView } from '../AlbumViewHandler';
 import ViewHelper from '../ViewHelper';
-import MusicFolderRenderer from './MusicFolderRenderer';
+import SetRenderer from './SetRenderer';
 
-export default class AlbumRenderer extends MusicFolderRenderer<AlbumEntity> {
+export default class AlbumRenderer extends SetRenderer<AlbumEntity> {
 
   protected getListItemUri(data: AlbumEntity): string {
     const albumView: AlbumView = {

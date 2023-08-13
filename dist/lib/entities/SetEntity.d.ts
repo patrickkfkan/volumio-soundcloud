@@ -1,6 +1,6 @@
 import TrackEntity from './TrackEntity';
 import UserEntity from './UserEntity';
-interface MusicFolderEntity {
+interface SetEntity {
     id?: any;
     title?: string | null;
     description?: string | null;
@@ -10,5 +10,5 @@ interface MusicFolderEntity {
     tracks: TrackEntity[];
     trackCount?: number;
 }
-export default MusicFolderEntity;
-//# sourceMappingURL=MusicFolderEntity.d.ts.map
+export default SetEntity;
+//# sourceMappingURL=SetEntity.d.ts.map
