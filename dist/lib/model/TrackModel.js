@@ -43,10 +43,13 @@ class TrackModel extends BaseModel_1.default {
     }
 }
 exports.default = TrackModel;
-_TrackModel_instances = new WeakSet(), _TrackModel_getTracksFetchPromise = function _TrackModel_getTracksFetchPromise(params) {
+_TrackModel_instances = new WeakSet(), _TrackModel_getTracksFetchPromise = async function _TrackModel_getTracksFetchPromise(params) {
     const api = this.getSoundCloudAPI();
+    const continuationContents = await this.commonGetLoopFetchResultByPageToken(params);
+    if (continuationContents) {
+        return continuationContents;
+    }
     const queryParams = {
-        offset: Number(params.pageToken) || 0,
         limit: soundcloud_fetch_1.Constants.QUERY_MAX_LIMIT
     };
     if (params.search) {

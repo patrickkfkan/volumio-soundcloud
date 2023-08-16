@@ -42,10 +42,15 @@ export default class AlbumModel extends BaseModel {
     });
   }
 
-  #getAlbumsFetchPromise(params: GetAlbumsLoopFetchCallbackParams) {
+  async #getAlbumsFetchPromise(params: GetAlbumsLoopFetchCallbackParams) {
     const api = this.getSoundCloudAPI();
+
+    const continuationContents = await this.commonGetLoopFetchResultByPageToken<Album>(params);
+    if (continuationContents) {
+      return continuationContents;
+    }
+
     const queryParams: Record<string, any> = {
-      offset: Number(params.pageToken) || 0,
       limit: Constants.QUERY_MAX_LIMIT
     };
     if (params.search) {

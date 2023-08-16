@@ -36,11 +36,16 @@ export default class HistoryModel extends BaseModel {
     });
   }
 
-  #getPlayHistoryFetchPromise(params: GetPlayHistoryItemsLoopFetchCallbackParams) {
+  async #getPlayHistoryFetchPromise(params: GetPlayHistoryItemsLoopFetchCallbackParams) {
     const api = this.getSoundCloudAPI();
+
+    const continuationContents = await this.commonGetLoopFetchResultByPageToken<PlayHistoryItem>(params);
+    if (continuationContents) {
+      return continuationContents;
+    }
+
     const queryParams = {
       type: params.type,
-      offset: Number(params.pageToken) || 0,
       limit: Constants.QUERY_MAX_LIMIT
     };
     return api.me.getPlayHistory(queryParams);

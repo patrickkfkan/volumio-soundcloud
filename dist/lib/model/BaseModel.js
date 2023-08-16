@@ -1,4 +1,27 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, state, kind, f) {
     if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
@@ -17,7 +40,7 @@ var _BaseModel_instances, _a, _BaseModel_api, _BaseModel_hasAccessToken, _BaseMo
 Object.defineProperty(exports, "__esModule", { value: true });
 const md5_1 = __importDefault(require("md5"));
 const SoundCloudContext_1 = __importDefault(require("../SoundCloudContext"));
-const soundcloud_fetch_1 = __importDefault(require("soundcloud-fetch"));
+const soundcloud_fetch_1 = __importStar(require("soundcloud-fetch"));
 class BaseModel {
     constructor() {
         _BaseModel_instances.add(this);
@@ -53,11 +76,17 @@ class BaseModel {
     }
     commonGetNextPageTokenFromLoopFetchResult(result) {
         const items = result.items;
-        if (items.length > 0 && result.nextUri) {
-            const urlObj = new URL(result.nextUri);
-            const urlOffset = urlObj.searchParams.get('offset');
-            if (urlOffset !== undefined) {
-                return urlOffset;
+        if (items.length > 0 && result.continuation) {
+            return soundcloud_fetch_1.CollectionContinuation.stringify(result.continuation);
+        }
+        return null;
+    }
+    async commonGetLoopFetchResultByPageToken(params) {
+        if (params.pageToken) {
+            const api = this.getSoundCloudAPI();
+            const continuation = soundcloud_fetch_1.CollectionContinuation.parse(params.pageToken);
+            if (continuation) {
+                return api.getContinuation(continuation);
             }
         }
         return null;

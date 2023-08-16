@@ -59,10 +59,13 @@ class MeModel extends BaseModel_1.default {
     }
 }
 exports.default = MeModel;
-_MeModel_instances = new WeakSet(), _MeModel_getLikesFetchPromise = function _MeModel_getLikesFetchPromise(params) {
+_MeModel_instances = new WeakSet(), _MeModel_getLikesFetchPromise = async function _MeModel_getLikesFetchPromise(params) {
     const api = this.getSoundCloudAPI();
+    const continuationContents = await this.commonGetLoopFetchResultByPageToken(params);
+    if (continuationContents) {
+        return continuationContents;
+    }
     const queryParams = {
-        offset: params.pageToken || 0,
         limit: soundcloud_fetch_1.Constants.QUERY_MAX_LIMIT,
         type: params.type
     };
@@ -79,10 +82,13 @@ _MeModel_instances = new WeakSet(), _MeModel_getLikesFetchPromise = function _Me
         return Mapper_1.default.mapTrack(wrappedItem);
     }
     return null;
-}, _MeModel_getLibraryItemsFetchPromise = function _MeModel_getLibraryItemsFetchPromise(params) {
+}, _MeModel_getLibraryItemsFetchPromise = async function _MeModel_getLibraryItemsFetchPromise(params) {
     const api = this.getSoundCloudAPI();
+    const continuationContents = await this.commonGetLoopFetchResultByPageToken(params);
+    if (continuationContents) {
+        return continuationContents;
+    }
     const queryParams = {
-        offset: params.pageToken || 0,
         limit: soundcloud_fetch_1.Constants.QUERY_MAX_LIMIT
     };
     return SoundCloudContext_1.default.getCache().getOrSet(this.getCacheKeyForFetch('libraryItems', queryParams), () => api.me.getLibraryItems(queryParams));

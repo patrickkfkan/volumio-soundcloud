@@ -48,10 +48,15 @@ export default class MeModel extends BaseModel {
     });
   }
 
-  #getLikesFetchPromise(params: GetLikesLoopFetchCallbackParams) {
+  async #getLikesFetchPromise(params: GetLikesLoopFetchCallbackParams) {
     const api = this.getSoundCloudAPI();
+
+    const continuationContents = await this.commonGetLoopFetchResultByPageToken<Like>(params);
+    if (continuationContents) {
+      return continuationContents;
+    }
+
     const queryParams = {
-      offset: params.pageToken || 0,
       limit: Constants.QUERY_MAX_LIMIT,
       type: params.type
     };
@@ -92,10 +97,15 @@ export default class MeModel extends BaseModel {
     });
   }
 
-  #getLibraryItemsFetchPromise(params: GetLibraryItemsLoopFetchCallbackParams) {
+  async #getLibraryItemsFetchPromise(params: GetLibraryItemsLoopFetchCallbackParams) {
     const api = this.getSoundCloudAPI();
+
+    const continuationContents = await this.commonGetLoopFetchResultByPageToken<LibraryItem>(params);
+    if (continuationContents) {
+      return continuationContents;
+    }
+
     const queryParams = {
-      offset: params.pageToken || 0,
       limit: Constants.QUERY_MAX_LIMIT
     };
     return sc.getCache().getOrSet(

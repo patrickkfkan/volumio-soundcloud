@@ -35,10 +35,15 @@ export default class UserModel extends BaseModel {
     });
   }
 
-  #getUsersFetchPromise(params: GetUsersLoopFetchCallbackParams) {
+  async #getUsersFetchPromise(params: GetUsersLoopFetchCallbackParams) {
     const api = this.getSoundCloudAPI();
+
+    const continuationContents = await this.commonGetLoopFetchResultByPageToken<User>(params);
+    if (continuationContents) {
+      return continuationContents;
+    }
+
     const queryParams: Record<string, any> = {
-      offset: Number(params.pageToken) || 0,
       limit: Constants.QUERY_MAX_LIMIT
     };
     if (params.search) {

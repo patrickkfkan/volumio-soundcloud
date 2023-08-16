@@ -59,10 +59,13 @@ class PlaylistModel extends BaseModel_1.default {
     }
 }
 exports.default = PlaylistModel;
-_PlaylistModel_instances = new WeakSet(), _PlaylistModel_getPlaylistsFetchPromise = function _PlaylistModel_getPlaylistsFetchPromise(params) {
+_PlaylistModel_instances = new WeakSet(), _PlaylistModel_getPlaylistsFetchPromise = async function _PlaylistModel_getPlaylistsFetchPromise(params) {
     const api = this.getSoundCloudAPI();
+    const continuationContents = await this.commonGetLoopFetchResultByPageToken(params);
+    if (continuationContents) {
+        return continuationContents;
+    }
     const queryParams = {
-        offset: Number(params.pageToken) || 0,
         limit: soundcloud_fetch_1.Constants.QUERY_MAX_LIMIT
     };
     if (params.search) {

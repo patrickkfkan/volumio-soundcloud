@@ -1,6 +1,6 @@
 import md5 from 'md5';
 import sc from '../SoundCloudContext';
-import SoundCloud, { Collection, EntityType } from 'soundcloud-fetch';
+import SoundCloud, { Collection, CollectionContinuation, EntityType } from 'soundcloud-fetch';
 
 export interface LoopFetchParams<R, I, C extends LoopFetchCallbackParams, E, F extends LoopFetchResult<E>> extends LoopFetchCallbackParams {
   callbackParams?: C;
@@ -167,11 +167,18 @@ export default abstract class BaseModel {
 
   protected commonGetNextPageTokenFromLoopFetchResult<T extends EntityType>(result: Collection<T>) {
     const items = result.items;
-    if (items.length > 0 && result.nextUri) {
-      const urlObj = new URL(result.nextUri);
-      const urlOffset = urlObj.searchParams.get('offset');
-      if (urlOffset !== undefined) {
-        return urlOffset;
+    if (items.length > 0 && result.continuation) {
+      return CollectionContinuation.stringify(result.continuation);
+    }
+    return null;
+  }
+
+  protected async commonGetLoopFetchResultByPageToken<T extends EntityType>(params: LoopFetchCallbackParams): Promise<Collection<T> | null> {
+    if (params.pageToken) {
+      const api = this.getSoundCloudAPI();
+      const continuation = CollectionContinuation.parse(params.pageToken) as CollectionContinuation<T>;
+      if (continuation) {
+        return api.getContinuation(continuation);
       }
     }
     return null;

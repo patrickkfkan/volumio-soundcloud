@@ -29,5 +29,6 @@ export default abstract class BaseModel {
     protected getCacheKeyForFetch(resourceName: string, cacheKeyParams: Record<string, any>): string;
     protected commonGetCollectionItemsFromLoopFetchResult<T extends EntityType>(result: Collection<T>): T[];
     protected commonGetNextPageTokenFromLoopFetchResult<T extends EntityType>(result: Collection<T>): string | null;
+    protected commonGetLoopFetchResultByPageToken<T extends EntityType>(params: LoopFetchCallbackParams): Promise<Collection<T> | null>;
 }
 //# sourceMappingURL=BaseModel.d.ts.map

@@ -41,10 +41,15 @@ export default class TrackModel extends BaseModel {
     });
   }
 
-  #getTracksFetchPromise(params: GetTracksLoopFetchCallbackParams) {
+  async #getTracksFetchPromise(params: GetTracksLoopFetchCallbackParams) {
     const api = this.getSoundCloudAPI();
+
+    const continuationContents = await this.commonGetLoopFetchResultByPageToken<Track>(params);
+    if (continuationContents) {
+      return continuationContents;
+    }
+
     const queryParams: Record<string, any> = {
-      offset: Number(params.pageToken) || 0,
       limit: Constants.QUERY_MAX_LIMIT
     };
     if (params.search) {
