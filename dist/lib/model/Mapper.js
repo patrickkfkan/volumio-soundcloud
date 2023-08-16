@@ -8,7 +8,7 @@ var _a, _Mapper_getThumbnail;
 Object.defineProperty(exports, "__esModule", { value: true });
 const soundcloud_fetch_1 = require("soundcloud-fetch");
 class Mapper {
-    static mapUser(data) {
+    static async mapUser(data) {
         const { id, names, location, permalink } = data;
         let locationFull = '';
         if (location?.city) {
@@ -20,14 +20,16 @@ class Mapper {
         const result = {
             id,
             username: names?.username,
-            fullname: names?.full,
-            thumbnail: __classPrivateFieldGet(this, _a, "m", _Mapper_getThumbnail).call(this, data),
+            firstName: names.first,
+            lastName: names.last,
+            fullName: names?.full,
+            thumbnail: await __classPrivateFieldGet(this, _a, "m", _Mapper_getThumbnail).call(this, data),
             permalink: permalink?.full,
             location: locationFull
         };
         return result;
     }
-    static mapPlaylist(data) {
+    static async mapPlaylist(data) {
         const { id, permalink, user, trackCount } = data;
         let title, description;
         let type;
@@ -46,15 +48,15 @@ class Mapper {
             id,
             title,
             description,
-            thumbnail: __classPrivateFieldGet(this, _a, "m", _Mapper_getThumbnail).call(this, data),
+            thumbnail: await __classPrivateFieldGet(this, _a, "m", _Mapper_getThumbnail).call(this, data),
             permalink: permalink?.full,
-            user: user ? this.mapUser(user) : null,
+            user: user ? await this.mapUser(user) : null,
             tracks: [],
             trackCount: trackCount
         };
         return result;
     }
-    static mapTrack(data) {
+    static async mapTrack(data) {
         const { id, texts, publisher, mediaInfo, user } = data;
         const album = publisher?.albumTitle || publisher?.releaseTitle || null;
         const playableState = data.isBlocked ? 'blocked' :
@@ -70,14 +72,14 @@ class Mapper {
             id,
             title: texts?.title,
             album,
-            thumbnail: __classPrivateFieldGet(this, _a, "m", _Mapper_getThumbnail).call(this, data),
+            thumbnail: await __classPrivateFieldGet(this, _a, "m", _Mapper_getThumbnail).call(this, data),
             playableState,
             transcodings,
-            user: user ? this.mapUser(user) : null
+            user: user ? await this.mapUser(user) : null
         };
         return result;
     }
-    static mapAlbum(data) {
+    static async mapAlbum(data) {
         const { id, permalink, user, trackCount } = data;
         const title = data.texts?.title;
         const description = data.texts?.description;
@@ -86,21 +88,21 @@ class Mapper {
             type: 'album',
             title,
             description,
-            thumbnail: __classPrivateFieldGet(this, _a, "m", _Mapper_getThumbnail).call(this, data),
+            thumbnail: await __classPrivateFieldGet(this, _a, "m", _Mapper_getThumbnail).call(this, data),
             permalink: permalink?.full,
-            user: user ? this.mapUser(user) : null,
+            user: user ? await this.mapUser(user) : null,
             tracks: [],
             trackCount
         };
         return result;
     }
-    static mapSelection(data) {
-        const items = data.items.reduce((result, item) => {
+    static async mapSelection(data) {
+        const items = await Promise.all(data.items.reduce((result, item) => {
             if (item instanceof soundcloud_fetch_1.Playlist || item instanceof soundcloud_fetch_1.SystemPlaylist) {
                 result.push(this.mapPlaylist(item));
             }
             return result;
-        }, []);
+        }, []));
         const result = {
             type: 'selection',
             id: data.id,
@@ -111,7 +113,7 @@ class Mapper {
     }
 }
 exports.default = Mapper;
-_a = Mapper, _Mapper_getThumbnail = function _Mapper_getThumbnail(data) {
+_a = Mapper, _Mapper_getThumbnail = async function _Mapper_getThumbnail(data) {
     let artwork;
     if (data instanceof soundcloud_fetch_1.User) {
         artwork = data.avatar;
@@ -126,10 +128,18 @@ _a = Mapper, _Mapper_getThumbnail = function _Mapper_getThumbnail(data) {
         artwork = null;
     }
     if (artwork) {
-        return artwork.t500x500;
+        return artwork.t500x500 || artwork.default;
     }
-    if (!artwork && (data instanceof soundcloud_fetch_1.Track || data instanceof soundcloud_fetch_1.Playlist ||
-        data instanceof soundcloud_fetch_1.SystemPlaylist || data instanceof soundcloud_fetch_1.Album) && data.user) {
+    if (data instanceof soundcloud_fetch_1.Playlist || data instanceof soundcloud_fetch_1.SystemPlaylist || data instanceof soundcloud_fetch_1.Album) {
+        const tracks = await data.getTracks();
+        if (tracks.length > 0) {
+            return __classPrivateFieldGet(this, _a, "m", _Mapper_getThumbnail).call(this, tracks[0]);
+        }
+        if (data.user) {
+            return __classPrivateFieldGet(this, _a, "m", _Mapper_getThumbnail).call(this, data.user);
+        }
+    }
+    if (data instanceof soundcloud_fetch_1.Track && data.user) {
         return __classPrivateFieldGet(this, _a, "m", _Mapper_getThumbnail).call(this, data.user);
     }
     return null;

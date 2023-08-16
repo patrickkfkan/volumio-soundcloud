@@ -90,6 +90,12 @@ class BaseViewHandler {
                 case model_1.ModelType.User:
                     model = model_1.default.getInstance(model_1.ModelType.User);
                     break;
+                case model_1.ModelType.History:
+                    model = model_1.default.getInstance(model_1.ModelType.History);
+                    break;
+                case model_1.ModelType.Me:
+                    model = model_1.default.getInstance(model_1.ModelType.Me);
+                    break;
                 default:
                     throw Error(`Unknown model type: ${type}`);
             }
@@ -158,7 +164,8 @@ class BaseViewHandler {
     }
     buildPageFromLoopFetchResult(result, renderer, title = '') {
         const listItems = result.items.reduce((result, item) => {
-            const rendered = renderer.renderToListItem(item);
+            const r = typeof renderer === 'function' ? renderer(item) : renderer;
+            const rendered = r ? r.renderToListItem(item) : null;
             if (rendered) {
                 result.push(rendered);
             }

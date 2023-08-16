@@ -83,7 +83,7 @@ export default class TrackModel extends BaseModel {
     throw Error('[soundcloud] Failed to fetch tracks: no userId, search query or \'topFeatured\' flag specified');
   }
 
-  #convertFetchedTrackToEntity(data: Track): TrackEntity {
+  #convertFetchedTrackToEntity(data: Track) {
     return Mapper.mapTrack(data);
   }
 

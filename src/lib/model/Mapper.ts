@@ -8,7 +8,7 @@ import SelectionEntity from '../entities/SelectionEntity';
 
 export default class Mapper {
 
-  static mapUser(data: User) {
+  static async mapUser(data: User) {
     const { id, names, location, permalink } = data;
     let locationFull = '';
     if (location?.city) {
@@ -21,8 +21,10 @@ export default class Mapper {
     const result: UserEntity = {
       id,
       username: names?.username,
-      fullname: names?.full,
-      thumbnail: this.#getThumbnail(data),
+      firstName: names.first,
+      lastName: names.last,
+      fullName: names?.full,
+      thumbnail: await this.#getThumbnail(data),
       permalink: permalink?.full,
       location: locationFull
     };
@@ -30,7 +32,7 @@ export default class Mapper {
     return result;
   }
 
-  static mapPlaylist(data: Playlist | SystemPlaylist) {
+  static async mapPlaylist(data: Playlist | SystemPlaylist) {
     const { id, permalink, user, trackCount } = data;
     let title, description;
     let type: 'playlist' | 'system-playlist';
@@ -51,9 +53,9 @@ export default class Mapper {
       id,
       title,
       description,
-      thumbnail: this.#getThumbnail(data),
+      thumbnail: await this.#getThumbnail(data),
       permalink: permalink?.full,
-      user: user ? this.mapUser(user) : null,
+      user: user ? await this.mapUser(user) : null,
       tracks: [],
       trackCount: trackCount
     };
@@ -61,7 +63,7 @@ export default class Mapper {
     return result;
   }
 
-  static mapTrack(data: Track) {
+  static async mapTrack(data: Track) {
     const { id, texts, publisher, mediaInfo, user } = data;
     const album = publisher?.albumTitle || publisher?.releaseTitle || null;
     const playableState =
@@ -79,16 +81,16 @@ export default class Mapper {
       id,
       title: texts?.title,
       album,
-      thumbnail: this.#getThumbnail(data),
+      thumbnail: await this.#getThumbnail(data),
       playableState,
       transcodings,
-      user: user ? this.mapUser(user) : null
+      user: user ? await this.mapUser(user) : null
     };
 
     return result;
   }
 
-  static mapAlbum(data: Album) {
+  static async mapAlbum(data: Album) {
     const { id, permalink, user, trackCount } = data;
     const title = data.texts?.title;
     const description = data.texts?.description;
@@ -98,9 +100,9 @@ export default class Mapper {
       type: 'album',
       title,
       description,
-      thumbnail: this.#getThumbnail(data),
+      thumbnail: await this.#getThumbnail(data),
       permalink: permalink?.full,
-      user: user ? this.mapUser(user) : null,
+      user: user ? await this.mapUser(user) : null,
       tracks: [],
       trackCount
     };
@@ -108,13 +110,13 @@ export default class Mapper {
     return result;
   }
 
-  static mapSelection(data: Selection) {
-    const items = data.items.reduce<PlaylistEntity[]>((result, item) => {
+  static async mapSelection(data: Selection) {
+    const items = await Promise.all(data.items.reduce<Promise<PlaylistEntity>[]>((result, item) => {
       if (item instanceof Playlist || item instanceof SystemPlaylist) {
         result.push(this.mapPlaylist(item));
       }
       return result;
-    }, []);
+    }, []));
 
     const result: SelectionEntity = {
       type: 'selection',
@@ -126,7 +128,7 @@ export default class Mapper {
     return result;
   }
 
-  static #getThumbnail(data: EntityType): string | null {
+  static async #getThumbnail(data: EntityType): Promise<string | null> {
     let artwork: ArtworkImageUrls | AvatarImageUrls | null | undefined;
     if (data instanceof User) {
       artwork = data.avatar;
@@ -142,12 +144,20 @@ export default class Mapper {
     }
 
     if (artwork) {
-      return artwork.t500x500;
+      return artwork.t500x500 || artwork.default;
     }
 
-    if (!artwork && (
-      data instanceof Track || data instanceof Playlist ||
-      data instanceof SystemPlaylist || data instanceof Album) && data.user) {
+    if (data instanceof Playlist || data instanceof SystemPlaylist || data instanceof Album) {
+      const tracks = await data.getTracks();
+      if (tracks.length > 0) {
+        return this.#getThumbnail(tracks[0]);
+      }
+      if (data.user) {
+        return this.#getThumbnail(data.user);
+      }
+    }
+
+    if (data instanceof Track && data.user) {
       return this.#getThumbnail(data.user);
     }
 

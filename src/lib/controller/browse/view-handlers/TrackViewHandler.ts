@@ -11,6 +11,7 @@ export interface TrackView extends View {
   search?: string;
   userId?: string;
   topFeatured?: '1';
+  myLikes?: '1';
   combinedSearch?: '1';
   title?: string;
   // Explode
@@ -20,11 +21,11 @@ export interface TrackView extends View {
 export default class TrackViewHandler extends ExplodableViewHandler<TrackView> {
 
   async browse(): Promise<RenderedPage> {
-    const { pageRef, search, userId, topFeatured, combinedSearch, inSection } = this.currentView;
+    const { pageRef, search, userId, topFeatured, myLikes, combinedSearch, inSection } = this.currentView;
     const pageToken = pageRef?.pageToken;
     const pageOffset = pageRef?.pageOffset;
 
-    if (!search && userId === undefined && !topFeatured) {
+    if (!search && userId === undefined && !topFeatured && !myLikes) {
       throw Error('Unknown criteria');
     }
 
@@ -57,11 +58,18 @@ export default class TrackViewHandler extends ExplodableViewHandler<TrackView> {
       modelParams.limit = sc.getConfigValue('itemsPerPage');
     }
 
-    const tracks = await this.getModel(ModelType.Track).getTracks(modelParams);
+    let tracks;
+    if (myLikes) {
+      tracks = await this.getModel(ModelType.Me).getLikes({...modelParams, type: 'track'});
+    }
+    else {
+      tracks = await this.getModel(ModelType.Track).getTracks(modelParams);
+    }
+
     const page = this.buildPageFromLoopFetchResult(
       tracks,
       this.getRenderer(RendererType.Track),
-      sc.getI18n('SOUNDCLOUD_LIST_TITLE_TRACKS')
+      myLikes ? sc.getI18n('SOUNDCLOUD_LIKES') : sc.getI18n('SOUNDCLOUD_LIST_TITLE_TRACKS')
     );
 
     if (userId && !inSection) {

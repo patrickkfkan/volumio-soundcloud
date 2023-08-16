@@ -7,6 +7,7 @@ export interface PluginConfigSchemaEntry<T, U = false> {
 }
 
 export interface PluginConfigSchema {
+  accessToken: PluginConfigSchemaEntry<string>;
   locale: PluginConfigSchemaEntry<string>;
   itemsPerPage: PluginConfigSchemaEntry<number>;
   itemsPerSection: PluginConfigSchemaEntry<number>;
@@ -18,6 +19,7 @@ export interface PluginConfigSchema {
 }
 
 export const PLUGIN_CONFIG_SCHEMA: PluginConfigSchema = {
+  accessToken: { defaultValue: '', json: false },
   locale: { defaultValue: 'en', json: false },
   itemsPerPage: { defaultValue: 47, json: false },
   itemsPerSection: { defaultValue: 11, json: false },

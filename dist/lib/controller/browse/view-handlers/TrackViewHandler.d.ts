@@ -6,6 +6,7 @@ export interface TrackView extends View {
     search?: string;
     userId?: string;
     topFeatured?: '1';
+    myLikes?: '1';
     combinedSearch?: '1';
     title?: string;
     trackId?: string;

@@ -42,7 +42,7 @@ export default class SelectionModel extends BaseModel {
     return result.items;
   }
 
-  #convertFetchedSelectionToEntity(item: Selection): SelectionEntity {
+  #convertFetchedSelectionToEntity(item: Selection): Promise<SelectionEntity> {
     return Mapper.mapSelection(item);
   }
 }

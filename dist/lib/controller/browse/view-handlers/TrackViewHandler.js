@@ -9,10 +9,10 @@ const ExplodableViewHandler_1 = __importDefault(require("./ExplodableViewHandler
 const renderers_1 = require("./renderers");
 class TrackViewHandler extends ExplodableViewHandler_1.default {
     async browse() {
-        const { pageRef, search, userId, topFeatured, combinedSearch, inSection } = this.currentView;
+        const { pageRef, search, userId, topFeatured, myLikes, combinedSearch, inSection } = this.currentView;
         const pageToken = pageRef?.pageToken;
         const pageOffset = pageRef?.pageOffset;
-        if (!search && userId === undefined && !topFeatured) {
+        if (!search && userId === undefined && !topFeatured && !myLikes) {
             throw Error('Unknown criteria');
         }
         const modelParams = {};
@@ -40,8 +40,14 @@ class TrackViewHandler extends ExplodableViewHandler_1.default {
         else {
             modelParams.limit = SoundCloudContext_1.default.getConfigValue('itemsPerPage');
         }
-        const tracks = await this.getModel(model_1.ModelType.Track).getTracks(modelParams);
-        const page = this.buildPageFromLoopFetchResult(tracks, this.getRenderer(renderers_1.RendererType.Track), SoundCloudContext_1.default.getI18n('SOUNDCLOUD_LIST_TITLE_TRACKS'));
+        let tracks;
+        if (myLikes) {
+            tracks = await this.getModel(model_1.ModelType.Me).getLikes({ ...modelParams, type: 'track' });
+        }
+        else {
+            tracks = await this.getModel(model_1.ModelType.Track).getTracks(modelParams);
+        }
+        const page = this.buildPageFromLoopFetchResult(tracks, this.getRenderer(renderers_1.RendererType.Track), myLikes ? SoundCloudContext_1.default.getI18n('SOUNDCLOUD_LIKES') : SoundCloudContext_1.default.getI18n('SOUNDCLOUD_LIST_TITLE_TRACKS'));
         if (userId && !inSection) {
             const userData = await this.getModel(model_1.ModelType.User).getUser(Number(userId));
             if (userData) {

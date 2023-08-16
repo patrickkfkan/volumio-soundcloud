@@ -63,6 +63,12 @@ export default class BaseViewHandler<V extends View> implements ViewHandler {
         case ModelType.User:
           model = Model.getInstance(ModelType.User);
           break;
+        case ModelType.History:
+          model = Model.getInstance(ModelType.History);
+          break;
+        case ModelType.Me:
+          model = Model.getInstance(ModelType.Me);
+          break;
         default:
           throw Error(`Unknown model type: ${type}`);
       }
@@ -165,9 +171,14 @@ export default class BaseViewHandler<V extends View> implements ViewHandler {
     `;
   }
 
-  protected buildPageFromLoopFetchResult<E>(result: LoopFetchResult<E>, renderer: BaseRenderer<E>, title = ''): RenderedPage {
+  protected buildPageFromLoopFetchResult<E>(
+    result: LoopFetchResult<E>,
+    renderer: BaseRenderer<E> | ((item: E) => BaseRenderer<E> | null),
+    title = ''): RenderedPage {
+
     const listItems = result.items.reduce<RenderedListItem[]>((result, item) => {
-      const rendered = renderer.renderToListItem(item);
+      const r = typeof renderer === 'function' ? renderer(item) : renderer;
+      const rendered = r ? r.renderToListItem(item) : null;
       if (rendered) {
         result.push(rendered);
       }

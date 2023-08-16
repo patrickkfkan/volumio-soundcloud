@@ -6,10 +6,10 @@ import AlbumEntity from '../entities/AlbumEntity';
 import SelectionEntity from '../entities/SelectionEntity';
 export default class Mapper {
     #private;
-    static mapUser(data: User): UserEntity;
-    static mapPlaylist(data: Playlist | SystemPlaylist): PlaylistEntity;
-    static mapTrack(data: Track): TrackEntity;
-    static mapAlbum(data: Album): AlbumEntity;
-    static mapSelection(data: Selection): SelectionEntity;
+    static mapUser(data: User): Promise<UserEntity>;
+    static mapPlaylist(data: Playlist | SystemPlaylist): Promise<PlaylistEntity>;
+    static mapTrack(data: Track): Promise<TrackEntity>;
+    static mapAlbum(data: Album): Promise<AlbumEntity>;
+    static mapSelection(data: Selection): Promise<SelectionEntity>;
 }
 //# sourceMappingURL=Mapper.d.ts.map

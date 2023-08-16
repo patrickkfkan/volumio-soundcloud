@@ -19,6 +19,6 @@ export default class BaseViewHandler<V extends View> implements ViewHandler {
     protected constructNextPageItem(data: PageRef | string): RenderedListItem;
     protected constructPageRef(pageToken?: string | null, pageOffset?: number): PageRef | null;
     protected addLinkToListTitle(title: string | undefined, link: string, linkText: string): string;
-    protected buildPageFromLoopFetchResult<E>(result: LoopFetchResult<E>, renderer: BaseRenderer<E>, title?: string): RenderedPage;
+    protected buildPageFromLoopFetchResult<E>(result: LoopFetchResult<E>, renderer: BaseRenderer<E> | ((item: E) => BaseRenderer<E> | null), title?: string): RenderedPage;
 }
 //# sourceMappingURL=BaseViewHandler.d.ts.map

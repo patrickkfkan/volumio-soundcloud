@@ -47,18 +47,12 @@ class PlaylistModel extends BaseModel_1.default {
             }
             throw Error('[soundcloud] Failed to fetch playlist: playlistId type error.');
         });
-        const playlist = info ? Mapper_1.default.mapPlaylist(info) : null;
+        const playlist = info ? await Mapper_1.default.mapPlaylist(info) : null;
         if (options.loadTracks && playlist && info) {
             const offset = options.tracksOffset || 0;
             const limit = options.tracksLimit || undefined;
             const tracks = await info.getTracks({ offset, limit });
-            playlist.tracks = tracks?.reduce((result, t) => {
-                const te = Mapper_1.default.mapTrack(t);
-                if (te) {
-                    result.push(te);
-                }
-                return result;
-            }, []) || [];
+            playlist.tracks = await Promise.all(tracks.map((track) => Mapper_1.default.mapTrack(track)));
             TrackHelper_1.default.cacheTracks(playlist.tracks, this.getCacheKeyForFetch.bind(this, 'track'));
         }
         return playlist;
@@ -89,7 +83,7 @@ _PlaylistModel_instances = new WeakSet(), _PlaylistModel_getPlaylistsFetchPromis
         return SoundCloudContext_1.default.getCache().getOrSet(this.getCacheKeyForFetch('playlists', cacheKeyParams), () => api.getPlaylistsByUser(userId, queryParams));
     }
     throw Error('[soundcloud] Failed to fetch playlists: no userId or search query specified');
-}, _PlaylistModel_convertFetchedPlaylistToEntity = function _PlaylistModel_convertFetchedPlaylistToEntity(item) {
+}, _PlaylistModel_convertFetchedPlaylistToEntity = async function _PlaylistModel_convertFetchedPlaylistToEntity(item) {
     return Mapper_1.default.mapPlaylist(item);
 };
 //# sourceMappingURL=PlaylistModel.js.map

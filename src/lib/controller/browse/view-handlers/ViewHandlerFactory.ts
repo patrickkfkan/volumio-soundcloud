@@ -1,5 +1,7 @@
 import AlbumViewHandler from './AlbumViewHandler';
 import BaseViewHandler from './BaseViewHandler';
+import HistoryViewHandler from './HistoryViewHandler';
+import LibraryViewHandler from './LibraryViewHandler';
 import PlaylistViewHandler from './PlaylistViewHandler';
 import RootViewHandler from './RootViewHandler';
 import SelectionViewHandler from './SelectionViewHandler';
@@ -18,7 +20,9 @@ const VIEW_NAME_TO_CLASS: Record<string, HandlerClass<any, any>> = {
   'albums': AlbumViewHandler,
   'playlists': PlaylistViewHandler,
   'tracks': TrackViewHandler,
-  'track': TrackViewHandler
+  'track': TrackViewHandler,
+  'history': HistoryViewHandler,
+  'library': LibraryViewHandler
 };
 
 export default class ViewHandlerFactory {

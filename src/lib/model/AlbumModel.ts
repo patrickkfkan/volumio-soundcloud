@@ -2,7 +2,6 @@ import sc from '../SoundCloudContext';
 import BaseModel, { LoopFetchCallbackParams } from './BaseModel';
 import { Album, Constants } from 'soundcloud-fetch';
 import Mapper from './Mapper';
-import TrackEntity from '../entities/TrackEntity';
 import TrackHelper from '../util/TrackHelper';
 import AlbumEntity from '../entities/AlbumEntity';
 
@@ -75,7 +74,7 @@ export default class AlbumModel extends BaseModel {
     throw Error('[soundcloud] Failed to fetch albums: no userId or search query specified');
   }
 
-  #convertFetchedAlbumToEntity(item: Album): AlbumEntity {
+  #convertFetchedAlbumToEntity(item: Album): Promise<AlbumEntity> {
     return Mapper.mapAlbum(item);
   }
 
@@ -88,18 +87,12 @@ export default class AlbumModel extends BaseModel {
       this.getCacheKeyForFetch('album', cacheKeyParams),
       () => this.getSoundCloudAPI().getPlaylistOrAlbum(albumId)
     );
-    const album = info && info instanceof Album ? Mapper.mapAlbum(info) : null;
+    const album = info && info instanceof Album ? await Mapper.mapAlbum(info) : null;
     if (options.loadTracks && album && info) {
       const offset = options.tracksOffset || 0;
       const limit = options.tracksLimit || undefined;
       const tracks = await info.getTracks({ offset, limit });
-      album.tracks = tracks?.reduce<TrackEntity[]>((result, t) => {
-        const te = Mapper.mapTrack(t);
-        if (te) {
-          result.push(te);
-        }
-        return result;
-      }, []) || [];
+      album.tracks = await Promise.all(tracks.map((track) => Mapper.mapTrack(track)));
 
       TrackHelper.cacheTracks(album.tracks, this.getCacheKeyForFetch.bind(this, 'track'));
     }

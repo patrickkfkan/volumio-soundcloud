@@ -19,7 +19,7 @@ class UserRenderer extends BaseRenderer_1.default {
             service: 'soundcloud',
             type: 'folder',
             title: data.username,
-            artist: data.fullname || data.location,
+            artist: data.fullName || data.location,
             album: SoundCloudContext_1.default.getI18n('SOUNDCLOUD_USER_PARSER_ALBUM'),
             albumart: data.thumbnail || this.getAvatarIcon(),
             uri: `${this.uri}/${ViewHelper_1.default.constructUriSegmentFromView(userView)}`
@@ -31,7 +31,7 @@ class UserRenderer extends BaseRenderer_1.default {
             service: 'soundcloud',
             type: 'album',
             title: data.username,
-            artist: data.fullname,
+            artist: data.fullName,
             year: data.location,
             albumart: data.thumbnail || this.getAvatarIcon()
         };

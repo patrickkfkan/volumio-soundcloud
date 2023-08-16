@@ -20,7 +20,7 @@ export default class UserRenderer extends BaseRenderer<UserEntity> {
       service: 'soundcloud',
       type: 'folder',
       title: data.username,
-      artist: data.fullname || data.location,
+      artist: data.fullName || data.location,
       album: sc.getI18n('SOUNDCLOUD_USER_PARSER_ALBUM'),
       albumart: data.thumbnail || this.getAvatarIcon(),
       uri: `${this.uri}/${ViewHelper.constructUriSegmentFromView(userView)}`
@@ -33,7 +33,7 @@ export default class UserRenderer extends BaseRenderer<UserEntity> {
       service: 'soundcloud',
       type: 'album',
       title: data.username,
-      artist: data.fullname,
+      artist: data.fullName,
       year: data.location,
       albumart: data.thumbnail || this.getAvatarIcon()
     };

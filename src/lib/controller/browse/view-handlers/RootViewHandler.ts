@@ -2,6 +2,8 @@ import sc from '../../../SoundCloudContext';
 import SelectionEntity from '../../../entities/SelectionEntity';
 import { ModelType } from '../../../model';
 import BaseViewHandler from './BaseViewHandler';
+import { HistoryView } from './HistoryViewHandler';
+import { LibraryView } from './LibraryViewHandler';
 import { SelectionView } from './SelectionViewHandler';
 import { TrackView } from './TrackViewHandler';
 import View from './View';
@@ -17,6 +19,7 @@ export default class RootViewHandler extends BaseViewHandler<RootView> {
 
   async browse(): Promise<RenderedPage> {
     const fetches = [
+      this.#getMe(),
       this.#getTopFeaturedTracks(),
       this.#getMixedSelections()
     ];
@@ -33,6 +36,79 @@ export default class RootViewHandler extends BaseViewHandler<RootView> {
         lists
       }
     };
+  }
+
+  async #getMe(): Promise<RenderedList[]> {
+    let myProfile;
+    try {
+      myProfile = await this.getModel(ModelType.Me).getMyProfile();
+    }
+    catch (error: any) {
+      sc.toast('error', sc.getErrorMessage('', error, false));
+      return [];
+    }
+    if (myProfile?.id) {
+      const historyView: HistoryView = {
+        name: 'history'
+      };
+      const historyItem: RenderedListItem = {
+        service: 'soundcloud',
+        type: 'item-no-menu',
+        title: sc.getI18n('SOUNDCLOUD_HISTORY'),
+        icon: 'fa fa-history',
+        uri: `${this.uri}/${ViewHelper.constructUriSegmentFromView(historyView)}`
+      };
+
+      const trackView: TrackView = {
+        name: 'track',
+        myLikes: '1'
+      };
+      const likesItem: RenderedListItem = {
+        service: 'soundcloud',
+        type: 'item-no-menu',
+        title: sc.getI18n('SOUNDCLOUD_LIKES'),
+        icon: 'fa fa-heart',
+        uri: `${this.uri}/${ViewHelper.constructUriSegmentFromView(trackView)}`
+      };
+
+      const libraryView: LibraryView = {
+        name: 'library',
+        type: 'playlist'
+      };
+      const libraryPlaylistsItem: RenderedListItem = {
+        service: 'soundcloud',
+        type: 'item-no-menu',
+        title: sc.getI18n('SOUNDCLOUD_PLAYLISTS'),
+        icon: 'fa fa-list',
+        uri: `${this.uri}/${ViewHelper.constructUriSegmentFromView(libraryView)}`
+      };
+      libraryView.type = 'album';
+      const libraryAlbumsItem: RenderedListItem = {
+        service: 'soundcloud',
+        type: 'item-no-menu',
+        title: sc.getI18n('SOUNDCLOUD_ALBUMS'),
+        icon: 'fa fa-music',
+        uri: `${this.uri}/${ViewHelper.constructUriSegmentFromView(libraryView)}`
+      };
+      libraryView.type = 'station';
+      const libraryStationsItem: RenderedListItem = {
+        service: 'soundcloud',
+        type: 'item-no-menu',
+        title: sc.getI18n('SOUNDCLOUD_STATIONS'),
+        icon: 'fa fa-microphone',
+        uri: `${this.uri}/${ViewHelper.constructUriSegmentFromView(libraryView)}`
+      };
+
+      const meName = myProfile.firstName || myProfile.lastName || myProfile.username;
+      const list: RenderedList = {
+        title: sc.getI18n('SOUNDCLOUD_LIST_TITLE_WELCOME', meName),
+        items: [ historyItem, likesItem, libraryPlaylistsItem, libraryAlbumsItem, libraryStationsItem ],
+        availableListViews: [ 'grid', 'list' ]
+      };
+
+      return [ list ];
+    }
+    return [];
   }
 
   async #getTopFeaturedTracks(): Promise<RenderedList[]> {

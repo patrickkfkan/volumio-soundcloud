@@ -12,6 +12,7 @@ import PlayController from './lib/controller/play/PlayController';
 import { jsPromiseToKew } from './lib/util/Misc';
 import { QueueItem } from './lib/controller/browse/view-handlers/ExplodableViewHandler';
 import locales from './assets/locales.json';
+import Model from './lib/model';
 
 interface GotoParams extends QueueItem {
   type: 'album' | 'artist';
@@ -44,13 +45,14 @@ class ControllerSoundCloud {
 
         // General
         const localeOptions = this.#configGetLocaleOptions();
-        generalUIConf.content[0].value = localeOptions.selected;
-        generalUIConf.content[0].options = localeOptions.options;
-        generalUIConf.content[1].value = sc.getConfigValue('itemsPerPage');
-        generalUIConf.content[2].value = sc.getConfigValue('itemsPerSection');
-        generalUIConf.content[3].value = sc.getConfigValue('combinedSearchResults');
-        generalUIConf.content[4].value = sc.getConfigValue('loadFullPlaylistAlbum');
-        generalUIConf.content[5].value = sc.getConfigValue('skipPreviewTracks');
+        generalUIConf.content[0].value = sc.getConfigValue('accessToken');
+        generalUIConf.content[1].value = localeOptions.selected;
+        generalUIConf.content[1].options = localeOptions.options;
+        generalUIConf.content[2].value = sc.getConfigValue('itemsPerPage');
+        generalUIConf.content[3].value = sc.getConfigValue('itemsPerSection');
+        generalUIConf.content[4].value = sc.getConfigValue('combinedSearchResults');
+        generalUIConf.content[5].value = sc.getConfigValue('loadFullPlaylistAlbum');
+        generalUIConf.content[6].value = sc.getConfigValue('skipPreviewTracks');
 
         // Cache
         const cacheMaxEntries = sc.getConfigValue('cacheMaxEntries');
@@ -88,12 +90,21 @@ class ControllerSoundCloud {
       return;
     }
 
+    const oldAccessToken = sc.getConfigValue('accessToken');
+    const newAccessToken = data['accessToken'].trim();
+
+    sc.setConfigValue('accessToken', newAccessToken);
     sc.setConfigValue('locale', data['locale'].value);
     sc.setConfigValue('itemsPerPage', itemsPerPage);
     sc.setConfigValue('itemsPerSection', itemsPerSection);
     sc.setConfigValue('combinedSearchResults', combinedSearchResults);
     sc.setConfigValue('loadFullPlaylistAlbum', !!data['loadFullPlaylistAlbum']);
     sc.setConfigValue('skipPreviewTracks', !!data['skipPreviewTracks']);
+
+    if (oldAccessToken !== newAccessToken) {
+      Model.setAccessToken(newAccessToken);
+      sc.getCache().clear();
+    }
 
     sc.toast('success', sc.getI18n('SOUNDCLOUD_SETTINGS_SAVED'));
   }
@@ -154,6 +165,11 @@ class ControllerSoundCloud {
     this.#browseController = new BrowseController();
     this.#searchController = new SearchController();
     this.#playController = new PlayController();
+
+    const accessToken = sc.getConfigValue('accessToken');
+    if (accessToken) {
+      Model.setAccessToken(accessToken);
+    }
 
     this.#addToBrowseSources();
 

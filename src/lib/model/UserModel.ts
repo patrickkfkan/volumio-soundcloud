@@ -56,7 +56,7 @@ export default class UserModel extends BaseModel {
     throw Error('[soundcloud] Failed to fetch users: no search query specified');
   }
 
-  #convertFetchedUserToEntity(data: User): UserEntity {
+  #convertFetchedUserToEntity(data: User): Promise<UserEntity> {
     return Mapper.mapUser(data);
   }
 

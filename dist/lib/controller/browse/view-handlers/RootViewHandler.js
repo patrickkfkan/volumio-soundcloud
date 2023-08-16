@@ -7,7 +7,7 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-var _RootViewHandler_instances, _RootViewHandler_getTopFeaturedTracks, _RootViewHandler_getMixedSelections, _RootViewHandler_getListFromSelection;
+var _RootViewHandler_instances, _RootViewHandler_getMe, _RootViewHandler_getTopFeaturedTracks, _RootViewHandler_getMixedSelections, _RootViewHandler_getListFromSelection;
 Object.defineProperty(exports, "__esModule", { value: true });
 const SoundCloudContext_1 = __importDefault(require("../../../SoundCloudContext"));
 const model_1 = require("../../../model");
@@ -22,6 +22,7 @@ class RootViewHandler extends BaseViewHandler_1.default {
     }
     async browse() {
         const fetches = [
+            __classPrivateFieldGet(this, _RootViewHandler_instances, "m", _RootViewHandler_getMe).call(this),
             __classPrivateFieldGet(this, _RootViewHandler_instances, "m", _RootViewHandler_getTopFeaturedTracks).call(this),
             __classPrivateFieldGet(this, _RootViewHandler_instances, "m", _RootViewHandler_getMixedSelections).call(this)
         ];
@@ -39,7 +40,74 @@ class RootViewHandler extends BaseViewHandler_1.default {
     }
 }
 exports.default = RootViewHandler;
-_RootViewHandler_instances = new WeakSet(), _RootViewHandler_getTopFeaturedTracks = async function _RootViewHandler_getTopFeaturedTracks() {
+_RootViewHandler_instances = new WeakSet(), _RootViewHandler_getMe = async function _RootViewHandler_getMe() {
+    let myProfile;
+    try {
+        myProfile = await this.getModel(model_1.ModelType.Me).getMyProfile();
+    }
+    catch (error) {
+        SoundCloudContext_1.default.toast('error', SoundCloudContext_1.default.getErrorMessage('', error, false));
+        return [];
+    }
+    if (myProfile?.id) {
+        const historyView = {
+            name: 'history'
+        };
+        const historyItem = {
+            service: 'soundcloud',
+            type: 'item-no-menu',
+            title: SoundCloudContext_1.default.getI18n('SOUNDCLOUD_HISTORY'),
+            icon: 'fa fa-history',
+            uri: `${this.uri}/${ViewHelper_1.default.constructUriSegmentFromView(historyView)}`
+        };
+        const trackView = {
+            name: 'track',
+            myLikes: '1'
+        };
+        const likesItem = {
+            service: 'soundcloud',
+            type: 'item-no-menu',
+            title: SoundCloudContext_1.default.getI18n('SOUNDCLOUD_LIKES'),
+            icon: 'fa fa-heart',
+            uri: `${this.uri}/${ViewHelper_1.default.constructUriSegmentFromView(trackView)}`
+        };
+        const libraryView = {
+            name: 'library',
+            type: 'playlist'
+        };
+        const libraryPlaylistsItem = {
+            service: 'soundcloud',
+            type: 'item-no-menu',
+            title: SoundCloudContext_1.default.getI18n('SOUNDCLOUD_PLAYLISTS'),
+            icon: 'fa fa-list',
+            uri: `${this.uri}/${ViewHelper_1.default.constructUriSegmentFromView(libraryView)}`
+        };
+        libraryView.type = 'album';
+        const libraryAlbumsItem = {
+            service: 'soundcloud',
+            type: 'item-no-menu',
+            title: SoundCloudContext_1.default.getI18n('SOUNDCLOUD_ALBUMS'),
+            icon: 'fa fa-music',
+            uri: `${this.uri}/${ViewHelper_1.default.constructUriSegmentFromView(libraryView)}`
+        };
+        libraryView.type = 'station';
+        const libraryStationsItem = {
+            service: 'soundcloud',
+            type: 'item-no-menu',
+            title: SoundCloudContext_1.default.getI18n('SOUNDCLOUD_STATIONS'),
+            icon: 'fa fa-microphone',
+            uri: `${this.uri}/${ViewHelper_1.default.constructUriSegmentFromView(libraryView)}`
+        };
+        const meName = myProfile.firstName || myProfile.lastName || myProfile.username;
+        const list = {
+            title: SoundCloudContext_1.default.getI18n('SOUNDCLOUD_LIST_TITLE_WELCOME', meName),
+            items: [historyItem, likesItem, libraryPlaylistsItem, libraryAlbumsItem, libraryStationsItem],
+            availableListViews: ['grid', 'list']
+        };
+        return [list];
+    }
+    return [];
+}, _RootViewHandler_getTopFeaturedTracks = async function _RootViewHandler_getTopFeaturedTracks() {
     try {
         const trackView = {
             name: 'tracks',

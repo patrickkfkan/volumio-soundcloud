@@ -28,7 +28,7 @@ export default abstract class SetRenderer<T extends SetEntity> extends BaseRende
       'type': 'album',
       'title': data.title,
       'artist': data.user?.username,
-      'year': data.user?.fullname !== data.user?.username ? data.user?.fullname : null,
+      'year': data.user?.fullName !== data.user?.username ? data.user?.fullName : null,
       'duration': data.user?.location,
       'albumart': data.thumbnail || this.getSoundCloudIcon()
     };

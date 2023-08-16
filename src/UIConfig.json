@@ -16,6 +16,7 @@
       "saveButton": {
         "label": "TRANSLATE.SOUNDCLOUD_SAVE",
         "data": [
+          "accessToken",
           "locale",
           "itemsPerPage",
           "itemsPerSection",
@@ -25,6 +26,13 @@
         ]
       },
       "content": [
+        {
+          "id": "accessToken",
+          "element": "input",
+          "type": "text",
+          "label": "TRANSLATE.SOUNDCLOUD_ACCESS_TOKEN",
+          "value": ""
+        },
         {
           "id": "locale",
           "element": "select",

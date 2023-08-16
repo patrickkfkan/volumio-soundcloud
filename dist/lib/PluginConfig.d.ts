@@ -5,6 +5,7 @@ export interface PluginConfigSchemaEntry<T, U = false> {
     json: U;
 }
 export interface PluginConfigSchema {
+    accessToken: PluginConfigSchemaEntry<string>;
     locale: PluginConfigSchemaEntry<string>;
     itemsPerPage: PluginConfigSchemaEntry<number>;
     itemsPerSection: PluginConfigSchemaEntry<number>;

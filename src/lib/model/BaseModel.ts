@@ -1,6 +1,6 @@
 import md5 from 'md5';
 import sc from '../SoundCloudContext';
-import SoundCloud, { Collection, Constants, EntityType } from 'soundcloud-fetch';
+import SoundCloud, { Collection, EntityType } from 'soundcloud-fetch';
 
 export interface LoopFetchParams<R, I, C extends LoopFetchCallbackParams, E, F extends LoopFetchResult<E>> extends LoopFetchCallbackParams {
   callbackParams?: C;
@@ -8,7 +8,7 @@ export interface LoopFetchParams<R, I, C extends LoopFetchCallbackParams, E, F e
   getItemsFromFetchResult: (fetchResult: R, params: C) => I[];
   filterFetchedItem?: (item: I, params: C) => boolean;
   getNextPageTokenFromFetchResult?: (fetchResult: R, params: C) => string | null;
-  convertToEntity: (item: I, params: C) => E | null;
+  convertToEntity: (item: I, params: C) => Promise<E | null>;
   onEnd?:(result: LoopFetchResult<E>, lastFetchResult: R, params: C) => F;
   maxIterations?: number;
   pageOffset?: number;
@@ -29,13 +29,28 @@ export default abstract class BaseModel {
 
   static queryMaxLimit = 50;
 
-  #api: SoundCloud;
+  static #api: SoundCloud;
+  static #hasAccessToken = false;
 
   protected getSoundCloudAPI() {
-    if (!this.#api) {
-      this.#api = new SoundCloud();
+    return BaseModel.#doGetSoundCloudAPI();
+  }
+
+  static #doGetSoundCloudAPI() {
+    if (!BaseModel.#api) {
+      BaseModel.#api = new SoundCloud();
     }
-    return this.#api;
+    return BaseModel.#api;
+  }
+
+  static setAccessToken(value: string) {
+    const api = this.#doGetSoundCloudAPI();
+    api.setAccessToken(value);
+    this.#hasAccessToken = !!value;
+  }
+
+  hasAccessToken() {
+    return BaseModel.#hasAccessToken;
   }
 
   async #doLoopFetch<R, I, C extends LoopFetchCallbackParams, E, F extends LoopFetchResult<E>>(
@@ -115,14 +130,9 @@ export default abstract class BaseModel {
       return await this.#doLoopFetch(params, currentList, iteration);
     }
 
+    const entities = await Promise.all(currentList.map((item) => params.convertToEntity(item, callbackParams)));
     const result: LoopFetchResult<E> = {
-      items: currentList.reduce<E[]>((reduced, item) => {
-        const entity = params.convertToEntity(item, callbackParams);
-        if (entity) {
-          reduced.push(entity);
-        }
-        return reduced;
-      }, []),
+      items: entities.filter((entity) => entity) as E[],
       nextPageToken: maxFetchIterationsReached ? null : nextPageToken,
       nextPageOffset: maxFetchIterationsReached ? 0 : nextPageOffset
     };
@@ -155,11 +165,14 @@ export default abstract class BaseModel {
     return result.items;
   }
 
-  protected commonGetNextPageTokenFromLoopFetchResult<T extends EntityType>(result: Collection<T>, params: LoopFetchCallbackParams) {
+  protected commonGetNextPageTokenFromLoopFetchResult<T extends EntityType>(result: Collection<T>) {
     const items = result.items;
     if (items.length > 0 && result.nextUri) {
-      const offset = Number(params.pageToken) || 0;
-      return (offset + Constants.QUERY_MAX_LIMIT).toString();
+      const urlObj = new URL(result.nextUri);
+      const urlOffset = urlObj.searchParams.get('offset');
+      if (urlOffset !== undefined) {
+        return urlOffset;
+      }
     }
     return null;
   }
