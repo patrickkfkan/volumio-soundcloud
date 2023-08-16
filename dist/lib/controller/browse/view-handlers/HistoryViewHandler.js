@@ -12,6 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const SoundCloudContext_1 = __importDefault(require("../../../SoundCloudContext"));
 const model_1 = require("../../../model");
 const BaseViewHandler_1 = __importDefault(require("./BaseViewHandler"));
+const ViewHandlerFactory_1 = __importDefault(require("./ViewHandlerFactory"));
+const ViewHelper_1 = __importDefault(require("./ViewHelper"));
 const renderers_1 = require("./renderers");
 class HistoryViewHandler extends BaseViewHandler_1.default {
     constructor() {
@@ -19,16 +21,33 @@ class HistoryViewHandler extends BaseViewHandler_1.default {
         _HistoryViewHandler_instances.add(this);
     }
     async browse() {
-        const { type } = this.currentView;
+        const { type, inSection } = this.currentView;
         if (type) {
-            return __classPrivateFieldGet(this, _HistoryViewHandler_instances, "m", _HistoryViewHandler_browseType).call(this, type, false);
+            return __classPrivateFieldGet(this, _HistoryViewHandler_instances, "m", _HistoryViewHandler_browseType).call(this, type, !!inSection);
         }
-        const sets = (await __classPrivateFieldGet(this, _HistoryViewHandler_instances, "m", _HistoryViewHandler_browseType).call(this, 'set', true)).navigation?.lists || [];
-        const tracks = (await __classPrivateFieldGet(this, _HistoryViewHandler_instances, "m", _HistoryViewHandler_browseType).call(this, 'track', true)).navigation?.lists || [];
+        const setsView = {
+            name: 'history',
+            type: 'set',
+            inSection: '1'
+        };
+        const setsUri = `${this.uri}/${ViewHelper_1.default.constructUriSegmentFromView(setsView, true)}`;
+        const tracksView = {
+            name: 'history',
+            type: 'track',
+            inSection: '1'
+        };
+        const tracksUri = `${this.uri}/${ViewHelper_1.default.constructUriSegmentFromView(tracksView, true)}`;
+        const pages = await Promise.all([
+            ViewHandlerFactory_1.default.getHandler(setsUri).browse(),
+            ViewHandlerFactory_1.default.getHandler(tracksUri).browse()
+        ]);
         return {
             navigation: {
                 prev: { uri: this.constructPrevUri() },
-                lists: [...sets, ...tracks]
+                lists: [
+                    ...(pages[0].navigation?.lists || []),
+                    ...(pages[1].navigation?.lists || [])
+                ]
             }
         };
     }

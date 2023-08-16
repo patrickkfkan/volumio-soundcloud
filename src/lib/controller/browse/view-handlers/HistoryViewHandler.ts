@@ -7,6 +7,8 @@ import { HistoryModelGetPlayHistoryItemsParams } from '../../../model/HistoryMod
 import BaseViewHandler from './BaseViewHandler';
 import View from './View';
 import { RenderedPage } from './ViewHandler';
+import ViewHandlerFactory from './ViewHandlerFactory';
+import ViewHelper from './ViewHelper';
 import { RendererType } from './renderers';
 
 export interface HistoryView extends View {
@@ -17,19 +19,38 @@ export interface HistoryView extends View {
 export default class HistoryViewHandler extends BaseViewHandler<HistoryView> {
 
   async browse(): Promise<RenderedPage> {
-    const { type } = this.currentView;
+    const { type, inSection } = this.currentView;
 
     if (type) {
-      return this.#browseType(type, false);
+      return this.#browseType(type, !!inSection);
     }
 
-    const sets = (await this.#browseType('set', true)).navigation?.lists || [];
-    const tracks = (await this.#browseType('track', true)).navigation?.lists || [];
+    const setsView: HistoryView = {
+      name: 'history',
+      type: 'set',
+      inSection: '1'
+    };
+    const setsUri = `${this.uri}/${ViewHelper.constructUriSegmentFromView(setsView, true)}`;
+
+    const tracksView: HistoryView = {
+      name: 'history',
+      type: 'track',
+      inSection: '1'
+    };
+    const tracksUri = `${this.uri}/${ViewHelper.constructUriSegmentFromView(tracksView, true)}`;
+
+    const pages = await Promise.all([
+      ViewHandlerFactory.getHandler(setsUri).browse(),
+      ViewHandlerFactory.getHandler(tracksUri).browse()
+    ]);
 
     return {
       navigation: {
         prev: { uri: this.constructPrevUri() },
-        lists: [ ...sets, ...tracks ]
+        lists: [
+          ...(pages[0].navigation?.lists || []),
+          ...(pages[1].navigation?.lists || [])
+        ]
       }
     };
   }
