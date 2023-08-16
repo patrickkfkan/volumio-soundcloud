@@ -77,7 +77,7 @@ export default class PlaylistModel extends BaseModel {
         () => api.getPlaylistsByUser(userId, queryParams)
       );
     }
-    throw Error('[soundcloud] Failed to fetch playlists: no userId or search query specified');
+    throw Error('Missing or invalid criteria for playlists');
   }
 
   async #convertFetchedPlaylistToEntity(item: Playlist): Promise<PlaylistEntity> {
@@ -98,7 +98,7 @@ export default class PlaylistModel extends BaseModel {
         else if (options.type !== 'system' && typeof playlistId === 'number') {
           return this.getSoundCloudAPI().getPlaylistOrAlbum(playlistId);
         }
-        throw Error('[soundcloud] Failed to fetch playlist: playlistId type error.');
+        throw Error('Playlist ID has wrong type');
       }
     );
     const playlist = info ? await Mapper.mapPlaylist(info) : null;

@@ -76,7 +76,7 @@ export default class AlbumModel extends BaseModel {
         () => api.getAlbumsByUser(userId, queryParams)
       );
     }
-    throw Error('[soundcloud] Failed to fetch albums: no userId or search query specified');
+    throw Error('Missing or invalid criteria for albums');
   }
 
   #convertFetchedAlbumToEntity(item: Album): Promise<AlbumEntity> {

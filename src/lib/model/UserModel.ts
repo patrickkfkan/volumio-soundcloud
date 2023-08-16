@@ -58,7 +58,7 @@ export default class UserModel extends BaseModel {
         () => api.search(q, {...queryParams, type: 'user'})
       );
     }
-    throw Error('[soundcloud] Failed to fetch users: no search query specified');
+    throw Error('Missing or invalid criteria for users');
   }
 
   #convertFetchedUserToEntity(data: User): Promise<UserEntity> {

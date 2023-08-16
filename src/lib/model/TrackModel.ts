@@ -85,7 +85,7 @@ export default class TrackModel extends BaseModel {
         () => api.getTopFeaturedTracks(queryParams)
       );
     }
-    throw Error('[soundcloud] Failed to fetch tracks: no userId, search query or \'topFeatured\' flag specified');
+    throw Error('Missing or invalid criteria for tracks');
   }
 
   #convertFetchedTrackToEntity(data: Track) {
