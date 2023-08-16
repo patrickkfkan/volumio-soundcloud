@@ -5,6 +5,7 @@ import Mapper from './Mapper';
 import PlaylistEntity from '../entities/PlaylistEntity';
 import AlbumEntity from '../entities/AlbumEntity';
 import TrackEntity from '../entities/TrackEntity';
+import { TrackOrigin } from '../controller/browse/view-handlers/TrackViewHandler';
 
 export interface MeModelGetLikesParams {
   pageToken?: string;
@@ -155,5 +156,43 @@ export default class MeModel extends BaseModel {
     }
 
     return null;
+  }
+
+  async addToPlayHistory(track: TrackEntity, origin?: TrackOrigin) {
+    if (!this.hasAccessToken() || !track.urn) {
+      return;
+    }
+    const api = this.getSoundCloudAPI();
+    try {
+      let setOrUrn: Album | Playlist | string | null = null;
+      if (origin?.type === 'album') {
+        setOrUrn = new Album({ id: origin.albumId }, api);
+      }
+      else if (origin?.type === 'playlist') {
+        setOrUrn = new Playlist({ id: origin.playlistId }, api);
+      }
+      else if (origin?.type === 'system-playlist') {
+        setOrUrn = origin.urn;
+      }
+      if (setOrUrn) {
+        try {
+          await api.me.addToPlayHistory(track.urn, setOrUrn);
+        }
+        catch (error) {
+          sc.getLogger().error(
+            sc.getErrorMessage(
+              'Failed to add to play history - will retry without track origin:',
+              error, true));
+
+          await this.addToPlayHistory(track);
+        }
+      }
+      else {
+        await api.me.addToPlayHistory(track.urn);
+      }
+    }
+    catch (error) {
+      sc.getLogger().error(sc.getErrorMessage('Failed to add to play history:', error, true));
+    }
   }
 }

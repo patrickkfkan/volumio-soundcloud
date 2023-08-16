@@ -33,11 +33,17 @@ class AlbumViewHandler extends SetViewHandler_1.default {
     getSetRenderer() {
         return this.getRenderer(renderers_1.RendererType.Album);
     }
-    getExplodedTrackInfoFromParamName() {
-        return 'fromAlbumId';
-    }
     getVisitLinkTitle() {
         return SoundCloudContext_1.default.getI18n('SOUNDCLOUD_VISIT_LINK_ALBUM');
+    }
+    getTrackOrigin(set) {
+        if (set.id) {
+            return {
+                type: 'album',
+                albumId: set.id
+            };
+        }
+        return null;
     }
 }
 exports.default = AlbumViewHandler;
@@ -57,7 +63,7 @@ _AlbumViewHandler_instances = new WeakSet(), _AlbumViewHandler_getAlbum = async 
         throw Error('Failed to fetch album');
     }
     return {
-        folder: album,
+        set: album,
         tracksOffset: modelParams.tracksOffset,
         tracksLimit: modelParams.tracksLimit
     };

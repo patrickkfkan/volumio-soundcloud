@@ -4,6 +4,7 @@ import { ModelType } from '../../../model';
 import { AlbumModelGetAlbumParams } from '../../../model/AlbumModel';
 import { LoopFetchResult } from '../../../model/BaseModel';
 import SetViewHandler, { SetView, SetViewHandlerGetSetsParams } from './SetViewHandler';
+import { TrackOrigin } from './TrackViewHandler';
 import { RendererType } from './renderers';
 import BaseRenderer from './renderers/BaseRenderer';
 
@@ -18,7 +19,7 @@ export default class AlbumViewHandler extends SetViewHandler<AlbumView, number, 
     return Number(this.currentView.albumId);
   }
 
-  protected getSet(id: number): Promise<{ folder: AlbumEntity; tracksOffset?: number; tracksLimit?: number; }> {
+  protected getSet(id: number): Promise<{ set: AlbumEntity; tracksOffset?: number; tracksLimit?: number; }> {
     return this.#getAlbum(id);
   }
 
@@ -34,12 +35,18 @@ export default class AlbumViewHandler extends SetViewHandler<AlbumView, number, 
     return this.getRenderer(RendererType.Album);
   }
 
-  protected getExplodedTrackInfoFromParamName(): 'fromAlbumId' | 'fromPlaylistId' {
-    return 'fromAlbumId';
-  }
-
   protected getVisitLinkTitle(): string {
     return sc.getI18n('SOUNDCLOUD_VISIT_LINK_ALBUM');
+  }
+
+  protected getTrackOrigin(set: AlbumEntity): TrackOrigin | null {
+    if (set.id) {
+      return {
+        type: 'album',
+        albumId: set.id
+      };
+    }
+    return null;
   }
 
   async #getAlbum(albumId: number) {
@@ -62,7 +69,7 @@ export default class AlbumViewHandler extends SetViewHandler<AlbumView, number, 
     }
 
     return {
-      folder: album,
+      set: album,
       tracksOffset: modelParams.tracksOffset,
       tracksLimit: modelParams.tracksLimit
     };

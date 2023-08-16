@@ -59,10 +59,10 @@ class PlayController {
     async clearAddPlayTrack(track) {
         SoundCloudContext_1.default.getLogger().info(`[soundcloud] clearAddPlayTrack: ${track.uri}`);
         const trackView = ViewHelper_1.default.getViewsFromUri(track.uri).pop();
-        const trackId = trackView?.trackId;
-        if (!trackId) {
+        if (!trackView || trackView.name !== 'track' || !trackView.trackId) {
             throw Error(`Invalid track uri: ${track.uri}`);
         }
+        const { trackId, origin } = trackView;
         const model = model_1.default.getInstance(model_1.ModelType.Track);
         const trackData = await model.getTrack(Number(trackId));
         if (!trackData) {
@@ -93,7 +93,10 @@ class PlayController {
             track.samplerate = '64 kbps';
         }
         const safeUri = streamingUrl.replace(/"/g, '\\"');
-        return __classPrivateFieldGet(this, _PlayController_instances, "m", _PlayController_doPlay).call(this, safeUri, track);
+        await __classPrivateFieldGet(this, _PlayController_instances, "m", _PlayController_doPlay).call(this, safeUri, track);
+        if (SoundCloudContext_1.default.getConfigValue('addPlayedToHistory')) {
+            await model_1.default.getInstance(model_1.ModelType.Me).addToPlayHistory(trackData, origin);
+        }
     }
     // Returns kew promise!
     stop() {
@@ -128,21 +131,27 @@ class PlayController {
     async getGotoUri(type, uri) {
         const trackView = ViewHelper_1.default.getViewsFromUri(uri).pop();
         if (trackView && trackView.name === 'track' && trackView.trackId && (type === 'album' || type === 'artist')) {
-            if (type === 'album' && trackView.fromPlaylistId) {
-                const playlistView = {
-                    name: 'playlists',
-                    playlistId: trackView.fromPlaylistId
-                };
-                return `soundcloud/${ViewHelper_1.default.constructUriSegmentFromView(playlistView)}`;
+            if (type === 'album' && trackView.origin) {
+                const origin = trackView.origin;
+                if (origin.type === 'album') {
+                    const albumView = {
+                        name: 'albums',
+                        albumId: origin.albumId.toString()
+                    };
+                    return `soundcloud/${ViewHelper_1.default.constructUriSegmentFromView(albumView)}`;
+                }
+                else if (origin.type === 'playlist' || origin.type === 'system-playlist') {
+                    const playlistView = {
+                        name: 'playlists',
+                        playlistId: origin.playlistId.toString()
+                    };
+                    if (origin.type === 'system-playlist') {
+                        playlistView.type = 'system';
+                    }
+                    return `soundcloud/${ViewHelper_1.default.constructUriSegmentFromView(playlistView)}`;
+                }
             }
-            else if (type === 'album' && trackView.fromAlbumId) {
-                const albumView = {
-                    name: 'albums',
-                    albumId: trackView.fromAlbumId
-                };
-                return `soundcloud/${ViewHelper_1.default.constructUriSegmentFromView(albumView)}`;
-            }
-            const track = await model_1.default.getInstance(model_1.ModelType.Track).getTrack(trackView.trackId);
+            const track = await model_1.default.getInstance(model_1.ModelType.Track).getTrack(Number(trackView.trackId));
             if (track && track.user?.id !== undefined) {
                 const userView = {
                     name: 'users',

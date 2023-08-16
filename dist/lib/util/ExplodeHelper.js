@@ -54,11 +54,8 @@ _a = ExplodeHelper, _ExplodeHelper_getTrackUri = function _ExplodeHelper_getTrac
         name: 'track',
         trackId: data.id.toString()
     };
-    if (data.fromAlbumId) {
-        trackView.fromAlbumId = data.fromAlbumId;
-    }
-    else if (data.fromPlaylistId) {
-        trackView.fromPlaylistId = data.fromPlaylistId;
+    if (data.origin) {
+        trackView.origin = data.origin;
     }
     const uri = `soundcloud/${ViewHelper_1.default.constructUriSegmentFromView(trackView)}`;
     SoundCloudContext_1.default.getLogger().info(`[soundcloud] getTrackUri(): ${uri}`);

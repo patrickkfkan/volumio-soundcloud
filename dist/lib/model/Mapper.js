@@ -30,7 +30,7 @@ class Mapper {
         return result;
     }
     static async mapPlaylist(data) {
-        const { id, permalink, user, trackCount } = data;
+        const { permalink, user, trackCount } = data;
         let title, description;
         let type;
         if (data instanceof soundcloud_fetch_1.SystemPlaylist) {
@@ -45,7 +45,6 @@ class Mapper {
         }
         const result = {
             type,
-            id,
             title,
             description,
             thumbnail: await __classPrivateFieldGet(this, _a, "m", _Mapper_getThumbnail).call(this, data),
@@ -54,6 +53,13 @@ class Mapper {
             tracks: [],
             trackCount: trackCount
         };
+        if (result.type === 'system-playlist' && data instanceof soundcloud_fetch_1.SystemPlaylist) {
+            result.id = data.id;
+            result.urn = data.apiInfo.urn;
+        }
+        else if (result.type === 'playlist' && data instanceof soundcloud_fetch_1.Playlist) {
+            result.id = data.id;
+        }
         return result;
     }
     static async mapTrack(data) {
@@ -70,6 +76,7 @@ class Mapper {
         const result = {
             type: 'track',
             id,
+            urn: data.apiInfo.urn,
             title: texts?.title,
             album,
             thumbnail: await __classPrivateFieldGet(this, _a, "m", _Mapper_getThumbnail).call(this, data),

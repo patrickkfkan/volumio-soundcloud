@@ -2,6 +2,7 @@ import UserEntity from './UserEntity';
 interface TrackEntity {
     type: 'track';
     id?: number;
+    urn?: string | null;
     title?: string | null;
     album?: string | null;
     thumbnail: string | null;

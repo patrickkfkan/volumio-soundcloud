@@ -65,10 +65,11 @@ class SetViewHandler extends ExplodableViewHandler_1.default {
         return page;
     }
     async browseSet(id) {
-        const { folder, tracksOffset, tracksLimit } = await this.getSet(id);
+        const { set, tracksOffset, tracksLimit } = await this.getSet(id);
+        const origin = this.getTrackOrigin(set);
         const renderer = this.getRenderer(renderers_1.RendererType.Track);
-        const listItems = folder.tracks.reduce((result, track) => {
-            const rendered = renderer.renderToListItem(track);
+        const listItems = set.tracks.reduce((result, track) => {
+            const rendered = renderer.renderToListItem(track, origin);
             if (rendered) {
                 result.push(rendered);
             }
@@ -76,7 +77,7 @@ class SetViewHandler extends ExplodableViewHandler_1.default {
         }, []);
         if (!SoundCloudContext_1.default.getConfigValue('loadFullPlaylistAlbum') && tracksLimit !== undefined) {
             const nextOffset = (tracksOffset || 0) + tracksLimit;
-            if ((folder.trackCount || 0) > nextOffset) {
+            if ((set.trackCount || 0) > nextOffset) {
                 const nextPageRef = this.constructPageRef(nextOffset.toString(), 0);
                 if (nextPageRef) {
                     listItems.push(this.constructNextPageItem(nextPageRef));
@@ -84,8 +85,8 @@ class SetViewHandler extends ExplodableViewHandler_1.default {
             }
         }
         let title = this.currentView.title || SoundCloudContext_1.default.getI18n('SOUNDCLOUD_LIST_TITLE_TRACKS');
-        if (folder.permalink) {
-            title = this.addLinkToListTitle(title, folder.permalink, this.getVisitLinkTitle());
+        if (set.permalink) {
+            title = this.addLinkToListTitle(title, set.permalink, this.getVisitLinkTitle());
         }
         const list = {
             title,
@@ -95,7 +96,7 @@ class SetViewHandler extends ExplodableViewHandler_1.default {
         return {
             navigation: {
                 prev: { uri: this.constructPrevUri() },
-                info: this.getSetRenderer().renderToHeader(folder),
+                info: this.getSetRenderer().renderToHeader(set),
                 lists: [list]
             }
         };
@@ -105,11 +106,13 @@ class SetViewHandler extends ExplodableViewHandler_1.default {
         if (id === undefined || id === null) {
             throw Error('Id of target not specified');
         }
-        const { folder } = await this.getSet(id);
-        const fromParamName = this.getExplodedTrackInfoFromParamName();
-        const trackInfos = folder?.tracks.map((track) => {
+        const { set } = await this.getSet(id);
+        const origin = set ? this.getTrackOrigin(set) : null;
+        const trackInfos = set?.tracks.map((track) => {
             const info = { ...track };
-            Reflect.set(info, fromParamName, id);
+            if (origin) {
+                info.origin = origin;
+            }
             return info;
         }) || [];
         return trackInfos;

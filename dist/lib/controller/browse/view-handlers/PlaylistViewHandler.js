@@ -33,11 +33,24 @@ class PlaylistViewHandler extends SetViewHandler_1.default {
     getSetRenderer() {
         return this.getRenderer(renderers_1.RendererType.Playlist);
     }
-    getExplodedTrackInfoFromParamName() {
-        return 'fromPlaylistId';
-    }
     getVisitLinkTitle() {
         return SoundCloudContext_1.default.getI18n('SOUNDCLOUD_VISIT_LINK_PLAYLIST');
+    }
+    getTrackOrigin(set) {
+        if (set.type === 'playlist' && set.id) {
+            return {
+                type: 'playlist',
+                playlistId: set.id
+            };
+        }
+        else if (set.type === 'system-playlist' && set.id && set.urn) {
+            return {
+                type: 'system-playlist',
+                playlistId: set.id,
+                urn: set.urn
+            };
+        }
+        return null;
     }
 }
 exports.default = PlaylistViewHandler;
@@ -61,7 +74,7 @@ _PlaylistViewHandler_instances = new WeakSet(), _PlaylistViewHandler_getPlaylist
         throw Error('Failed to fetch playlist');
     }
     return {
-        folder: playlist,
+        set: playlist,
         tracksOffset: modelParams.tracksOffset,
         tracksLimit: modelParams.tracksLimit
     };

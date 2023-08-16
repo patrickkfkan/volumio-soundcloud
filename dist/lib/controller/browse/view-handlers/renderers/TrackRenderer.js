@@ -7,7 +7,7 @@ const SoundCloudContext_1 = __importDefault(require("../../../../SoundCloudConte
 const ViewHelper_1 = __importDefault(require("../ViewHelper"));
 const BaseRenderer_1 = __importDefault(require("./BaseRenderer"));
 class TrackRenderer extends BaseRenderer_1.default {
-    renderToListItem(data) {
+    renderToListItem(data, origin) {
         if (typeof data.id !== 'number' || !data.id || !data.title) {
             return null;
         }
@@ -31,6 +31,9 @@ class TrackRenderer extends BaseRenderer_1.default {
             name: 'track',
             trackId: data.id.toString()
         };
+        if (origin) {
+            trackView.origin = origin;
+        }
         return {
             service: 'soundcloud',
             type: 'song',

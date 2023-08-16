@@ -1,5 +1,6 @@
 import TrackEntity from '../../../entities/TrackEntity';
 import BaseViewHandler from './BaseViewHandler';
+import { TrackOrigin } from './TrackViewHandler';
 import View from './View';
 export interface QueueItem {
     service: 'soundcloud';
@@ -13,8 +14,7 @@ export interface QueueItem {
     samplerate?: string;
 }
 export interface ExplodedTrackInfo extends TrackEntity {
-    fromAlbumId?: number;
-    fromPlaylistId?: number;
+    origin?: TrackOrigin;
 }
 export default abstract class ExplodableViewHandler<V extends View> extends BaseViewHandler<V> {
     explode(): Promise<QueueItem[]>;

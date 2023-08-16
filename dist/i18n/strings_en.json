@@ -8,6 +8,7 @@
   "SOUNDCLOUD_COMBINED_SEARCH_RESULTS": "Items in combined search results (per type)",
   "SOUNDCLOUD_LOAD_FULL_PLAYLIST_ALBUM": "Show all tracks in playlists and albums",
   "SOUNDCLOUD_SKIP_PREVIEW_TRACKS": "Skip playback of preview tracks",
+  "SOUNDCLOUD_ADD_PLAYED_TO_HISTORY": "Add played tracks to history",
   "SOUNDCLOUD_SAVE": "Save",
   "SOUNDCLOUD_SECTION_CACHE": "Cache",
   "SOUNDCLOUD_CACHE_STATS": "There are currently {} entries in cache, using approximately {} KB of memory.",

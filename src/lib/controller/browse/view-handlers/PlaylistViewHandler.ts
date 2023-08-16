@@ -6,6 +6,7 @@ import { LoopFetchResult } from '../../../model/BaseModel';
 import SetViewHandler, { SetView, SetViewHandlerGetSetsParams } from './SetViewHandler';
 import { RendererType } from './renderers';
 import BaseRenderer from './renderers/BaseRenderer';
+import { TrackOrigin } from './TrackViewHandler';
 
 export interface PlaylistView extends SetView {
   name: 'playlists';
@@ -19,7 +20,7 @@ export default class PlaylistViewHandler extends SetViewHandler<PlaylistView, st
     return this.currentView.playlistId;
   }
 
-  protected getSet(id: string | number): Promise<{ folder: PlaylistEntity; tracksOffset?: number; tracksLimit?: number; }> {
+  protected getSet(id: string | number): Promise<{ set: PlaylistEntity; tracksOffset?: number; tracksLimit?: number; }> {
     return this.#getPlaylist(id);
   }
 
@@ -35,12 +36,25 @@ export default class PlaylistViewHandler extends SetViewHandler<PlaylistView, st
     return this.getRenderer(RendererType.Playlist);
   }
 
-  protected getExplodedTrackInfoFromParamName(): 'fromAlbumId' | 'fromPlaylistId' {
-    return 'fromPlaylistId';
-  }
-
   protected getVisitLinkTitle(): string {
     return sc.getI18n('SOUNDCLOUD_VISIT_LINK_PLAYLIST');
+  }
+
+  protected getTrackOrigin(set: PlaylistEntity): TrackOrigin | null {
+    if (set.type === 'playlist' && set.id) {
+      return {
+        type: 'playlist',
+        playlistId: set.id
+      };
+    }
+    else if (set.type === 'system-playlist' && set.id && set.urn) {
+      return {
+        type: 'system-playlist',
+        playlistId: set.id,
+        urn: set.urn
+      };
+    }
+    return null;
   }
 
   async #getPlaylist(playlistId: string | number) {
@@ -68,7 +82,7 @@ export default class PlaylistViewHandler extends SetViewHandler<PlaylistView, st
     }
 
     return {
-      folder: playlist,
+      set: playlist,
       tracksOffset: modelParams.tracksOffset,
       tracksLimit: modelParams.tracksLimit
     };

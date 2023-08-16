@@ -45,7 +45,8 @@ class ControllerSoundCloud {
 
         // General
         const localeOptions = this.#configGetLocaleOptions();
-        generalUIConf.content[0].value = sc.getConfigValue('accessToken');
+        const accessToken = sc.getConfigValue('accessToken');
+        generalUIConf.content[0].value = accessToken;
         generalUIConf.content[1].value = localeOptions.selected;
         generalUIConf.content[1].options = localeOptions.options;
         generalUIConf.content[2].value = sc.getConfigValue('itemsPerPage');
@@ -53,6 +54,8 @@ class ControllerSoundCloud {
         generalUIConf.content[4].value = sc.getConfigValue('combinedSearchResults');
         generalUIConf.content[5].value = sc.getConfigValue('loadFullPlaylistAlbum');
         generalUIConf.content[6].value = sc.getConfigValue('skipPreviewTracks');
+        generalUIConf.content[7].value = sc.getConfigValue('addPlayedToHistory');
+        generalUIConf.content[7].hidden = !accessToken;
 
         // Cache
         const cacheMaxEntries = sc.getConfigValue('cacheMaxEntries');
@@ -100,10 +103,12 @@ class ControllerSoundCloud {
     sc.setConfigValue('combinedSearchResults', combinedSearchResults);
     sc.setConfigValue('loadFullPlaylistAlbum', !!data['loadFullPlaylistAlbum']);
     sc.setConfigValue('skipPreviewTracks', !!data['skipPreviewTracks']);
+    sc.setConfigValue('addPlayedToHistory', !!data['addPlayedToHistory']);
 
     if (oldAccessToken !== newAccessToken) {
       Model.setAccessToken(newAccessToken);
       sc.getCache().clear();
+      sc.refreshUIConfig();
     }
 
     sc.toast('success', sc.getI18n('SOUNDCLOUD_SETTINGS_SAVED'));

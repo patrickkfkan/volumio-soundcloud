@@ -57,6 +57,39 @@ class MeModel extends BaseModel_1.default {
         }
         return null;
     }
+    async addToPlayHistory(track, origin) {
+        if (!this.hasAccessToken() || !track.urn) {
+            return;
+        }
+        const api = this.getSoundCloudAPI();
+        try {
+            let setOrUrn = null;
+            if (origin?.type === 'album') {
+                setOrUrn = new soundcloud_fetch_1.Album({ id: origin.albumId }, api);
+            }
+            else if (origin?.type === 'playlist') {
+                setOrUrn = new soundcloud_fetch_1.Playlist({ id: origin.playlistId }, api);
+            }
+            else if (origin?.type === 'system-playlist') {
+                setOrUrn = origin.urn;
+            }
+            if (setOrUrn) {
+                try {
+                    await api.me.addToPlayHistory(track.urn, setOrUrn);
+                }
+                catch (error) {
+                    SoundCloudContext_1.default.getLogger().error(SoundCloudContext_1.default.getErrorMessage('Failed to add to play history - will retry without track origin:', error, true));
+                    await this.addToPlayHistory(track);
+                }
+            }
+            else {
+                await api.me.addToPlayHistory(track.urn);
+            }
+        }
+        catch (error) {
+            SoundCloudContext_1.default.getLogger().error(SoundCloudContext_1.default.getErrorMessage('Failed to add to play history:', error, true));
+        }
+    }
 }
 exports.default = MeModel;
 _MeModel_instances = new WeakSet(), _MeModel_getLikesFetchPromise = async function _MeModel_getLikesFetchPromise(params) {

@@ -6,6 +6,18 @@ import View from './View';
 import { RenderedPage } from './ViewHandler';
 import { RendererType } from './renderers';
 
+export type TrackOrigin = {
+  type: 'album';
+  albumId: number;
+} | {
+  type: 'playlist';
+  playlistId: number;
+} | {
+  type: 'system-playlist';
+  playlistId: string;
+  urn: string;
+};
+
 export interface TrackView extends View {
   name: 'tracks' | 'track';
   search?: string;
@@ -16,6 +28,7 @@ export interface TrackView extends View {
   title?: string;
   // Explode
   trackId?: string;
+  origin?: TrackOrigin;
 }
 
 export default class TrackViewHandler extends ExplodableViewHandler<TrackView> {
@@ -86,7 +99,7 @@ export default class TrackViewHandler extends ExplodableViewHandler<TrackView> {
   }
 
   protected async getTracksOnExplode(): Promise<ExplodedTrackInfo | ExplodedTrackInfo[]> {
-    const { trackId } = this.currentView;
+    const { trackId, origin } = this.currentView;
     if (!trackId) {
       throw Error('No Track ID specified');
     }
@@ -95,8 +108,11 @@ export default class TrackViewHandler extends ExplodableViewHandler<TrackView> {
       return [];
     }
     const explodedTrackInfo: ExplodedTrackInfo = {...track};
+    if (origin) {
+      explodedTrackInfo.origin = origin;
+    }
 
-    // Check if previous view is 'albums@albumId=...' or 'playlists@playlistId...'
+    /*// Check if previous view is 'albums@albumId=...' or 'playlists@playlistId...'
     // If so, we include the playlistId in the result for goto(album).
     const prev = this.previousViews[this.previousViews.length - 1] || {};
     if (prev.name === 'albums' && prev.albumId) {
@@ -104,7 +120,7 @@ export default class TrackViewHandler extends ExplodableViewHandler<TrackView> {
     }
     else if (prev.name === 'playlists' && prev.playlistId && prev.type !== 'system') {
       explodedTrackInfo.fromPlaylistId = prev.playlistId;
-    }
+    }*/
 
     return explodedTrackInfo;
   }

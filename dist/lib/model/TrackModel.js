@@ -76,7 +76,7 @@ _TrackModel_instances = new WeakSet(), _TrackModel_getTracksFetchPromise = async
         };
         return SoundCloudContext_1.default.getCache().getOrSet(this.getCacheKeyForFetch('tracks', cacheKeyParams), () => api.getTopFeaturedTracks(queryParams));
     }
-    throw Error('[soundcloud] Failed to fetch tracks: no userId, search query or \'topFeatured\' flag specified');
+    throw Error('Missing or invalid criteria for tracks');
 }, _TrackModel_convertFetchedTrackToEntity = function _TrackModel_convertFetchedTrackToEntity(data) {
     return Mapper_1.default.mapTrack(data);
 }, _TrackModel_onGetTracksLoopFetchEnd = function _TrackModel_onGetTracksLoopFetchEnd(result) {

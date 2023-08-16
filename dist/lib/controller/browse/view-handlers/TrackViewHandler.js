@@ -60,7 +60,7 @@ class TrackViewHandler extends ExplodableViewHandler_1.default {
         return page;
     }
     async getTracksOnExplode() {
-        const { trackId } = this.currentView;
+        const { trackId, origin } = this.currentView;
         if (!trackId) {
             throw Error('No Track ID specified');
         }
@@ -69,15 +69,18 @@ class TrackViewHandler extends ExplodableViewHandler_1.default {
             return [];
         }
         const explodedTrackInfo = { ...track };
-        // Check if previous view is 'albums@albumId=...' or 'playlists@playlistId...'
+        if (origin) {
+            explodedTrackInfo.origin = origin;
+        }
+        /*// Check if previous view is 'albums@albumId=...' or 'playlists@playlistId...'
         // If so, we include the playlistId in the result for goto(album).
         const prev = this.previousViews[this.previousViews.length - 1] || {};
         if (prev.name === 'albums' && prev.albumId) {
-            explodedTrackInfo.fromAlbumId = prev.albumId;
+          explodedTrackInfo.fromAlbumId = prev.albumId;
         }
         else if (prev.name === 'playlists' && prev.playlistId && prev.type !== 'system') {
-            explodedTrackInfo.fromPlaylistId = prev.playlistId;
-        }
+          explodedTrackInfo.fromPlaylistId = prev.playlistId;
+        }*/
         return explodedTrackInfo;
     }
 }

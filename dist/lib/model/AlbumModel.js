@@ -77,7 +77,7 @@ _AlbumModel_instances = new WeakSet(), _AlbumModel_getAlbumsFetchPromise = async
         };
         return SoundCloudContext_1.default.getCache().getOrSet(this.getCacheKeyForFetch('albums', cacheKeyParams), () => api.getAlbumsByUser(userId, queryParams));
     }
-    throw Error('[soundcloud] Failed to fetch albums: no userId or search query specified');
+    throw Error('Missing or invalid criteria for albums');
 }, _AlbumModel_convertFetchedAlbumToEntity = function _AlbumModel_convertFetchedAlbumToEntity(item) {
     return Mapper_1.default.mapAlbum(item);
 };

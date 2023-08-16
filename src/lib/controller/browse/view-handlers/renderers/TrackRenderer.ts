@@ -1,12 +1,12 @@
 import sc from '../../../../SoundCloudContext';
 import TrackEntity from '../../../../entities/TrackEntity';
-import { TrackView } from '../TrackViewHandler';
+import { TrackOrigin, TrackView } from '../TrackViewHandler';
 import ViewHelper from '../ViewHelper';
 import BaseRenderer, { RenderedListItem } from './BaseRenderer';
 
 export default class TrackRenderer extends BaseRenderer<TrackEntity> {
 
-  renderToListItem(data: TrackEntity): RenderedListItem | null {
+  renderToListItem(data: TrackEntity, origin?: TrackOrigin | null): RenderedListItem | null {
     if (typeof data.id !== 'number' || !data.id || !data.title) {
       return null;
     }
@@ -32,6 +32,9 @@ export default class TrackRenderer extends BaseRenderer<TrackEntity> {
       name: 'track',
       trackId: data.id.toString()
     };
+    if (origin) {
+      trackView.origin = origin;
+    }
 
     return {
       service: 'soundcloud',

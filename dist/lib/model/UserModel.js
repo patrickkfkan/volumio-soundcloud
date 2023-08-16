@@ -59,7 +59,7 @@ _UserModel_instances = new WeakSet(), _UserModel_getUsersFetchPromise = async fu
         };
         return SoundCloudContext_1.default.getCache().getOrSet(this.getCacheKeyForFetch('users', cacheKeyParams), () => api.search(q, { ...queryParams, type: 'user' }));
     }
-    throw Error('[soundcloud] Failed to fetch users: no search query specified');
+    throw Error('Missing or invalid criteria for users');
 }, _UserModel_convertFetchedUserToEntity = function _UserModel_convertFetchedUserToEntity(data) {
     return Mapper_1.default.mapUser(data);
 };

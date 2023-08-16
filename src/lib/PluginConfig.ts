@@ -14,6 +14,7 @@ export interface PluginConfigSchema {
   combinedSearchResults: PluginConfigSchemaEntry<number>;
   loadFullPlaylistAlbum: PluginConfigSchemaEntry<boolean>;
   skipPreviewTracks: PluginConfigSchemaEntry<boolean>;
+  addPlayedToHistory: PluginConfigSchemaEntry<boolean>;
   cacheMaxEntries: PluginConfigSchemaEntry<number>;
   cacheTTL: PluginConfigSchemaEntry<number>;
 }
@@ -26,6 +27,7 @@ export const PLUGIN_CONFIG_SCHEMA: PluginConfigSchema = {
   combinedSearchResults: { defaultValue: 11, json: false },
   loadFullPlaylistAlbum: { defaultValue: false, json: false },
   skipPreviewTracks: { defaultValue: false, json: false },
+  addPlayedToHistory: { defaultValue: true, json: false },
   cacheMaxEntries: { defaultValue: 5000, json: false },
   cacheTTL: { defaultValue: 1800, json: false }
 };

@@ -22,7 +22,8 @@
           "itemsPerSection",
           "combinedSearchResults",
           "loadFullPlaylistAlbum",
-          "skipPreviewTracks"
+          "skipPreviewTracks",
+          "addPlayedToHistory"
         ]
       },
       "content": [
@@ -72,6 +73,12 @@
           "element": "switch",
           "label": "TRANSLATE.SOUNDCLOUD_SKIP_PREVIEW_TRACKS",
           "value": false
+        },
+        {
+          "id": "addPlayedToHistory",
+          "element": "switch",
+          "label": "TRANSLATE.SOUNDCLOUD_ADD_PLAYED_TO_HISTORY",
+          "value": true
         }
       ]
     },

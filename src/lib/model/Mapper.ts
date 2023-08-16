@@ -33,7 +33,7 @@ export default class Mapper {
   }
 
   static async mapPlaylist(data: Playlist | SystemPlaylist) {
-    const { id, permalink, user, trackCount } = data;
+    const { permalink, user, trackCount } = data;
     let title, description;
     let type: 'playlist' | 'system-playlist';
 
@@ -50,7 +50,6 @@ export default class Mapper {
 
     const result: PlaylistEntity = {
       type,
-      id,
       title,
       description,
       thumbnail: await this.#getThumbnail(data),
@@ -59,6 +58,14 @@ export default class Mapper {
       tracks: [],
       trackCount: trackCount
     };
+
+    if (result.type === 'system-playlist' && data instanceof SystemPlaylist) {
+      result.id = data.id;
+      result.urn = data.apiInfo.urn;
+    }
+    else if (result.type === 'playlist' && data instanceof Playlist) {
+      result.id = data.id;
+    }
 
     return result;
   }
@@ -79,6 +86,7 @@ export default class Mapper {
     const result: TrackEntity = {
       type: 'track',
       id,
+      urn: data.apiInfo.urn,
       title: texts?.title,
       album,
       thumbnail: await this.#getThumbnail(data),

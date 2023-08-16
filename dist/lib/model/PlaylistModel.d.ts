@@ -15,7 +15,7 @@ export interface PlaylistModelGetPlaylistParams {
 }
 export default class PlaylistModel extends BaseModel {
     #private;
-    getPlaylists(params: PlaylistModelGetPlaylistsParams): Promise<import("./BaseModel").LoopFetchResult<PlaylistEntity>>;
+    getPlaylists(params: PlaylistModelGetPlaylistsParams): Promise<import("./BaseModel").LoopFetchResult<import("../entities/PlaylistEntity").RegularPlaylistEntity | import("../entities/PlaylistEntity").SystemPlaylistEntity>>;
     getPlaylist(playlistId: string | number, options?: PlaylistModelGetPlaylistParams): Promise<PlaylistEntity | null>;
 }
 //# sourceMappingURL=PlaylistModel.d.ts.map

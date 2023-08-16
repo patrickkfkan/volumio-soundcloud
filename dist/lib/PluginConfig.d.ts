@@ -12,6 +12,7 @@ export interface PluginConfigSchema {
     combinedSearchResults: PluginConfigSchemaEntry<number>;
     loadFullPlaylistAlbum: PluginConfigSchemaEntry<boolean>;
     skipPreviewTracks: PluginConfigSchemaEntry<boolean>;
+    addPlayedToHistory: PluginConfigSchemaEntry<boolean>;
     cacheMaxEntries: PluginConfigSchemaEntry<number>;
     cacheTTL: PluginConfigSchemaEntry<number>;
 }

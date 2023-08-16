@@ -1,8 +1,16 @@
 import SetEntity from './SetEntity';
 
-interface PlaylistEntity extends SetEntity {
-  type: 'playlist' | 'system-playlist';
-  id?: number | string;
+export interface RegularPlaylistEntity extends SetEntity {
+  type: 'playlist';
+  id?: number;
 }
+
+export interface SystemPlaylistEntity extends SetEntity {
+  type: 'system-playlist';
+  id?: string | null;
+  urn?: string | null;
+}
+
+type PlaylistEntity = RegularPlaylistEntity | SystemPlaylistEntity;
 
 export default PlaylistEntity;

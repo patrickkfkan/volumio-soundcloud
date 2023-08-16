@@ -48,7 +48,8 @@ class ControllerSoundCloud {
             const cacheUIConf = uiconf.sections[1];
             // General
             const localeOptions = __classPrivateFieldGet(this, _ControllerSoundCloud_instances, "m", _ControllerSoundCloud_configGetLocaleOptions).call(this);
-            generalUIConf.content[0].value = SoundCloudContext_1.default.getConfigValue('accessToken');
+            const accessToken = SoundCloudContext_1.default.getConfigValue('accessToken');
+            generalUIConf.content[0].value = accessToken;
             generalUIConf.content[1].value = localeOptions.selected;
             generalUIConf.content[1].options = localeOptions.options;
             generalUIConf.content[2].value = SoundCloudContext_1.default.getConfigValue('itemsPerPage');
@@ -56,6 +57,8 @@ class ControllerSoundCloud {
             generalUIConf.content[4].value = SoundCloudContext_1.default.getConfigValue('combinedSearchResults');
             generalUIConf.content[5].value = SoundCloudContext_1.default.getConfigValue('loadFullPlaylistAlbum');
             generalUIConf.content[6].value = SoundCloudContext_1.default.getConfigValue('skipPreviewTracks');
+            generalUIConf.content[7].value = SoundCloudContext_1.default.getConfigValue('addPlayedToHistory');
+            generalUIConf.content[7].hidden = !accessToken;
             // Cache
             const cacheMaxEntries = SoundCloudContext_1.default.getConfigValue('cacheMaxEntries');
             const cacheTTL = SoundCloudContext_1.default.getConfigValue('cacheTTL');
@@ -96,9 +99,11 @@ class ControllerSoundCloud {
         SoundCloudContext_1.default.setConfigValue('combinedSearchResults', combinedSearchResults);
         SoundCloudContext_1.default.setConfigValue('loadFullPlaylistAlbum', !!data['loadFullPlaylistAlbum']);
         SoundCloudContext_1.default.setConfigValue('skipPreviewTracks', !!data['skipPreviewTracks']);
+        SoundCloudContext_1.default.setConfigValue('addPlayedToHistory', !!data['addPlayedToHistory']);
         if (oldAccessToken !== newAccessToken) {
             model_1.default.setAccessToken(newAccessToken);
             SoundCloudContext_1.default.getCache().clear();
+            SoundCloudContext_1.default.refreshUIConfig();
         }
         SoundCloudContext_1.default.toast('success', SoundCloudContext_1.default.getI18n('SOUNDCLOUD_SETTINGS_SAVED'));
     }

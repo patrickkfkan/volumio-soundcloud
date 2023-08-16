@@ -52,11 +52,8 @@ export default class ExplodeHelper {
       name: 'track',
       trackId: data.id.toString()
     };
-    if (data.fromAlbumId) {
-      trackView.fromAlbumId = data.fromAlbumId;
-    }
-    else if (data.fromPlaylistId) {
-      trackView.fromPlaylistId = data.fromPlaylistId;
+    if (data.origin) {
+      trackView.origin = data.origin;
     }
     const uri = `soundcloud/${ViewHelper.constructUriSegmentFromView(trackView)}`;
     sc.getLogger().info(`[soundcloud] getTrackUri(): ${uri}`);

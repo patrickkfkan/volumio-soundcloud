@@ -6,7 +6,7 @@ export default class PlayController {
      * Track uri:
      * soundcloud/track@trackId=...
      */
-    clearAddPlayTrack(track: QueueItem): Promise<any>;
+    clearAddPlayTrack(track: QueueItem): Promise<void>;
     stop(): any;
     pause(): any;
     resume(): any;

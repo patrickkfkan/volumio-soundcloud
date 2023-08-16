@@ -45,7 +45,7 @@ class PlaylistModel extends BaseModel_1.default {
             else if (options.type !== 'system' && typeof playlistId === 'number') {
                 return this.getSoundCloudAPI().getPlaylistOrAlbum(playlistId);
             }
-            throw Error('[soundcloud] Failed to fetch playlist: playlistId type error.');
+            throw Error('Playlist ID has wrong type');
         });
         const playlist = info ? await Mapper_1.default.mapPlaylist(info) : null;
         if (options.loadTracks && playlist && info) {
@@ -85,7 +85,7 @@ _PlaylistModel_instances = new WeakSet(), _PlaylistModel_getPlaylistsFetchPromis
         };
         return SoundCloudContext_1.default.getCache().getOrSet(this.getCacheKeyForFetch('playlists', cacheKeyParams), () => api.getPlaylistsByUser(userId, queryParams));
     }
-    throw Error('[soundcloud] Failed to fetch playlists: no userId or search query specified');
+    throw Error('Missing or invalid criteria for playlists');
 }, _PlaylistModel_convertFetchedPlaylistToEntity = async function _PlaylistModel_convertFetchedPlaylistToEntity(item) {
     return Mapper_1.default.mapPlaylist(item);
 };
