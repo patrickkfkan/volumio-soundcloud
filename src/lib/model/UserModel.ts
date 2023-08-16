@@ -6,6 +6,7 @@ import Mapper from './Mapper';
 
 export interface UserModelGetUsersParams {
   search?: string;
+  myFollowing?: boolean;
   pageToken?: string;
   pageOffset?: number;
   limit?: number;
@@ -13,7 +14,7 @@ export interface UserModelGetUsersParams {
 
 interface GetUsersLoopFetchCallbackParams extends LoopFetchCallbackParams {
   search?: string;
-  userId?: number;
+  myFollowing?: boolean;
   topFeatured?: boolean;
 }
 
@@ -56,6 +57,16 @@ export default class UserModel extends BaseModel {
       return sc.getCache().getOrSet(
         this.getCacheKeyForFetch('users', cacheKeyParams),
         () => api.search(q, {...queryParams, type: 'user'})
+      );
+    }
+    else if (params.myFollowing) {
+      const cacheKeyParams = {
+        myFollowing: true,
+        ...queryParams
+      };
+      return sc.getCache().getOrSet(
+        this.getCacheKeyForFetch('users', cacheKeyParams),
+        () => api.me.getFollowing(queryParams)
       );
     }
     throw Error('Missing or invalid criteria for users');

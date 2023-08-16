@@ -15,6 +15,7 @@ export interface UserView extends View {
   name: 'users';
   userId?: string;
   search?: string;
+  myFollowing?: '1';
   combinedSearch?: '1';
   title?: string;
 }
@@ -28,7 +29,7 @@ export default class UserViewHandler extends ExplodableViewHandler<UserView> {
       return this.browseUser(Number(view.userId));
     }
 
-    const { pageRef, search, combinedSearch } = view;
+    const { pageRef, search, myFollowing, combinedSearch } = view;
     const pageToken = pageRef?.pageToken;
     const pageOffset = pageRef?.pageOffset;
 
@@ -44,6 +45,10 @@ export default class UserViewHandler extends ExplodableViewHandler<UserView> {
     if (search) {
       modelParams.search = search;
     }
+    else if (myFollowing) {
+      modelParams.myFollowing = true;
+    }
+
     if (search && combinedSearch) {
       modelParams.limit = sc.getConfigValue('combinedSearchResults');
     }
@@ -51,11 +56,12 @@ export default class UserViewHandler extends ExplodableViewHandler<UserView> {
       modelParams.limit = sc.getConfigValue('itemsPerPage');
     }
 
+    const title = myFollowing ? sc.getI18n('SOUNDCLOUD_LIST_TITLE_FOLLOWING') : sc.getI18n('SOUNDCLOUD_LIST_TITLE_USERS');
     const result = await this.getModel(ModelType.User).getUsers(modelParams);
     return this.buildPageFromLoopFetchResult(
       result,
       this.getRenderer(RendererType.User),
-      sc.getI18n('SOUNDCLOUD_LIST_TITLE_USERS')
+      title
     );
   }
 

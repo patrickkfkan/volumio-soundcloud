@@ -25,7 +25,7 @@ class UserViewHandler extends ExplodableViewHandler_1.default {
         if (view.userId) {
             return this.browseUser(Number(view.userId));
         }
-        const { pageRef, search, combinedSearch } = view;
+        const { pageRef, search, myFollowing, combinedSearch } = view;
         const pageToken = pageRef?.pageToken;
         const pageOffset = pageRef?.pageOffset;
         const modelParams = {};
@@ -38,14 +38,18 @@ class UserViewHandler extends ExplodableViewHandler_1.default {
         if (search) {
             modelParams.search = search;
         }
+        else if (myFollowing) {
+            modelParams.myFollowing = true;
+        }
         if (search && combinedSearch) {
             modelParams.limit = SoundCloudContext_1.default.getConfigValue('combinedSearchResults');
         }
         else {
             modelParams.limit = SoundCloudContext_1.default.getConfigValue('itemsPerPage');
         }
+        const title = myFollowing ? SoundCloudContext_1.default.getI18n('SOUNDCLOUD_LIST_TITLE_FOLLOWING') : SoundCloudContext_1.default.getI18n('SOUNDCLOUD_LIST_TITLE_USERS');
         const result = await this.getModel(model_1.ModelType.User).getUsers(modelParams);
-        return this.buildPageFromLoopFetchResult(result, this.getRenderer(renderers_1.RendererType.User), SoundCloudContext_1.default.getI18n('SOUNDCLOUD_LIST_TITLE_USERS'));
+        return this.buildPageFromLoopFetchResult(result, this.getRenderer(renderers_1.RendererType.User), title);
     }
     async browseUser(userId) {
         const albumView = {

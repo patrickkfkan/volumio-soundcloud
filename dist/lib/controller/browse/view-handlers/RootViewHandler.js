@@ -98,10 +98,21 @@ _RootViewHandler_instances = new WeakSet(), _RootViewHandler_getMe = async funct
             icon: 'fa fa-microphone',
             uri: `${this.uri}/${ViewHelper_1.default.constructUriSegmentFromView(libraryView)}`
         };
+        const userView = {
+            name: 'users',
+            myFollowing: '1'
+        };
+        const followingItem = {
+            service: 'soundcloud',
+            type: 'item-no-menu',
+            title: SoundCloudContext_1.default.getI18n('SOUNDCLOUD_FOLLOWING'),
+            icon: 'fa fa-users',
+            uri: `${this.uri}/${ViewHelper_1.default.constructUriSegmentFromView(userView)}`
+        };
         const meName = myProfile.firstName || myProfile.lastName || myProfile.username;
         const list = {
             title: SoundCloudContext_1.default.getI18n('SOUNDCLOUD_LIST_TITLE_WELCOME', meName),
-            items: [historyItem, likesItem, libraryPlaylistsItem, libraryAlbumsItem, libraryStationsItem],
+            items: [historyItem, likesItem, libraryPlaylistsItem, libraryAlbumsItem, libraryStationsItem, followingItem],
             availableListViews: ['grid', 'list']
         };
         return [list];

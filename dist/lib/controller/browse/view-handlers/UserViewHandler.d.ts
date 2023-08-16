@@ -5,6 +5,7 @@ export interface UserView extends View {
     name: 'users';
     userId?: string;
     search?: string;
+    myFollowing?: '1';
     combinedSearch?: '1';
     title?: string;
 }

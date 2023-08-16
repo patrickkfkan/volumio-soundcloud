@@ -59,6 +59,13 @@ _UserModel_instances = new WeakSet(), _UserModel_getUsersFetchPromise = async fu
         };
         return SoundCloudContext_1.default.getCache().getOrSet(this.getCacheKeyForFetch('users', cacheKeyParams), () => api.search(q, { ...queryParams, type: 'user' }));
     }
+    else if (params.myFollowing) {
+        const cacheKeyParams = {
+            myFollowing: true,
+            ...queryParams
+        };
+        return SoundCloudContext_1.default.getCache().getOrSet(this.getCacheKeyForFetch('users', cacheKeyParams), () => api.me.getFollowing(queryParams));
+    }
     throw Error('Missing or invalid criteria for users');
 }, _UserModel_convertFetchedUserToEntity = function _UserModel_convertFetchedUserToEntity(data) {
     return Mapper_1.default.mapUser(data);

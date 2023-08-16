@@ -6,6 +6,7 @@ import { HistoryView } from './HistoryViewHandler';
 import { LibraryView } from './LibraryViewHandler';
 import { SelectionView } from './SelectionViewHandler';
 import { TrackView } from './TrackViewHandler';
+import { UserView } from './UserViewHandler';
 import View from './View';
 import { RenderedList, RenderedPage } from './ViewHandler';
 import ViewHandlerFactory from './ViewHandlerFactory';
@@ -99,10 +100,22 @@ export default class RootViewHandler extends BaseViewHandler<RootView> {
         uri: `${this.uri}/${ViewHelper.constructUriSegmentFromView(libraryView)}`
       };
 
+      const userView: UserView = {
+        name: 'users',
+        myFollowing: '1'
+      };
+      const followingItem: RenderedListItem = {
+        service: 'soundcloud',
+        type: 'item-no-menu',
+        title: sc.getI18n('SOUNDCLOUD_FOLLOWING'),
+        icon: 'fa fa-users',
+        uri: `${this.uri}/${ViewHelper.constructUriSegmentFromView(userView)}`
+      };
+
       const meName = myProfile.firstName || myProfile.lastName || myProfile.username;
       const list: RenderedList = {
         title: sc.getI18n('SOUNDCLOUD_LIST_TITLE_WELCOME', meName),
-        items: [ historyItem, likesItem, libraryPlaylistsItem, libraryAlbumsItem, libraryStationsItem ],
+        items: [ historyItem, likesItem, libraryPlaylistsItem, libraryAlbumsItem, libraryStationsItem, followingItem ],
         availableListViews: [ 'grid', 'list' ]
       };
 

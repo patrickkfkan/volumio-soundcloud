@@ -2,6 +2,7 @@ import BaseModel from './BaseModel';
 import UserEntity from '../entities/UserEntity';
 export interface UserModelGetUsersParams {
     search?: string;
+    myFollowing?: boolean;
     pageToken?: string;
     pageOffset?: number;
     limit?: number;
