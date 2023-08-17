@@ -50,15 +50,15 @@ class ControllerSoundCloud {
             const localeOptions = __classPrivateFieldGet(this, _ControllerSoundCloud_instances, "m", _ControllerSoundCloud_configGetLocaleOptions).call(this);
             const accessToken = SoundCloudContext_1.default.getConfigValue('accessToken');
             generalUIConf.content[0].value = accessToken;
-            generalUIConf.content[1].value = localeOptions.selected;
-            generalUIConf.content[1].options = localeOptions.options;
-            generalUIConf.content[2].value = SoundCloudContext_1.default.getConfigValue('itemsPerPage');
-            generalUIConf.content[3].value = SoundCloudContext_1.default.getConfigValue('itemsPerSection');
-            generalUIConf.content[4].value = SoundCloudContext_1.default.getConfigValue('combinedSearchResults');
-            generalUIConf.content[5].value = SoundCloudContext_1.default.getConfigValue('loadFullPlaylistAlbum');
-            generalUIConf.content[6].value = SoundCloudContext_1.default.getConfigValue('skipPreviewTracks');
-            generalUIConf.content[7].value = SoundCloudContext_1.default.getConfigValue('addPlayedToHistory');
-            generalUIConf.content[7].hidden = !accessToken;
+            generalUIConf.content[2].value = localeOptions.selected;
+            generalUIConf.content[2].options = localeOptions.options;
+            generalUIConf.content[3].value = SoundCloudContext_1.default.getConfigValue('itemsPerPage');
+            generalUIConf.content[4].value = SoundCloudContext_1.default.getConfigValue('itemsPerSection');
+            generalUIConf.content[5].value = SoundCloudContext_1.default.getConfigValue('combinedSearchResults');
+            generalUIConf.content[6].value = SoundCloudContext_1.default.getConfigValue('loadFullPlaylistAlbum');
+            generalUIConf.content[7].value = SoundCloudContext_1.default.getConfigValue('skipPreviewTracks');
+            generalUIConf.content[8].value = SoundCloudContext_1.default.getConfigValue('addPlayedToHistory');
+            generalUIConf.content[8].hidden = !accessToken;
             // Cache
             const cacheMaxEntries = SoundCloudContext_1.default.getConfigValue('cacheMaxEntries');
             const cacheTTL = SoundCloudContext_1.default.getConfigValue('cacheTTL');

@@ -2,6 +2,7 @@
   "SOUNDCLOUD_CONFIGURATION": "SoundCloud Configuration",
   "SOUNDCLOUD_SECTION_GENERAL": "General Settings",
   "SOUNDCLOUD_ACCESS_TOKEN": "Access Token",
+  "SOUNDCLOUD_ACCESS_TOKEN_GUIDE": "Access Token Guide",
   "SOUNDCLOUD_LOCALE": "Locale",
   "SOUNDCLOUD_ITEMS_PER_PAGE": "Items per page",
   "SOUNDCLOUD_ITEMS_PER_SECTION": "Items per section",
@@ -60,5 +61,6 @@
   "SOUNDCLOUD_SKIP_PREVIEW_TRACK": "Skipping preview track {}",
   "SOUNDCLOUD_VISIT_LINK_PLAYLIST": "View this playlist on SoundCloud",
   "SOUNDCLOUD_VISIT_LINK_ALBUM": "View this album on SoundCloud",
-  "SOUNDCLOUD_VISIT_LINK_USER": "Visit {} on SoundCloud"
+  "SOUNDCLOUD_VISIT_LINK_USER": "Visit {} on SoundCloud",
+  "SOUNDCLOUD_DOC_ACCESS_TOKEN": "Provide an access token to gain access to your private resources such as your library"
 }

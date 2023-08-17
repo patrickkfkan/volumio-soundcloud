@@ -47,15 +47,15 @@ class ControllerSoundCloud {
         const localeOptions = this.#configGetLocaleOptions();
         const accessToken = sc.getConfigValue('accessToken');
         generalUIConf.content[0].value = accessToken;
-        generalUIConf.content[1].value = localeOptions.selected;
-        generalUIConf.content[1].options = localeOptions.options;
-        generalUIConf.content[2].value = sc.getConfigValue('itemsPerPage');
-        generalUIConf.content[3].value = sc.getConfigValue('itemsPerSection');
-        generalUIConf.content[4].value = sc.getConfigValue('combinedSearchResults');
-        generalUIConf.content[5].value = sc.getConfigValue('loadFullPlaylistAlbum');
-        generalUIConf.content[6].value = sc.getConfigValue('skipPreviewTracks');
-        generalUIConf.content[7].value = sc.getConfigValue('addPlayedToHistory');
-        generalUIConf.content[7].hidden = !accessToken;
+        generalUIConf.content[2].value = localeOptions.selected;
+        generalUIConf.content[2].options = localeOptions.options;
+        generalUIConf.content[3].value = sc.getConfigValue('itemsPerPage');
+        generalUIConf.content[4].value = sc.getConfigValue('itemsPerSection');
+        generalUIConf.content[5].value = sc.getConfigValue('combinedSearchResults');
+        generalUIConf.content[6].value = sc.getConfigValue('loadFullPlaylistAlbum');
+        generalUIConf.content[7].value = sc.getConfigValue('skipPreviewTracks');
+        generalUIConf.content[8].value = sc.getConfigValue('addPlayedToHistory');
+        generalUIConf.content[8].hidden = !accessToken;
 
         // Cache
         const cacheMaxEntries = sc.getConfigValue('cacheMaxEntries');

@@ -32,7 +32,17 @@
           "element": "input",
           "type": "text",
           "label": "TRANSLATE.SOUNDCLOUD_ACCESS_TOKEN",
+          "doc": "TRANSLATE.SOUNDCLOUD_DOC_ACCESS_TOKEN",
           "value": ""
+        },
+        {
+          "id": "accessTokenGuide",
+          "element": "button",
+          "label": "TRANSLATE.SOUNDCLOUD_ACCESS_TOKEN_GUIDE",
+          "onClick": {
+            "type": "openUrl",
+            "url": "https://github.com/patrickkfkan/soundcloud-fetch/wiki/How-to-obtain-an-access-token"
+          }
         },
         {
           "id": "locale",
