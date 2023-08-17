@@ -34,6 +34,11 @@ class BrowseController {
         }
         catch (error) {
             SoundCloudContext_1.default.getLogger().error(SoundCloudContext_1.default.getErrorMessage('[soundcloud] browseUri error:', error, true));
+            /**
+             * Toast error message despite chance it might not show up because Volumio
+             * pushes its generic 'No Results' toast which might overlay this one.
+             */
+            SoundCloudContext_1.default.toast('error', SoundCloudContext_1.default.getErrorMessage('', error, false));
             throw error;
         }
     }

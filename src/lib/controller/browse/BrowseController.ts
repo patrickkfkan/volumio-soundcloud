@@ -27,6 +27,11 @@ export default class BrowseController {
     }
     catch (error: any) {
       sc.getLogger().error(sc.getErrorMessage('[soundcloud] browseUri error:', error, true));
+      /**
+       * Toast error message despite chance it might not show up because Volumio
+       * pushes its generic 'No Results' toast which might overlay this one.
+       */
+      sc.toast('error', sc.getErrorMessage('', error, false));
       throw error;
     }
   }
