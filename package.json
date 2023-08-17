@@ -1,6 +1,6 @@
 {
   "name": "soundcloud",
-  "version": "1.0.0-dev",
+  "version": "1.0.0",
   "description": "Browse and play SoundCloud tracks",
   "main": "./dist/index.js",
   "scripts": {
@@ -49,7 +49,7 @@
     "kew": "^0.7.0",
     "md5": "^2.3.0",
     "node-cache": "^5.1.2",
-    "soundcloud-fetch": "file:../../soundcloud-stuff/soundcloud-fetch/tests/soundcloud-fetch-1.0.0-dev.tgz",
+    "soundcloud-fetch": "^1.0.0",
     "string-format": "^2.0.0",
     "v-conf": "^1.4.2"
   }
