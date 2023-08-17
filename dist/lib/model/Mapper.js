@@ -71,7 +71,8 @@ class Mapper {
         const transcodings = mediaInfo?.transcodings?.map((t) => ({
             url: t.url,
             protocol: t.protocol,
-            mimeType: t.mimeType
+            mimeType: t.mimeType,
+            quality: t.quality
         })) || [];
         const result = {
             type: 'track',

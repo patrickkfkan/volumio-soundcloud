@@ -80,7 +80,8 @@ export default class Mapper {
     const transcodings: TrackEntity['transcodings'] = mediaInfo?.transcodings?.map((t) => ({
       url: t.url,
       protocol: t.protocol,
-      mimeType: t.mimeType
+      mimeType: t.mimeType,
+      quality: t.quality
     })) || [];
 
     const result: TrackEntity = {

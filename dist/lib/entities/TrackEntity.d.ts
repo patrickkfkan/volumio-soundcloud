@@ -11,6 +11,7 @@ interface TrackEntity {
         url?: string | null;
         protocol?: string | null;
         mimeType?: string | null;
+        quality?: string | null;
     }[];
     user: UserEntity | null;
 }

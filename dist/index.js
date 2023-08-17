@@ -59,6 +59,8 @@ class ControllerSoundCloud {
             generalUIConf.content[7].value = SoundCloudContext_1.default.getConfigValue('skipPreviewTracks');
             generalUIConf.content[8].value = SoundCloudContext_1.default.getConfigValue('addPlayedToHistory');
             generalUIConf.content[8].hidden = !accessToken;
+            // Soundcloud-testing
+            generalUIConf.content[9].value = SoundCloudContext_1.default.getConfigValue('logTranscodings');
             // Cache
             const cacheMaxEntries = SoundCloudContext_1.default.getConfigValue('cacheMaxEntries');
             const cacheTTL = SoundCloudContext_1.default.getConfigValue('cacheTTL');
@@ -100,6 +102,8 @@ class ControllerSoundCloud {
         SoundCloudContext_1.default.setConfigValue('loadFullPlaylistAlbum', !!data['loadFullPlaylistAlbum']);
         SoundCloudContext_1.default.setConfigValue('skipPreviewTracks', !!data['skipPreviewTracks']);
         SoundCloudContext_1.default.setConfigValue('addPlayedToHistory', !!data['addPlayedToHistory']);
+        // Soundcloud-testing
+        SoundCloudContext_1.default.setConfigValue('logTranscodings', !!data['logTranscodings']);
         if (oldAccessToken !== newAccessToken) {
             model_1.default.setAccessToken(newAccessToken);
             SoundCloudContext_1.default.getCache().clear();

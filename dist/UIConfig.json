@@ -23,7 +23,8 @@
           "combinedSearchResults",
           "loadFullPlaylistAlbum",
           "skipPreviewTracks",
-          "addPlayedToHistory"
+          "addPlayedToHistory",
+          "logTranscodings"
         ]
       },
       "content": [
@@ -89,6 +90,13 @@
           "element": "switch",
           "label": "TRANSLATE.SOUNDCLOUD_ADD_PLAYED_TO_HISTORY",
           "value": true
+        },
+        {
+          "id": "logTranscodings",
+          "element": "switch",
+          "label": "TRANSLATE.SOUNDCLOUD_LOG_TRANSCODINGS",
+          "doc": "TRANSLATE.SOUNDCLOUD_DOC_LOG_TRANSCODINGS",
+          "value": false
         }
       ]
     },

@@ -15,6 +15,7 @@ export interface PluginConfigSchema {
     addPlayedToHistory: PluginConfigSchemaEntry<boolean>;
     cacheMaxEntries: PluginConfigSchemaEntry<number>;
     cacheTTL: PluginConfigSchemaEntry<number>;
+    logTranscodings: PluginConfigSchemaEntry<boolean>;
 }
 export declare const PLUGIN_CONFIG_SCHEMA: PluginConfigSchema;
 //# sourceMappingURL=PluginConfig.d.ts.map

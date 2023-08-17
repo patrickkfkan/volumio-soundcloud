@@ -17,6 +17,8 @@ export interface PluginConfigSchema {
   addPlayedToHistory: PluginConfigSchemaEntry<boolean>;
   cacheMaxEntries: PluginConfigSchemaEntry<number>;
   cacheTTL: PluginConfigSchemaEntry<number>;
+  // Soundcloud-testing
+  logTranscodings: PluginConfigSchemaEntry<boolean>;
 }
 
 export const PLUGIN_CONFIG_SCHEMA: PluginConfigSchema = {
@@ -29,5 +31,7 @@ export const PLUGIN_CONFIG_SCHEMA: PluginConfigSchema = {
   skipPreviewTracks: { defaultValue: false, json: false },
   addPlayedToHistory: { defaultValue: true, json: false },
   cacheMaxEntries: { defaultValue: 5000, json: false },
-  cacheTTL: { defaultValue: 1800, json: false }
+  cacheTTL: { defaultValue: 1800, json: false },
+  // Soundcloud-testing
+  logTranscodings: { defaultValue: false, json: false }
 };

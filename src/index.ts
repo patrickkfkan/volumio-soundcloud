@@ -57,6 +57,9 @@ class ControllerSoundCloud {
         generalUIConf.content[8].value = sc.getConfigValue('addPlayedToHistory');
         generalUIConf.content[8].hidden = !accessToken;
 
+        // Soundcloud-testing
+        generalUIConf.content[9].value = sc.getConfigValue('logTranscodings');
+
         // Cache
         const cacheMaxEntries = sc.getConfigValue('cacheMaxEntries');
         const cacheTTL = sc.getConfigValue('cacheTTL');
@@ -104,6 +107,8 @@ class ControllerSoundCloud {
     sc.setConfigValue('loadFullPlaylistAlbum', !!data['loadFullPlaylistAlbum']);
     sc.setConfigValue('skipPreviewTracks', !!data['skipPreviewTracks']);
     sc.setConfigValue('addPlayedToHistory', !!data['addPlayedToHistory']);
+    // Soundcloud-testing
+    sc.setConfigValue('logTranscodings', !!data['logTranscodings']);
 
     if (oldAccessToken !== newAccessToken) {
       Model.setAccessToken(newAccessToken);

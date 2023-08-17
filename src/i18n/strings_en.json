@@ -10,6 +10,7 @@
   "SOUNDCLOUD_LOAD_FULL_PLAYLIST_ALBUM": "Show all tracks in playlists and albums",
   "SOUNDCLOUD_SKIP_PREVIEW_TRACKS": "Skip playback of preview tracks",
   "SOUNDCLOUD_ADD_PLAYED_TO_HISTORY": "Add played tracks to history",
+  "SOUNDCLOUD_LOG_TRANSCODINGS": "Log transcodings",
   "SOUNDCLOUD_SAVE": "Save",
   "SOUNDCLOUD_SECTION_CACHE": "Cache",
   "SOUNDCLOUD_CACHE_STATS": "There are currently {} entries in cache, using approximately {} KB of memory.",
@@ -62,5 +63,6 @@
   "SOUNDCLOUD_VISIT_LINK_PLAYLIST": "View this playlist on SoundCloud",
   "SOUNDCLOUD_VISIT_LINK_ALBUM": "View this album on SoundCloud",
   "SOUNDCLOUD_VISIT_LINK_USER": "Visit {} on SoundCloud",
-  "SOUNDCLOUD_DOC_ACCESS_TOKEN": "Provide an access token to gain access to your private resources such as your library"
+  "SOUNDCLOUD_DOC_ACCESS_TOKEN": "Provide an access token to gain access to your private resources such as your library",
+  "SOUNDCLOUD_DOC_LOG_TRANSCODINGS": "For testing purpose to see if SoundCloud Go+ returns high-quality transcodings. Will be removed in future."
 }
