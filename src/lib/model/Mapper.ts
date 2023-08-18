@@ -92,6 +92,7 @@ export default class Mapper {
       album,
       thumbnail: await this.#getThumbnail(data),
       playableState,
+      duration: data.durations.playback,
       transcodings,
       user: user ? await this.mapUser(user) : null
     };

@@ -82,6 +82,7 @@ class Mapper {
             album,
             thumbnail: await __classPrivateFieldGet(this, _a, "m", _Mapper_getThumbnail).call(this, data),
             playableState,
+            duration: data.durations.playback,
             transcodings,
             user: user ? await this.mapUser(user) : null
         };
