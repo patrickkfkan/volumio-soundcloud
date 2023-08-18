@@ -128,10 +128,26 @@ _MeModel_instances = new WeakSet(), _MeModel_getLikesFetchPromise = async functi
 }, _MeModel_filterFetchedLibraryItem = function _MeModel_filterFetchedLibraryItem(item, params) {
     switch (params.type) {
         case 'album':
-            return item.itemType === 'Album' || item.itemType === 'AlbumLike';
+            const isCreatedAlbum = item.itemType === 'Album';
+            const isLikedAlbum = item.itemType === 'AlbumLike';
+            if (params.filter === 'created') {
+                return isCreatedAlbum;
+            }
+            else if (params.filter === 'liked') {
+                return isLikedAlbum;
+            }
+            return isCreatedAlbum || isLikedAlbum;
         case 'playlist':
-            return item.itemType === 'Playlist' || item.itemType === 'PlaylistLike' ||
+            const isCreatedPlaylist = item.itemType === 'Playlist';
+            const isLikedPlaylist = item.itemType === 'PlaylistLike' ||
                 (item.itemType === 'SystemPlaylistLike' && !__classPrivateFieldGet(this, _MeModel_instances, "m", _MeModel_isArtistStation).call(this, item));
+            if (params.filter === 'created') {
+                return isCreatedPlaylist;
+            }
+            else if (params.filter === 'liked') {
+                return isLikedPlaylist;
+            }
+            return isCreatedPlaylist || isLikedPlaylist;
         case 'station':
             return __classPrivateFieldGet(this, _MeModel_instances, "m", _MeModel_isArtistStation).call(this, item);
     }
