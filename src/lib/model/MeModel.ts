@@ -132,14 +132,7 @@ export default class MeModel extends BaseModel {
   }
 
   async #convertFetchedLibraryItemToEntity(item: LibraryItem): Promise<AlbumEntity | PlaylistEntity | null> {
-    const wrappedItem = item.item;
-    if (wrappedItem instanceof Album) {
-      return Mapper.mapAlbum(wrappedItem);
-    }
-    else if (wrappedItem instanceof Playlist || wrappedItem instanceof SystemPlaylist) {
-      return Mapper.mapPlaylist(wrappedItem);
-    }
-    return null;
+    return Mapper.mapLibraryItem(item);
   }
 
   async getMyProfile() {

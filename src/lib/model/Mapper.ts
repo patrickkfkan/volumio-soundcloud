@@ -1,4 +1,4 @@
-import { Album, EntityType, Playlist, Selection, SystemPlaylist, Track, User } from 'soundcloud-fetch';
+import { Album, EntityType, LibraryItem, Playlist, Selection, SystemPlaylist, Track, User } from 'soundcloud-fetch';
 import UserEntity from '../entities/UserEntity';
 import PlaylistEntity from '../entities/PlaylistEntity';
 import TrackEntity from '../entities/TrackEntity';
@@ -56,7 +56,8 @@ export default class Mapper {
       permalink: permalink?.full,
       user: user ? await this.mapUser(user) : null,
       tracks: [],
-      trackCount: trackCount
+      trackCount: trackCount,
+      isPublic: data.isPublic
     };
 
     if (result.type === 'system-playlist' && data instanceof SystemPlaylist) {
@@ -100,6 +101,23 @@ export default class Mapper {
     return result;
   }
 
+  static async mapLibraryItem(data: LibraryItem): Promise<AlbumEntity | PlaylistEntity | null> {
+    const wrappedItem = data.item;
+    let mappedSet;
+    if (wrappedItem instanceof Album) {
+      mappedSet = await this.mapAlbum(wrappedItem);
+    }
+    else if (wrappedItem instanceof Playlist || wrappedItem instanceof SystemPlaylist) {
+      mappedSet = await this.mapPlaylist(wrappedItem);
+    }
+    else {
+      return null;
+    }
+    mappedSet.isLiked = data.itemType === 'AlbumLike' || data.itemType === 'PlaylistLike' || data.itemType === 'SystemPlaylistLike';
+
+    return mappedSet;
+  }
+
   static async mapAlbum(data: Album) {
     const { id, permalink, user, trackCount } = data;
     const title = data.texts?.title;
@@ -114,7 +132,8 @@ export default class Mapper {
       permalink: permalink?.full,
       user: user ? await this.mapUser(user) : null,
       tracks: [],
-      trackCount
+      trackCount,
+      isPublic: data.isPublic
     };
 
     return result;

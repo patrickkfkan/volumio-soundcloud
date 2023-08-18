@@ -32,21 +32,20 @@ export default class LibraryViewHandler extends BaseViewHandler<LibraryView> {
     }
 
     const items = await this.getModel(ModelType.Me).getLibraryItems(modelParams);
-    const page = this.buildPageFromLoopFetchResult(
-      items,
-      this.#getRenderer.bind(this),
-      this.#getTitle()
-    );
+    const page = this.buildPageFromLoopFetchResult(items, {
+      render: this.#renderToListItem.bind(this),
+      title: this.#getTitle()
+    });
 
     return page;
   }
 
-  #getRenderer(item: AlbumEntity | PlaylistEntity) {
+  #renderToListItem(item: AlbumEntity | PlaylistEntity) {
     if (item.type === 'album') {
-      return this.getRenderer(RendererType.Album);
+      return this.getRenderer(RendererType.Album).renderToListItem(item, true);
     }
     else if (item.type === 'playlist' || item.type === 'system-playlist') {
-      return this.getRenderer(RendererType.Playlist);
+      return this.getRenderer(RendererType.Playlist).renderToListItem(item, true);
     }
     return null;
   }

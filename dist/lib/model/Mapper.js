@@ -51,7 +51,8 @@ class Mapper {
             permalink: permalink?.full,
             user: user ? await this.mapUser(user) : null,
             tracks: [],
-            trackCount: trackCount
+            trackCount: trackCount,
+            isPublic: data.isPublic
         };
         if (result.type === 'system-playlist' && data instanceof soundcloud_fetch_1.SystemPlaylist) {
             result.id = data.id;
@@ -88,6 +89,21 @@ class Mapper {
         };
         return result;
     }
+    static async mapLibraryItem(data) {
+        const wrappedItem = data.item;
+        let mappedSet;
+        if (wrappedItem instanceof soundcloud_fetch_1.Album) {
+            mappedSet = await this.mapAlbum(wrappedItem);
+        }
+        else if (wrappedItem instanceof soundcloud_fetch_1.Playlist || wrappedItem instanceof soundcloud_fetch_1.SystemPlaylist) {
+            mappedSet = await this.mapPlaylist(wrappedItem);
+        }
+        else {
+            return null;
+        }
+        mappedSet.isLiked = data.itemType === 'AlbumLike' || data.itemType === 'PlaylistLike' || data.itemType === 'SystemPlaylistLike';
+        return mappedSet;
+    }
     static async mapAlbum(data) {
         const { id, permalink, user, trackCount } = data;
         const title = data.texts?.title;
@@ -101,7 +117,8 @@ class Mapper {
             permalink: permalink?.full,
             user: user ? await this.mapUser(user) : null,
             tracks: [],
-            trackCount
+            trackCount,
+            isPublic: data.isPublic
         };
         return result;
     }

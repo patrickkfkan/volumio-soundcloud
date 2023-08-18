@@ -7,7 +7,7 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-var _LibraryViewHandler_instances, _LibraryViewHandler_getRenderer, _LibraryViewHandler_getTitle;
+var _LibraryViewHandler_instances, _LibraryViewHandler_renderToListItem, _LibraryViewHandler_getTitle;
 Object.defineProperty(exports, "__esModule", { value: true });
 const SoundCloudContext_1 = __importDefault(require("../../../SoundCloudContext"));
 const model_1 = require("../../../model");
@@ -33,17 +33,20 @@ class LibraryViewHandler extends BaseViewHandler_1.default {
             modelParams.pageOffset = pageRef.pageOffset;
         }
         const items = await this.getModel(model_1.ModelType.Me).getLibraryItems(modelParams);
-        const page = this.buildPageFromLoopFetchResult(items, __classPrivateFieldGet(this, _LibraryViewHandler_instances, "m", _LibraryViewHandler_getRenderer).bind(this), __classPrivateFieldGet(this, _LibraryViewHandler_instances, "m", _LibraryViewHandler_getTitle).call(this));
+        const page = this.buildPageFromLoopFetchResult(items, {
+            render: __classPrivateFieldGet(this, _LibraryViewHandler_instances, "m", _LibraryViewHandler_renderToListItem).bind(this),
+            title: __classPrivateFieldGet(this, _LibraryViewHandler_instances, "m", _LibraryViewHandler_getTitle).call(this)
+        });
         return page;
     }
 }
 exports.default = LibraryViewHandler;
-_LibraryViewHandler_instances = new WeakSet(), _LibraryViewHandler_getRenderer = function _LibraryViewHandler_getRenderer(item) {
+_LibraryViewHandler_instances = new WeakSet(), _LibraryViewHandler_renderToListItem = function _LibraryViewHandler_renderToListItem(item) {
     if (item.type === 'album') {
-        return this.getRenderer(renderers_1.RendererType.Album);
+        return this.getRenderer(renderers_1.RendererType.Album).renderToListItem(item, true);
     }
     else if (item.type === 'playlist' || item.type === 'system-playlist') {
-        return this.getRenderer(renderers_1.RendererType.Playlist);
+        return this.getRenderer(renderers_1.RendererType.Playlist).renderToListItem(item, true);
     }
     return null;
 }, _LibraryViewHandler_getTitle = function _LibraryViewHandler_getTitle() {

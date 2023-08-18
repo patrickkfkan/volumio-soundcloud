@@ -138,13 +138,6 @@ _MeModel_instances = new WeakSet(), _MeModel_getLikesFetchPromise = async functi
 }, _MeModel_isArtistStation = function _MeModel_isArtistStation(item) {
     return item.item instanceof soundcloud_fetch_1.SystemPlaylist && item.item.playlistType === 'artistStation';
 }, _MeModel_convertFetchedLibraryItemToEntity = async function _MeModel_convertFetchedLibraryItemToEntity(item) {
-    const wrappedItem = item.item;
-    if (wrappedItem instanceof soundcloud_fetch_1.Album) {
-        return Mapper_1.default.mapAlbum(wrappedItem);
-    }
-    else if (wrappedItem instanceof soundcloud_fetch_1.Playlist || wrappedItem instanceof soundcloud_fetch_1.SystemPlaylist) {
-        return Mapper_1.default.mapPlaylist(wrappedItem);
-    }
-    return null;
+    return Mapper_1.default.mapLibraryItem(item);
 };
 //# sourceMappingURL=MeModel.js.map
