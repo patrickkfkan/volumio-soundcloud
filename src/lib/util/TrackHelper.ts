@@ -33,8 +33,8 @@ export default class TrackHelper {
      * 'format' is optional - we return from primary filter results even if no match.
      */
     const preferred = [
-      { protocol: 'progressive', format: [ 'mp4' ], quality: 'hq' },
-      { protocol: 'hls', format: [ 'mp4' ], quality: 'hq' },
+      //{ protocol: 'progressive', format: [ 'mp4' ], quality: 'hq' },
+      //{ protocol: 'hls', format: [ 'mp4' ], quality: 'hq' },
       { protocol: 'progressive', format: [ 'mpeg' ], quality: 'sq' },
       // Despite having higher bitrates, 'hls' + 'mpeg' streams have seeking problems. So 'ogg' preferred.
       { protocol: 'hls', format: [ 'ogg', 'mpeg' ], quality: 'sq' }
