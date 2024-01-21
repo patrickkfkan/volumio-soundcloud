@@ -27,6 +27,7 @@ const PlayController_1 = __importDefault(require("./lib/controller/play/PlayCont
 const Misc_1 = require("./lib/util/Misc");
 const locales_json_1 = __importDefault(require("./assets/locales.json"));
 const model_1 = __importDefault(require("./lib/model"));
+const PluginConfig_1 = require("./lib/PluginConfig");
 class ControllerSoundCloud {
     constructor(context) {
         _ControllerSoundCloud_instances.add(this);
@@ -45,7 +46,8 @@ class ControllerSoundCloud {
         __classPrivateFieldGet(this, _ControllerSoundCloud_commandRouter, "f").i18nJson(`${__dirname}/i18n/strings_${langCode}.json`, `${__dirname}/i18n/strings_en.json`, `${__dirname}/UIConfig.json`)
             .then((uiconf) => {
             const generalUIConf = uiconf.sections[0];
-            const cacheUIConf = uiconf.sections[1];
+            const playbackConf = uiconf.sections[1];
+            const cacheUIConf = uiconf.sections[2];
             // General
             const localeOptions = __classPrivateFieldGet(this, _ControllerSoundCloud_instances, "m", _ControllerSoundCloud_configGetLocaleOptions).call(this);
             const accessToken = SoundCloudContext_1.default.getConfigValue('accessToken');
@@ -61,6 +63,26 @@ class ControllerSoundCloud {
             generalUIConf.content[8].hidden = !accessToken;
             // Soundcloud-testing
             generalUIConf.content[9].value = SoundCloudContext_1.default.getConfigValue('logTranscodings');
+            // Playback
+            const longStreamFormat = SoundCloudContext_1.default.getConfigValue('longStreamFormat');
+            playbackConf.content[0].options = [
+                {
+                    value: PluginConfig_1.LongStreamFormat.Opus,
+                    label: SoundCloudContext_1.default.getI18n('SOUNDCLOUD_LSF_HLS_OPUS')
+                },
+                {
+                    value: PluginConfig_1.LongStreamFormat.MP3,
+                    label: SoundCloudContext_1.default.getI18n('SOUNDCLOUD_LSF_HLS_MP3')
+                }
+            ];
+            switch (longStreamFormat) {
+                case PluginConfig_1.LongStreamFormat.Opus:
+                    playbackConf.content[0].value = playbackConf.content[0].options[0];
+                    break;
+                case PluginConfig_1.LongStreamFormat.MP3:
+                    playbackConf.content[0].value = playbackConf.content[0].options[1];
+                    break;
+            }
             // Cache
             const cacheMaxEntries = SoundCloudContext_1.default.getConfigValue('cacheMaxEntries');
             const cacheTTL = SoundCloudContext_1.default.getConfigValue('cacheTTL');
@@ -137,6 +159,13 @@ class ControllerSoundCloud {
         SoundCloudContext_1.default.getCache().setTTL(cacheTTL);
         SoundCloudContext_1.default.toast('success', SoundCloudContext_1.default.getI18n('SOUNDCLOUD_SETTINGS_SAVED'));
         SoundCloudContext_1.default.refreshUIConfig();
+    }
+    configSavePlaybackSettings(data) {
+        const longStreamFormat = data['longStreamFormat'].value;
+        if (longStreamFormat === PluginConfig_1.LongStreamFormat.Opus || longStreamFormat === PluginConfig_1.LongStreamFormat.MP3) {
+            SoundCloudContext_1.default.setConfigValue('longStreamFormat', longStreamFormat);
+            SoundCloudContext_1.default.toast('success', SoundCloudContext_1.default.getI18n('SOUNDCLOUD_SETTINGS_SAVED'));
+        }
     }
     configClearCache() {
         SoundCloudContext_1.default.getCache().clear();
