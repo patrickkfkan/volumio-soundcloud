@@ -28,7 +28,7 @@ class TrackHelper {
             SoundCloudContext_1.default.getLogger().info(JSON.stringify(track.transcodings));
         }
         const longStreamFormat = SoundCloudContext_1.default.getConfigValue('longStreamFormat');
-        const isLongStream = track.playableState === 'allowed' && track.duration && track.duration > 1800;
+        const isLongStream = track.playableState === 'allowed' && track.duration && (track.duration / 1000) > 1800;
         let transcodingUrl = null;
         /**
          * Primary filter is 'protocol' + 'quality'.

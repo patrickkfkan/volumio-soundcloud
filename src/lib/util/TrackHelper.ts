@@ -28,7 +28,7 @@ export default class TrackHelper {
     }
 
     const longStreamFormat = sc.getConfigValue('longStreamFormat');
-    const isLongStream = track.playableState === 'allowed' && track.duration && track.duration > 1800;
+    const isLongStream = track.playableState === 'allowed' && track.duration && (track.duration / 1000) > 1800;
 
     let transcodingUrl = null;
     /**
