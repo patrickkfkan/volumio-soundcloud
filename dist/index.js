@@ -58,14 +58,12 @@ class ControllerSoundCloud {
             generalUIConf.content[4].value = SoundCloudContext_1.default.getConfigValue('itemsPerSection');
             generalUIConf.content[5].value = SoundCloudContext_1.default.getConfigValue('combinedSearchResults');
             generalUIConf.content[6].value = SoundCloudContext_1.default.getConfigValue('loadFullPlaylistAlbum');
-            generalUIConf.content[7].value = SoundCloudContext_1.default.getConfigValue('skipPreviewTracks');
-            generalUIConf.content[8].value = SoundCloudContext_1.default.getConfigValue('addPlayedToHistory');
-            generalUIConf.content[8].hidden = !accessToken;
-            // Soundcloud-testing
-            generalUIConf.content[9].value = SoundCloudContext_1.default.getConfigValue('logTranscodings');
             // Playback
             const longStreamFormat = SoundCloudContext_1.default.getConfigValue('longStreamFormat');
-            playbackConf.content[0].options = [
+            playbackConf.content[0].value = SoundCloudContext_1.default.getConfigValue('skipPreviewTracks');
+            playbackConf.content[1].value = SoundCloudContext_1.default.getConfigValue('addPlayedToHistory');
+            playbackConf.content[1].hidden = !accessToken;
+            playbackConf.content[2].options = [
                 {
                     value: PluginConfig_1.LongStreamFormat.Opus,
                     label: SoundCloudContext_1.default.getI18n('SOUNDCLOUD_LSF_HLS_OPUS')
@@ -77,12 +75,14 @@ class ControllerSoundCloud {
             ];
             switch (longStreamFormat) {
                 case PluginConfig_1.LongStreamFormat.Opus:
-                    playbackConf.content[0].value = playbackConf.content[0].options[0];
+                    playbackConf.content[2].value = playbackConf.content[2].options[0];
                     break;
                 case PluginConfig_1.LongStreamFormat.MP3:
-                    playbackConf.content[0].value = playbackConf.content[0].options[1];
+                    playbackConf.content[2].value = playbackConf.content[2].options[1];
                     break;
             }
+            // Soundcloud-testing
+            playbackConf.content[3].value = SoundCloudContext_1.default.getConfigValue('logTranscodings');
             // Cache
             const cacheMaxEntries = SoundCloudContext_1.default.getConfigValue('cacheMaxEntries');
             const cacheTTL = SoundCloudContext_1.default.getConfigValue('cacheTTL');
@@ -126,10 +126,6 @@ class ControllerSoundCloud {
         SoundCloudContext_1.default.setConfigValue('itemsPerSection', itemsPerSection);
         SoundCloudContext_1.default.setConfigValue('combinedSearchResults', combinedSearchResults);
         SoundCloudContext_1.default.setConfigValue('loadFullPlaylistAlbum', !!data['loadFullPlaylistAlbum']);
-        SoundCloudContext_1.default.setConfigValue('skipPreviewTracks', !!data['skipPreviewTracks']);
-        SoundCloudContext_1.default.setConfigValue('addPlayedToHistory', !!data['addPlayedToHistory']);
-        // Soundcloud-testing
-        SoundCloudContext_1.default.setConfigValue('logTranscodings', !!data['logTranscodings']);
         if (accessTokenChanged || localeChanged) {
             SoundCloudContext_1.default.getCache().clear();
         }
@@ -161,11 +157,15 @@ class ControllerSoundCloud {
         SoundCloudContext_1.default.refreshUIConfig();
     }
     configSavePlaybackSettings(data) {
+        SoundCloudContext_1.default.setConfigValue('skipPreviewTracks', !!data['skipPreviewTracks']);
+        SoundCloudContext_1.default.setConfigValue('addPlayedToHistory', !!data['addPlayedToHistory']);
+        // Soundcloud-testing
+        SoundCloudContext_1.default.setConfigValue('logTranscodings', !!data['logTranscodings']);
         const longStreamFormat = data['longStreamFormat'].value;
         if (longStreamFormat === PluginConfig_1.LongStreamFormat.Opus || longStreamFormat === PluginConfig_1.LongStreamFormat.MP3) {
             SoundCloudContext_1.default.setConfigValue('longStreamFormat', longStreamFormat);
-            SoundCloudContext_1.default.toast('success', SoundCloudContext_1.default.getI18n('SOUNDCLOUD_SETTINGS_SAVED'));
         }
+        SoundCloudContext_1.default.toast('success', SoundCloudContext_1.default.getI18n('SOUNDCLOUD_SETTINGS_SAVED'));
     }
     configClearCache() {
         SoundCloudContext_1.default.getCache().clear();
