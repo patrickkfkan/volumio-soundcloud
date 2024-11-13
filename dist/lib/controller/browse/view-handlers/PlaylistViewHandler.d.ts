@@ -1,8 +1,8 @@
-import PlaylistEntity from '../../../entities/PlaylistEntity';
-import { LoopFetchResult } from '../../../model/BaseModel';
-import SetViewHandler, { SetView, SetViewHandlerGetSetsParams } from './SetViewHandler';
-import BaseRenderer from './renderers/BaseRenderer';
-import { TrackOrigin } from './TrackViewHandler';
+import type PlaylistEntity from '../../../entities/PlaylistEntity';
+import { type LoopFetchResult } from '../../../model/BaseModel';
+import SetViewHandler, { type SetView, type SetViewHandlerGetSetsParams } from './SetViewHandler';
+import type BaseRenderer from './renderers/BaseRenderer';
+import { type TrackOrigin } from './TrackViewHandler';
 export interface PlaylistView extends SetView {
     name: 'playlists';
     playlistId?: string;

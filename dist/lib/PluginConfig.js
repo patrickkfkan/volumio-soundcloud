@@ -5,7 +5,7 @@ var LongStreamFormat;
 (function (LongStreamFormat) {
     LongStreamFormat["Opus"] = "opus";
     LongStreamFormat["MP3"] = "mp3";
-})(LongStreamFormat = exports.LongStreamFormat || (exports.LongStreamFormat = {}));
+})(LongStreamFormat || (exports.LongStreamFormat = LongStreamFormat = {}));
 exports.PLUGIN_CONFIG_SCHEMA = {
     accessToken: { defaultValue: '', json: false },
     locale: { defaultValue: 'en', json: false },

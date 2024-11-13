@@ -1,8 +1,8 @@
-import AlbumEntity from '../../../entities/AlbumEntity';
-import { LoopFetchResult } from '../../../model/BaseModel';
-import SetViewHandler, { SetView, SetViewHandlerGetSetsParams } from './SetViewHandler';
-import { TrackOrigin } from './TrackViewHandler';
-import BaseRenderer from './renderers/BaseRenderer';
+import type AlbumEntity from '../../../entities/AlbumEntity';
+import { type LoopFetchResult } from '../../../model/BaseModel';
+import SetViewHandler, { type SetView, type SetViewHandlerGetSetsParams } from './SetViewHandler';
+import { type TrackOrigin } from './TrackViewHandler';
+import type BaseRenderer from './renderers/BaseRenderer';
 export interface AlbumView extends SetView {
     name: 'albums';
     albumId?: string;

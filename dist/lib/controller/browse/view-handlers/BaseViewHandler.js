@@ -56,8 +56,8 @@ class BaseViewHandler {
         __classPrivateFieldSet(this, _BaseViewHandler_models, {}, "f");
         __classPrivateFieldSet(this, _BaseViewHandler_renderers, {}, "f");
     }
-    async browse() {
-        return {};
+    browse() {
+        return Promise.resolve({});
     }
     explode() {
         throw Error('Operation not supported');
@@ -198,7 +198,6 @@ class BaseViewHandler {
         };
     }
 }
-exports.default = BaseViewHandler;
 _BaseViewHandler_uri = new WeakMap(), _BaseViewHandler_currentView = new WeakMap(), _BaseViewHandler_previousViews = new WeakMap(), _BaseViewHandler_models = new WeakMap(), _BaseViewHandler_renderers = new WeakMap(), _BaseViewHandler_instances = new WeakSet(), _BaseViewHandler_constructNextUri = function _BaseViewHandler_constructNextUri(nextPageRef) {
     const segments = __classPrivateFieldGet(this, _BaseViewHandler_previousViews, "f").map((view) => ViewHelper_1.default.constructUriSegmentFromView(view));
     const newView = {
@@ -216,7 +215,8 @@ _BaseViewHandler_uri = new WeakMap(), _BaseViewHandler_currentView = new WeakMap
     else {
         delete newView.prevPageRefs;
     }
-    segments.push(`${ViewHelper_1.default.constructUriSegmentFromView(newView, ['noExplode'])}`);
+    segments.push(ViewHelper_1.default.constructUriSegmentFromView(newView, ['noExplode']));
     return segments.join('/');
 };
+exports.default = BaseViewHandler;
 //# sourceMappingURL=BaseViewHandler.js.map

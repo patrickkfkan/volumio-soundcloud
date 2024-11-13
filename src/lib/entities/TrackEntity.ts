@@ -1,4 +1,4 @@
-import UserEntity from './UserEntity';
+import type UserEntity from './UserEntity';
 
 interface TrackEntity {
   type: 'track';

@@ -1,5 +1,5 @@
-import BaseModel, { LoopFetchResult } from './BaseModel';
-import TrackEntity from '../entities/TrackEntity';
+import BaseModel, { type LoopFetchResult } from './BaseModel';
+import type TrackEntity from '../entities/TrackEntity';
 export interface TrackModelGetTracksParams {
     search?: string;
     userId?: number;

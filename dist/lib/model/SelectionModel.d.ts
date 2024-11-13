@@ -1,5 +1,5 @@
-import BaseModel, { LoopFetchResult } from './BaseModel';
-import SelectionEntity from '../entities/SelectionEntity';
+import BaseModel, { type LoopFetchResult } from './BaseModel';
+import type SelectionEntity from '../entities/SelectionEntity';
 export interface SelectionModelGetSelectionsParams {
     mixed?: boolean;
 }

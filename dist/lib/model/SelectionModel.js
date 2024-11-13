@@ -34,7 +34,6 @@ class SelectionModel extends BaseModel_1.default {
         });
     }
 }
-exports.default = SelectionModel;
 _SelectionModel_instances = new WeakSet(), _SelectionModel_getSelectionsFetchPromise = function _SelectionModel_getSelectionsFetchPromise() {
     const api = this.getSoundCloudAPI();
     // Only mixed selections supported (without options)
@@ -44,4 +43,5 @@ _SelectionModel_instances = new WeakSet(), _SelectionModel_getSelectionsFetchPro
 }, _SelectionModel_convertFetchedSelectionToEntity = function _SelectionModel_convertFetchedSelectionToEntity(item) {
     return Mapper_1.default.mapSelection(item);
 };
+exports.default = SelectionModel;
 //# sourceMappingURL=SelectionModel.js.map

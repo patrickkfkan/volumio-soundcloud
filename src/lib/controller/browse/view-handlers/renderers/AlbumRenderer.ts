@@ -1,6 +1,6 @@
 import sc from '../../../../SoundCloudContext';
-import AlbumEntity from '../../../../entities/AlbumEntity';
-import { AlbumView } from '../AlbumViewHandler';
+import type AlbumEntity from '../../../../entities/AlbumEntity';
+import { type AlbumView } from '../AlbumViewHandler';
 import ViewHelper from '../ViewHelper';
 import SetRenderer from './SetRenderer';
 

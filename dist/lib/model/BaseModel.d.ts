@@ -1,4 +1,4 @@
-import SoundCloud, { Collection, EntityType } from 'soundcloud-fetch';
+import SoundCloud, { type Collection, type EntityType } from 'soundcloud-fetch';
 export interface LoopFetchParams<R, I, C extends LoopFetchCallbackParams, E, F extends LoopFetchResult<E>> extends LoopFetchCallbackParams {
     callbackParams?: C;
     getFetchPromise: (params: C) => Promise<R>;

@@ -42,7 +42,6 @@ class TrackModel extends BaseModel_1.default {
         return this.getSoundCloudAPI().getStreamingUrl(transcodingUrl);
     }
 }
-exports.default = TrackModel;
 _TrackModel_instances = new WeakSet(), _TrackModel_getTracksFetchPromise = async function _TrackModel_getTracksFetchPromise(params) {
     const api = this.getSoundCloudAPI();
     const continuationContents = await this.commonGetLoopFetchResultByPageToken(params);
@@ -89,4 +88,5 @@ _TrackModel_instances = new WeakSet(), _TrackModel_getTracksFetchPromise = async
     }
     return null;
 };
+exports.default = TrackModel;
 //# sourceMappingURL=TrackModel.js.map

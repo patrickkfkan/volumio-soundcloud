@@ -1,10 +1,10 @@
 import sc from '../../../SoundCloudContext';
 import { ModelType } from '../../../model';
 import BaseViewHandler from './BaseViewHandler';
-import View from './View';
-import { RenderedList, RenderedPage } from './ViewHandler';
+import type View from './View';
+import { type RenderedList, type RenderedPage } from './ViewHandler';
 import { RendererType } from './renderers';
-import { RenderedListItem } from './renderers/BaseRenderer';
+import { type RenderedListItem } from './renderers/BaseRenderer';
 
 export interface SelectionView extends View {
   name: 'selections';

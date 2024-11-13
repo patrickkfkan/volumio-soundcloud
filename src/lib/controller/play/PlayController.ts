@@ -6,12 +6,12 @@ import sc from '../../SoundCloudContext';
 import Model, { ModelType } from '../../model';
 import { kewToJSPromise } from '../../util/Misc';
 import TrackHelper from '../../util/TrackHelper';
-import { QueueItem } from '../browse/view-handlers/ExplodableViewHandler';
+import { type QueueItem } from '../browse/view-handlers/ExplodableViewHandler';
 import ViewHelper from '../browse/view-handlers/ViewHelper';
-import { PlaylistView } from '../browse/view-handlers/PlaylistViewHandler';
-import { AlbumView } from '../browse/view-handlers/AlbumViewHandler';
-import { UserView } from '../browse/view-handlers/UserViewHandler';
-import { TrackView } from '../browse/view-handlers/TrackViewHandler';
+import { type PlaylistView } from '../browse/view-handlers/PlaylistViewHandler';
+import { type AlbumView } from '../browse/view-handlers/AlbumViewHandler';
+import { type UserView } from '../browse/view-handlers/UserViewHandler';
+import { type TrackView } from '../browse/view-handlers/TrackViewHandler';
 
 export default class PlayController {
 

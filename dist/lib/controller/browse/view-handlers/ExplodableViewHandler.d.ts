@@ -1,7 +1,7 @@
-import TrackEntity from '../../../entities/TrackEntity';
+import type TrackEntity from '../../../entities/TrackEntity';
 import BaseViewHandler from './BaseViewHandler';
-import { TrackOrigin } from './TrackViewHandler';
-import View from './View';
+import { type TrackOrigin } from './TrackViewHandler';
+import type View from './View';
 export interface QueueItem {
     service: 'soundcloud';
     uri: string;

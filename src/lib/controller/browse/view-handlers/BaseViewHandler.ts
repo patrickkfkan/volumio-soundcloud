@@ -1,12 +1,16 @@
 import sc from '../../../SoundCloudContext';
-import Model, { ModelOf, ModelType } from '../../../model';
-import BaseModel, { LoopFetchResult } from '../../../model/BaseModel';
-import { QueueItem } from './ExplodableViewHandler';
-import View, { PageRef } from './View';
-import ViewHandler, { RenderedList, RenderedPage } from './ViewHandler';
+import Model, { type ModelOf, ModelType } from '../../../model';
+import {type LoopFetchResult} from '../../../model/BaseModel';
+import type BaseModel from '../../../model/BaseModel';
+import { type QueueItem } from './ExplodableViewHandler';
+import {type PageRef} from './View';
+import type View from './View';
+import {type RenderedList, type RenderedPage} from './ViewHandler';
+import type ViewHandler from './ViewHandler';
 import ViewHelper from './ViewHelper';
-import Renderer, { RendererOf, RendererType } from './renderers';
-import BaseRenderer, { RenderedListItem } from './renderers/BaseRenderer';
+import Renderer, { type RendererOf, RendererType } from './renderers';
+import {type RenderedListItem} from './renderers/BaseRenderer';
+import type BaseRenderer from './renderers/BaseRenderer';
 
 export type BuildPageFromLoopFetchResultParams<E> = ({
   renderer: BaseRenderer<E>,
@@ -40,8 +44,8 @@ export default class BaseViewHandler<V extends View> implements ViewHandler {
     this.#renderers = {};
   }
 
-  async browse(): Promise<RenderedPage> {
-    return {};
+  browse(): Promise<RenderedPage> {
+    return Promise.resolve({});
   }
 
   explode(): Promise<QueueItem[]> {
@@ -146,7 +150,7 @@ export default class BaseViewHandler<V extends View> implements ViewHandler {
       delete newView.prevPageRefs;
     }
 
-    segments.push(`${ViewHelper.constructUriSegmentFromView(newView, [ 'noExplode' ])}`);
+    segments.push(ViewHelper.constructUriSegmentFromView(newView, [ 'noExplode' ]));
 
     return segments.join('/');
   }

@@ -1,10 +1,10 @@
-import ExplodableViewHandler, { ExplodedTrackInfo } from './ExplodableViewHandler';
-import View from './View';
-import { RenderedPage } from './ViewHandler';
-import BaseRenderer from './renderers/BaseRenderer';
-import SetEntity from '../../../entities/SetEntity';
-import { LoopFetchResult } from '../../../model/BaseModel';
-import { TrackOrigin } from './TrackViewHandler';
+import ExplodableViewHandler, { type ExplodedTrackInfo } from './ExplodableViewHandler';
+import type View from './View';
+import { type RenderedPage } from './ViewHandler';
+import type BaseRenderer from './renderers/BaseRenderer';
+import type SetEntity from '../../../entities/SetEntity';
+import { type LoopFetchResult } from '../../../model/BaseModel';
+import { type TrackOrigin } from './TrackViewHandler';
 export interface SetView extends View {
     search?: string;
     userId?: string;

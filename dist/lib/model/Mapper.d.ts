@@ -1,9 +1,9 @@
-import { Album, LibraryItem, Playlist, Selection, SystemPlaylist, Track, User } from 'soundcloud-fetch';
-import UserEntity from '../entities/UserEntity';
-import PlaylistEntity from '../entities/PlaylistEntity';
-import TrackEntity from '../entities/TrackEntity';
-import AlbumEntity from '../entities/AlbumEntity';
-import SelectionEntity from '../entities/SelectionEntity';
+import { Album, type LibraryItem, Playlist, type Selection, SystemPlaylist, Track, User } from 'soundcloud-fetch';
+import type UserEntity from '../entities/UserEntity';
+import type PlaylistEntity from '../entities/PlaylistEntity';
+import type TrackEntity from '../entities/TrackEntity';
+import type AlbumEntity from '../entities/AlbumEntity';
+import type SelectionEntity from '../entities/SelectionEntity';
 export default class Mapper {
     #private;
     static mapUser(data: User): Promise<UserEntity>;

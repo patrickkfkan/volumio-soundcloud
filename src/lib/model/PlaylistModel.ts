@@ -1,9 +1,9 @@
 import sc from '../SoundCloudContext';
-import BaseModel, { LoopFetchCallbackParams } from './BaseModel';
-import { Playlist, Constants, SystemPlaylist } from 'soundcloud-fetch';
+import BaseModel, { type LoopFetchCallbackParams } from './BaseModel';
+import { type Playlist, Constants, type SystemPlaylist } from 'soundcloud-fetch';
 import Mapper from './Mapper';
 import TrackHelper from '../util/TrackHelper';
-import PlaylistEntity from '../entities/PlaylistEntity';
+import type PlaylistEntity from '../entities/PlaylistEntity';
 
 export interface PlaylistModelGetPlaylistsParams {
   search?: string;

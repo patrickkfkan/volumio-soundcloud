@@ -58,7 +58,6 @@ class PlaylistModel extends BaseModel_1.default {
         return playlist;
     }
 }
-exports.default = PlaylistModel;
 _PlaylistModel_instances = new WeakSet(), _PlaylistModel_getPlaylistsFetchPromise = async function _PlaylistModel_getPlaylistsFetchPromise(params) {
     const api = this.getSoundCloudAPI();
     const continuationContents = await this.commonGetLoopFetchResultByPageToken(params);
@@ -89,4 +88,5 @@ _PlaylistModel_instances = new WeakSet(), _PlaylistModel_getPlaylistsFetchPromis
 }, _PlaylistModel_convertFetchedPlaylistToEntity = async function _PlaylistModel_convertFetchedPlaylistToEntity(item) {
     return Mapper_1.default.mapPlaylist(item);
 };
+exports.default = PlaylistModel;
 //# sourceMappingURL=PlaylistModel.js.map

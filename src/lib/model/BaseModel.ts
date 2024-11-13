@@ -1,6 +1,6 @@
 import md5 from 'md5';
 import sc from '../SoundCloudContext';
-import SoundCloud, { Collection, CollectionContinuation, EntityType } from 'soundcloud-fetch';
+import SoundCloud, { type Collection, CollectionContinuation, type EntityType } from 'soundcloud-fetch';
 
 export interface LoopFetchParams<R, I, C extends LoopFetchCallbackParams, E, F extends LoopFetchResult<E>> extends LoopFetchCallbackParams {
   callbackParams?: C;

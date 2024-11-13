@@ -1,4 +1,4 @@
-import View from './View';
+import type View from './View';
 export default class ViewHelper {
     static getViewsFromUri(uri: string): View[];
     static constructUriSegmentFromView<V extends View>(view: V, keepFlags?: boolean | Array<keyof typeof view>): string;

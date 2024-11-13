@@ -274,6 +274,9 @@ class ControllerSoundCloud {
                 }
                 defer.resolve(__classPrivateFieldGet(this, _ControllerSoundCloud_browseController, "f").browseUri(uri));
             }
+        })
+            .catch((error) => {
+            defer.reject(error);
         });
         return defer.promise;
     }

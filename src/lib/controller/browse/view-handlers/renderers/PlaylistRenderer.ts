@@ -1,6 +1,6 @@
 import sc from '../../../../SoundCloudContext';
-import PlaylistEntity from '../../../../entities/PlaylistEntity';
-import { PlaylistView } from '../PlaylistViewHandler';
+import type PlaylistEntity from '../../../../entities/PlaylistEntity';
+import { type PlaylistView } from '../PlaylistViewHandler';
 import ViewHelper from '../ViewHelper';
 import SetRenderer from './SetRenderer';
 

@@ -46,7 +46,6 @@ class AlbumViewHandler extends SetViewHandler_1.default {
         return null;
     }
 }
-exports.default = AlbumViewHandler;
 _AlbumViewHandler_instances = new WeakSet(), _AlbumViewHandler_getAlbum = async function _AlbumViewHandler_getAlbum(albumId) {
     const { pageRef } = this.currentView;
     const pageToken = pageRef?.pageToken;
@@ -68,4 +67,5 @@ _AlbumViewHandler_instances = new WeakSet(), _AlbumViewHandler_getAlbum = async 
         tracksLimit: modelParams.tracksLimit
     };
 };
+exports.default = AlbumViewHandler;
 //# sourceMappingURL=AlbumViewHandler.js.map

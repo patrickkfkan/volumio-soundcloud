@@ -1,6 +1,6 @@
-import ExplodableViewHandler, { ExplodedTrackInfo } from './ExplodableViewHandler';
-import View from './View';
-import { RenderedPage } from './ViewHandler';
+import ExplodableViewHandler, { type ExplodedTrackInfo } from './ExplodableViewHandler';
+import type View from './View';
+import { type RenderedPage } from './ViewHandler';
 export interface UserView extends View {
     name: 'users';
     userId?: string;

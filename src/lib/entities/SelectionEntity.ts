@@ -1,4 +1,4 @@
-import PlaylistEntity from './PlaylistEntity';
+import type PlaylistEntity from './PlaylistEntity';
 
 interface SelectionEntity {
   type: 'selection';

@@ -1,12 +1,12 @@
 import sc from '../../../SoundCloudContext';
-import PlaylistEntity from '../../../entities/PlaylistEntity';
+import type PlaylistEntity from '../../../entities/PlaylistEntity';
 import { ModelType } from '../../../model';
-import { PlaylistModelGetPlaylistParams } from '../../../model/PlaylistModel';
-import { LoopFetchResult } from '../../../model/BaseModel';
-import SetViewHandler, { SetView, SetViewHandlerGetSetsParams } from './SetViewHandler';
+import { type PlaylistModelGetPlaylistParams } from '../../../model/PlaylistModel';
+import { type LoopFetchResult } from '../../../model/BaseModel';
+import SetViewHandler, { type SetView, type SetViewHandlerGetSetsParams } from './SetViewHandler';
 import { RendererType } from './renderers';
-import BaseRenderer from './renderers/BaseRenderer';
-import { TrackOrigin } from './TrackViewHandler';
+import type BaseRenderer from './renderers/BaseRenderer';
+import { type TrackOrigin } from './TrackViewHandler';
 
 export interface PlaylistView extends SetView {
   name: 'playlists';

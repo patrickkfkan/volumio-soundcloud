@@ -39,7 +39,6 @@ class RootViewHandler extends BaseViewHandler_1.default {
         };
     }
 }
-exports.default = RootViewHandler;
 _RootViewHandler_instances = new WeakSet(), _RootViewHandler_getMe = async function _RootViewHandler_getMe() {
     let myProfile;
     try {
@@ -226,4 +225,5 @@ _RootViewHandler_instances = new WeakSet(), _RootViewHandler_getMe = async funct
         items: listItems
     };
 };
+exports.default = RootViewHandler;
 //# sourceMappingURL=RootViewHandler.js.map

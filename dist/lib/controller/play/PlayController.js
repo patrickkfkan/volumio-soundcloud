@@ -170,7 +170,6 @@ class PlayController {
         return 'soundcloud';
     }
 }
-exports.default = PlayController;
 _PlayController_mpdPlugin = new WeakMap(), _PlayController_instances = new WeakSet(), _PlayController_doPlay = function _PlayController_doPlay(streamUrl, track) {
     const mpdPlugin = __classPrivateFieldGet(this, _PlayController_mpdPlugin, "f");
     return (0, Misc_1.kewToJSPromise)(mpdPlugin.sendMpdCommand('stop', [])
@@ -211,4 +210,5 @@ _PlayController_mpdPlugin = new WeakMap(), _PlayController_instances = new WeakS
 }, _PlayController_stripNewLine = function _PlayController_stripNewLine(str) {
     return str.replace(/(\r\n|\n|\r)/gm, '');
 };
+exports.default = PlayController;
 //# sourceMappingURL=PlayController.js.map

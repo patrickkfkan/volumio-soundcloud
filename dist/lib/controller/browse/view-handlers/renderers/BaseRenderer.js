@@ -21,7 +21,6 @@ class BaseRenderer {
         __classPrivateFieldSet(this, _BaseRenderer_currentView, currentView, "f");
         __classPrivateFieldSet(this, _BaseRenderer_previousViews, previousViews, "f");
     }
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     renderToHeader(data) {
         return null;
     }
@@ -41,6 +40,6 @@ class BaseRenderer {
         return '/albumart?sourceicon=music_service/soundcloud/dist/assets/images/avatar.png';
     }
 }
-exports.default = BaseRenderer;
 _BaseRenderer_uri = new WeakMap(), _BaseRenderer_currentView = new WeakMap(), _BaseRenderer_previousViews = new WeakMap();
+exports.default = BaseRenderer;
 //# sourceMappingURL=BaseRenderer.js.map

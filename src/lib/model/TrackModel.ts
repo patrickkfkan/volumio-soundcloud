@@ -1,9 +1,9 @@
 'use strict';
 
-import { Constants, Track } from 'soundcloud-fetch';
-import BaseModel, { LoopFetchCallbackParams, LoopFetchResult } from './BaseModel';
+import { Constants, type Track } from 'soundcloud-fetch';
+import BaseModel, { type LoopFetchCallbackParams, type LoopFetchResult } from './BaseModel';
 import sc from '../SoundCloudContext';
-import TrackEntity from '../entities/TrackEntity';
+import type TrackEntity from '../entities/TrackEntity';
 import Mapper from './Mapper';
 import TrackHelper from '../util/TrackHelper';
 

@@ -1,7 +1,7 @@
-import BaseModel, { LoopFetchResult } from './BaseModel';
-import TrackEntity from '../entities/TrackEntity';
-import PlaylistEntity from '../entities/PlaylistEntity';
-import AlbumEntity from '../entities/AlbumEntity';
+import BaseModel, { type LoopFetchResult } from './BaseModel';
+import type TrackEntity from '../entities/TrackEntity';
+import type PlaylistEntity from '../entities/PlaylistEntity';
+import type AlbumEntity from '../entities/AlbumEntity';
 export interface HistoryModelGetPlayHistoryItemsParams {
     pageToken?: string;
     pageOffset?: number;

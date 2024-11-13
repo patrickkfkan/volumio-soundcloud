@@ -37,6 +37,7 @@ class SoundCloudContext {
         __classPrivateFieldSet(this, _SoundCloudContext_i18CallbackRegistered, false, "f");
         __classPrivateFieldSet(this, _SoundCloudContext_cache, null, "f");
     }
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-parameters
     set(key, value) {
         __classPrivateFieldGet(this, _SoundCloudContext_data, "f")[key] = value;
     }

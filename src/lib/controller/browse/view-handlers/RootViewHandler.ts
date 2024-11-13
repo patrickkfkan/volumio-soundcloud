@@ -1,18 +1,18 @@
 import sc from '../../../SoundCloudContext';
-import SelectionEntity from '../../../entities/SelectionEntity';
+import type SelectionEntity from '../../../entities/SelectionEntity';
 import { ModelType } from '../../../model';
 import BaseViewHandler from './BaseViewHandler';
-import { HistoryView } from './HistoryViewHandler';
-import { LibraryView } from './LibraryViewHandler';
-import { SelectionView } from './SelectionViewHandler';
-import { TrackView } from './TrackViewHandler';
-import { UserView } from './UserViewHandler';
-import View from './View';
-import { RenderedList, RenderedPage } from './ViewHandler';
+import { type HistoryView } from './HistoryViewHandler';
+import { type LibraryView } from './LibraryViewHandler';
+import { type SelectionView } from './SelectionViewHandler';
+import { type TrackView } from './TrackViewHandler';
+import { type UserView } from './UserViewHandler';
+import type View from './View';
+import { type RenderedList, type RenderedPage } from './ViewHandler';
 import ViewHandlerFactory from './ViewHandlerFactory';
 import ViewHelper from './ViewHelper';
 import { RendererType } from './renderers';
-import { RenderedListItem } from './renderers/BaseRenderer';
+import { type RenderedListItem } from './renderers/BaseRenderer';
 
 export type RootView = View;
 

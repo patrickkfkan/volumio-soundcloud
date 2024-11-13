@@ -21,7 +21,7 @@ var ModelType;
     ModelType["User"] = "User";
     ModelType["History"] = "History";
     ModelType["Me"] = "Me";
-})(ModelType = exports.ModelType || (exports.ModelType = {}));
+})(ModelType || (exports.ModelType = ModelType = {}));
 const MODEL_TYPE_TO_CLASS = {
     [ModelType.Album]: AlbumModel_1.default,
     [ModelType.Playlist]: PlaylistModel_1.default,
@@ -36,7 +36,7 @@ class Model {
         if (MODEL_TYPE_TO_CLASS[type]) {
             return new MODEL_TYPE_TO_CLASS[type]();
         }
-        throw Error(`Model not found for type ${ModelType}`);
+        throw Error(`Model not found for type ${String(type)}`);
     }
     static setAccessToken(value) {
         BaseModel_1.default.setAccessToken(value);

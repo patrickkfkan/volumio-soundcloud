@@ -34,8 +34,8 @@ class Mapper {
         let title, description;
         let type;
         if (data instanceof soundcloud_fetch_1.SystemPlaylist) {
-            title = data.texts?.title?.full;
-            description = data.texts?.description?.full;
+            title = (data).texts?.title?.full;
+            description = (data).texts?.description?.full;
             type = 'system-playlist';
         }
         else {
@@ -138,7 +138,6 @@ class Mapper {
         return result;
     }
 }
-exports.default = Mapper;
 _a = Mapper, _Mapper_getThumbnail = async function _Mapper_getThumbnail(data) {
     let artwork;
     if (data instanceof soundcloud_fetch_1.User) {
@@ -170,4 +169,5 @@ _a = Mapper, _Mapper_getThumbnail = async function _Mapper_getThumbnail(data) {
     }
     return null;
 };
+exports.default = Mapper;
 //# sourceMappingURL=Mapper.js.map

@@ -1,9 +1,9 @@
-import I18nSchema from '../i18n/strings_en.json';
+import type I18nSchema from '../i18n/strings_en.json';
 import format from 'string-format';
 import fs from 'fs-extra';
-import winston from 'winston';
+import type winston from 'winston';
 import Cache from './util/Cache';
-import { PLUGIN_CONFIG_SCHEMA, PluginConfigKey, PluginConfigValue } from './PluginConfig';
+import { PLUGIN_CONFIG_SCHEMA, type PluginConfigKey, type PluginConfigValue } from './PluginConfig';
 
 export type I18nKey = keyof typeof I18nSchema;
 
@@ -28,10 +28,12 @@ class SoundCloudContext {
     this.#cache = null;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-parameters
   set<T>(key: string, value: T) {
     this.#data[key] = value;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-parameters
   get<T>(key: string): T | null;
   get<T>(key: string, defaultValue: T): T;
   get<T>(key: string, defaultValue?: T): T | null {
@@ -83,7 +85,7 @@ class SoundCloudContext {
     return result.trim();
   }
 
-  hasConfigKey<T extends PluginConfigKey>(key: T): boolean {
+  hasConfigKey(key: PluginConfigKey): boolean {
     return this.#pluginConfig.has(key);
   }
 

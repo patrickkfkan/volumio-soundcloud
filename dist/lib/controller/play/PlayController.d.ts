@@ -1,4 +1,4 @@
-import { QueueItem } from '../browse/view-handlers/ExplodableViewHandler';
+import { type QueueItem } from '../browse/view-handlers/ExplodableViewHandler';
 export default class PlayController {
     #private;
     constructor();

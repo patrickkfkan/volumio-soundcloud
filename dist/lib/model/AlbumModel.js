@@ -50,7 +50,6 @@ class AlbumModel extends BaseModel_1.default {
         return album;
     }
 }
-exports.default = AlbumModel;
 _AlbumModel_instances = new WeakSet(), _AlbumModel_getAlbumsFetchPromise = async function _AlbumModel_getAlbumsFetchPromise(params) {
     const api = this.getSoundCloudAPI();
     const continuationContents = await this.commonGetLoopFetchResultByPageToken(params);
@@ -81,4 +80,5 @@ _AlbumModel_instances = new WeakSet(), _AlbumModel_getAlbumsFetchPromise = async
 }, _AlbumModel_convertFetchedAlbumToEntity = function _AlbumModel_convertFetchedAlbumToEntity(item) {
     return Mapper_1.default.mapAlbum(item);
 };
+exports.default = AlbumModel;
 //# sourceMappingURL=AlbumModel.js.map

@@ -1,13 +1,14 @@
 import sc from '../../../SoundCloudContext';
 import { ModelType } from '../../../model';
-import ExplodableViewHandler, { ExplodedTrackInfo } from './ExplodableViewHandler';
-import View from './View';
-import { RenderedList, RenderedPage } from './ViewHandler';
+import ExplodableViewHandler, { type ExplodedTrackInfo } from './ExplodableViewHandler';
+import type View from './View';
+import { type RenderedList, type RenderedPage } from './ViewHandler';
 import { RendererType } from './renderers';
-import BaseRenderer, { RenderedListItem } from './renderers/BaseRenderer';
-import SetEntity from '../../../entities/SetEntity';
-import { LoopFetchResult } from '../../../model/BaseModel';
-import { TrackOrigin } from './TrackViewHandler';
+import {type RenderedListItem} from './renderers/BaseRenderer';
+import type BaseRenderer from './renderers/BaseRenderer';
+import type SetEntity from '../../../entities/SetEntity';
+import { type LoopFetchResult } from '../../../model/BaseModel';
+import { type TrackOrigin } from './TrackViewHandler';
 
 export interface SetView extends View {
   search?: string;

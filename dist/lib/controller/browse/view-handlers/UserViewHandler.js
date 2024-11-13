@@ -125,9 +125,9 @@ class UserViewHandler extends ExplodableViewHandler_1.default {
         return tracks.items;
     }
 }
-exports.default = UserViewHandler;
 _UserViewHandler_instances = new WeakSet(), _UserViewHandler_doFetch = function _UserViewHandler_doFetch(uri) {
     const handler = ViewHandlerFactory_1.default.getHandler(uri);
     return handler.browse();
 };
+exports.default = UserViewHandler;
 //# sourceMappingURL=UserViewHandler.js.map

@@ -46,7 +46,7 @@ class BaseModel {
         _BaseModel_instances.add(this);
     }
     getSoundCloudAPI() {
-        return __classPrivateFieldGet(BaseModel, _a, "m", _BaseModel_doGetSoundCloudAPI).call(BaseModel);
+        return __classPrivateFieldGet(_a, _a, "m", _BaseModel_doGetSoundCloudAPI).call(_a);
     }
     static setAccessToken(value) {
         const api = __classPrivateFieldGet(this, _a, "m", _BaseModel_doGetSoundCloudAPI).call(this);
@@ -54,7 +54,7 @@ class BaseModel {
         __classPrivateFieldSet(this, _a, !!value, "f", _BaseModel_hasAccessToken);
     }
     hasAccessToken() {
-        return __classPrivateFieldGet(BaseModel, _a, "f", _BaseModel_hasAccessToken);
+        return __classPrivateFieldGet(_a, _a, "f", _BaseModel_hasAccessToken);
     }
     static setLocale(value) {
         const api = __classPrivateFieldGet(this, _a, "m", _BaseModel_doGetSoundCloudAPI).call(this);
@@ -96,12 +96,11 @@ class BaseModel {
         return null;
     }
 }
-exports.default = BaseModel;
 _a = BaseModel, _BaseModel_instances = new WeakSet(), _BaseModel_doGetSoundCloudAPI = function _BaseModel_doGetSoundCloudAPI() {
-    if (!__classPrivateFieldGet(BaseModel, _a, "f", _BaseModel_api)) {
-        __classPrivateFieldSet(BaseModel, _a, new soundcloud_fetch_1.default(), "f", _BaseModel_api);
+    if (!__classPrivateFieldGet(_a, _a, "f", _BaseModel_api)) {
+        __classPrivateFieldSet(_a, _a, new soundcloud_fetch_1.default(), "f", _BaseModel_api);
     }
-    return __classPrivateFieldGet(BaseModel, _a, "f", _BaseModel_api);
+    return __classPrivateFieldGet(_a, _a, "f", _BaseModel_api);
 }, _BaseModel_doLoopFetch = async function _BaseModel_doLoopFetch(params, currentList = [], iteration = 1) {
     const pageOffset = params.pageOffset || 0;
     const limit = params.limit || 47;
@@ -181,4 +180,5 @@ _a = BaseModel, _BaseModel_instances = new WeakSet(), _BaseModel_doGetSoundCloud
 BaseModel.queryMaxLimit = 50;
 _BaseModel_api = { value: void 0 };
 _BaseModel_hasAccessToken = { value: false };
+exports.default = BaseModel;
 //# sourceMappingURL=BaseModel.js.map

@@ -45,7 +45,6 @@ class ExplodeHelper {
         return result;
     }
 }
-exports.default = ExplodeHelper;
 _a = ExplodeHelper, _ExplodeHelper_getTrackUri = function _ExplodeHelper_getTrackUri(data) {
     if (data.id === undefined) {
         return null;
@@ -61,4 +60,5 @@ _a = ExplodeHelper, _ExplodeHelper_getTrackUri = function _ExplodeHelper_getTrac
     SoundCloudContext_1.default.getLogger().info(`[soundcloud] getTrackUri(): ${uri}`);
     return uri;
 };
+exports.default = ExplodeHelper;
 //# sourceMappingURL=ExplodeHelper.js.map

@@ -1,4 +1,4 @@
-import SetEntity from './SetEntity';
+import type SetEntity from './SetEntity';
 
 interface AlbumEntity extends SetEntity {
   type: 'album';

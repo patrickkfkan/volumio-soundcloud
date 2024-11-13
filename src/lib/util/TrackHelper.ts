@@ -1,6 +1,6 @@
 import { LongStreamFormat } from '../PluginConfig';
 import sc from '../SoundCloudContext';
-import TrackEntity from '../entities/TrackEntity';
+import type TrackEntity from '../entities/TrackEntity';
 
 export default class TrackHelper {
 

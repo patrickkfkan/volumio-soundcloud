@@ -1,8 +1,8 @@
 import sc from '../SoundCloudContext';
-import BaseModel, { LoopFetchResult } from './BaseModel';
-import { Selection, Collection } from 'soundcloud-fetch';
+import BaseModel, { type LoopFetchResult } from './BaseModel';
+import { type Selection, type Collection } from 'soundcloud-fetch';
 import Mapper from './Mapper';
-import SelectionEntity from '../entities/SelectionEntity';
+import type SelectionEntity from '../entities/SelectionEntity';
 
 export interface SelectionModelGetSelectionsParams {
   mixed?: boolean;

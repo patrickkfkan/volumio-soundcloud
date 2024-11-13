@@ -7,10 +7,10 @@ import vconf from 'v-conf';
 
 import sc from './lib/SoundCloudContext';
 import BrowseController from './lib/controller/browse/BrowseController';
-import SearchController, { SearchQuery } from './lib/controller/search/SearchController';
+import SearchController, { type SearchQuery } from './lib/controller/search/SearchController';
 import PlayController from './lib/controller/play/PlayController';
 import { jsPromiseToKew } from './lib/util/Misc';
-import { QueueItem } from './lib/controller/browse/view-handlers/ExplodableViewHandler';
+import { type QueueItem } from './lib/controller/browse/view-handlers/ExplodableViewHandler';
 import locales from './assets/locales.json';
 import Model from './lib/model';
 import { LongStreamFormat } from './lib/PluginConfig';
@@ -342,6 +342,9 @@ class ControllerSoundCloud {
         }
         defer.resolve(this.#browseController.browseUri(uri));
       }
+    })
+    .catch((error: unknown) => {
+      defer.reject(error);
     });
 
     return defer.promise;
