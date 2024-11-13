@@ -24,6 +24,9 @@ If you come across an album that you like, consider purchasing it to support the
 
 ### Changelog
 
+2.0.0
+- Release for Bookworm-based Volumio
+
 1.0.3
 - Fix longer tracks cutting off early at 30-40 minutes into playback
 

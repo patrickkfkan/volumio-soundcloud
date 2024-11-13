@@ -1,6 +1,6 @@
 {
   "name": "soundcloud",
-  "version": "1.0.3",
+  "version": "2.0.0",
   "description": "Browse and play SoundCloud tracks",
   "main": "./dist/index.js",
   "scripts": {
