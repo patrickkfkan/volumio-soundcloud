@@ -61,8 +61,11 @@ export default class TrackHelper {
           (t) => t.protocol === p.protocol && t.quality === p.quality);
         if (primary.length > 0) {
           let secondary;
-          for (const format of p.format) {
-            const secondaryFiltered = primary.filter((t) => t.mimeType && t.mimeType.includes(format));
+          for (const pFormat of p.format) {
+            const secondaryFiltered = primary.filter((t) =>
+              t.mimeType &&
+              TrackHelper.#extractAudioFormatFromMimeType(t.mimeType) === pFormat
+            );
             if (secondaryFiltered.length > 0) {
               secondary = secondaryFiltered[0];
               break;
@@ -79,6 +82,12 @@ export default class TrackHelper {
         }
       }
     }
-    return transcodingUrl;
+
+  static #extractAudioFormatFromMimeType(input: string): string | null {
+    const mime = new MIMEType(input);
+    if (!mime || mime.type.toLowerCase() !== 'audio') {
+      return null;
+    }
+    return mime.subtype.toLowerCase();
   }
 }
