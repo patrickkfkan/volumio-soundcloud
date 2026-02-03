@@ -1,4 +1,3 @@
-import { LongStreamFormat } from '../PluginConfig';
 import sc from '../SoundCloudContext';
 import type TrackEntity from '../entities/TrackEntity';
 
@@ -27,7 +26,6 @@ export default class TrackHelper {
       sc.getLogger().info(JSON.stringify(track.transcodings));
     }
 
-    const longStreamFormat = sc.getConfigValue('longStreamFormat');
     const isLongStream = track.playableState === 'allowed' && track.duration && (track.duration / 1000) > 1800;
 
     let transcodingUrl = null;
@@ -38,9 +36,8 @@ export default class TrackHelper {
      */
     let preferred;
     if (isLongStream) {
-      const format = longStreamFormat === LongStreamFormat.Opus ? [ 'ogg', 'mpeg' ] : [ 'mpeg', 'ogg' ];
       preferred = [
-        { protocol: 'hls', format, quality: 'sq' },
+        { protocol: 'hls', format: [ 'ogg', 'mpeg' ], quality: 'sq' },
         /**
          * Progressive stream URLs have a ridiculously short expiry period (around 30 minutes),
          * so playback of longer streams will end prematurely with 403 Forbidden error.

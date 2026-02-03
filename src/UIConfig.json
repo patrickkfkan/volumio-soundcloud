@@ -93,7 +93,6 @@
         "data": [
           "skipPreviewTracks",
           "addPlayedToHistory",
-          "longStreamFormat",
           "logTranscodings"
         ]
       },
@@ -109,14 +108,6 @@
           "element": "switch",
           "label": "TRANSLATE.SOUNDCLOUD_ADD_PLAYED_TO_HISTORY",
           "value": true
-        },
-        {
-          "id": "longStreamFormat",
-          "element": "select",
-          "label": "TRANSLATE.SOUNDCLOUD_LONG_STREAM_FMT",
-          "doc": "TRANSLATE.SOUNDCLOUD_DOC_LONG_STREAM_FMT",
-          "value": {},
-          "options": []
         },
         {
           "id": "logTranscodings",

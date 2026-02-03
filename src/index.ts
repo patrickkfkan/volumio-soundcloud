@@ -13,7 +13,6 @@ import { jsPromiseToKew } from './lib/util/Misc';
 import { type QueueItem } from './lib/controller/browse/view-handlers/ExplodableViewHandler';
 import locales from './assets/locales.json';
 import Model from './lib/model';
-import { LongStreamFormat } from './lib/PluginConfig';
 
 interface GotoParams extends QueueItem {
   type: 'album' | 'artist';
@@ -57,30 +56,11 @@ class ControllerSoundCloud {
         generalUIConf.content[6].value = sc.getConfigValue('loadFullPlaylistAlbum');
 
         // Playback
-        const longStreamFormat = sc.getConfigValue('longStreamFormat');
         playbackConf.content[0].value = sc.getConfigValue('skipPreviewTracks');
         playbackConf.content[1].value = sc.getConfigValue('addPlayedToHistory');
         playbackConf.content[1].hidden = !accessToken;
-        playbackConf.content[2].options = [
-          {
-            value: LongStreamFormat.Opus,
-            label: sc.getI18n('SOUNDCLOUD_LSF_HLS_OPUS')
-          },
-          {
-            value: LongStreamFormat.MP3,
-            label: sc.getI18n('SOUNDCLOUD_LSF_HLS_MP3')
-          }
-        ];
-        switch (longStreamFormat) {
-          case LongStreamFormat.Opus:
-            playbackConf.content[2].value = playbackConf.content[2].options[0];
-            break;
-          case LongStreamFormat.MP3:
-            playbackConf.content[2].value = playbackConf.content[2].options[1];
-            break;
-        }
         // Soundcloud-testing
-        playbackConf.content[3].value = sc.getConfigValue('logTranscodings');
+        playbackConf.content[2].value = sc.getConfigValue('logTranscodings');
 
         // Cache
         const cacheMaxEntries = sc.getConfigValue('cacheMaxEntries');
@@ -176,11 +156,6 @@ class ControllerSoundCloud {
 
     // Soundcloud-testing
     sc.setConfigValue('logTranscodings', !!data['logTranscodings']);
-
-    const longStreamFormat = data['longStreamFormat'].value;
-    if (longStreamFormat === LongStreamFormat.Opus || longStreamFormat === LongStreamFormat.MP3) {
-      sc.setConfigValue('longStreamFormat', longStreamFormat);
-    }
 
     sc.toast('success', sc.getI18n('SOUNDCLOUD_SETTINGS_SAVED'));
   }
