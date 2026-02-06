@@ -50,6 +50,7 @@
     "node-cache": "^5.1.2",
     "soundcloud-fetch": "^1.1.0",
     "string-format": "^2.0.0",
-    "v-conf": "^1.4.2"
+    "v-conf": "^1.4.2",
+    "volumio-ext-players": "file:dep/volumio-ext-players-1.0.0.tgz"
   }
 }

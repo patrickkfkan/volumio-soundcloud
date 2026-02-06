@@ -209,13 +209,13 @@ class ControllerSoundCloud {
   onStop() {
     this.#commandRouter.volumioRemoveToBrowseSources('SoundCloud');
 
-    this.#browseController = null;
-    this.#searchController = null;
-    this.#playController = null;
-
-    sc.reset();
-
-    return libQ.resolve();
+    return jsPromiseToKew((async ()=> {
+      await this.#playController?.reset();
+      this.#browseController = null;
+      this.#searchController = null;
+      this.#playController = null;
+      sc.reset();
+    })());
   }
 
   getConfigurationFiles() {
@@ -275,6 +275,13 @@ class ControllerSoundCloud {
     return this.#playController.resume();
   }
 
+  play() {
+    if (!this.#playController) {
+      return libQ.reject('SoundCloud plugin is not started');
+    }
+    return this.#playController.play();
+  }
+
   seek(position: number) {
     if (!this.#playController) {
       return libQ.reject('SoundCloud plugin is not started');
@@ -301,6 +308,20 @@ class ControllerSoundCloud {
       return libQ.reject('SoundCloud plugin is not started');
     }
     return jsPromiseToKew(this.#searchController.search(query));
+  }
+
+  random(value: boolean) {
+    if (!this.#playController) {
+      return libQ.reject('SoundCloud plugin is not started');
+    }
+    return this.#playController.setRandom(value);
+  }
+
+  repeat(value: boolean, repeatSingle: boolean) {
+    if (!this.#playController) {
+      return libQ.reject('SoundCloud plugin is not started');
+    }
+    return this.#playController.setRepeat(value, repeatSingle);
   }
 
   goto(data: GotoParams) {

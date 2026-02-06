@@ -69,5 +69,9 @@
   "SOUNDCLOUD_VISIT_LINK_ALBUM": "View this album on SoundCloud",
   "SOUNDCLOUD_VISIT_LINK_USER": "Visit {} on SoundCloud",
   "SOUNDCLOUD_DOC_ACCESS_TOKEN": "Provide an access token to gain access to your private resources such as your library",
-  "SOUNDCLOUD_DOC_LOG_TRANSCODINGS": "For testing purpose to see if SoundCloud Go+ returns high-quality transcodings. Will be removed in future."
+  "SOUNDCLOUD_DOC_LOG_TRANSCODINGS": "For testing purpose to see if SoundCloud Go+ returns high-quality transcodings. Will be removed in future.",
+  "SOUNDCLOUD_STARTING_PLAYER": "Starting {} for playback...",
+  "SOUNDCLOUD_ERR_PLAYER_START": "Failed to start {}: {}",
+  "SOUNDCLOUD_ERR_PLAYER_QUIT": "Failed to quit {}: {}",
+  "SOUNDCLOUD_PLAYER_CLOSED_UNEXPECTEDLY": "{} closed unexpectedly"
 }

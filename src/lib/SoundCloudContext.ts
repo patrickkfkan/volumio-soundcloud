@@ -71,7 +71,7 @@ class SoundCloudContext {
 
   getErrorMessage(message: string, error: any, stack = true): string {
     let result = message;
-    if (typeof error == 'object') {
+    if (error && typeof error == 'object') {
       if (error.message) {
         result += ` ${error.message}`;
       }
@@ -81,6 +81,9 @@ class SoundCloudContext {
     }
     else if (typeof error == 'string') {
       result += ` ${error}`;
+    }
+    else if (error) {
+      result += ` ${String(error)}`;
     }
     return result.trim();
   }
