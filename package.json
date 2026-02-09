@@ -4,7 +4,7 @@
   "description": "Browse and play SoundCloud tracks",
   "main": "./dist/index.js",
   "scripts": {
-    "build": "rm -rf dist && npx tsc --build src && bash fixup.sh",
+    "build": "rimraf ./dist && npx tsc --build src && bash fixup.sh",
     "lint": "npx eslint ./src",
     "lint:fix": "npx eslint ./src --fix"
   },
@@ -38,11 +38,13 @@
     "@types/md5": "^2.3.2",
     "@types/node": "^20.5.1",
     "@types/string-format": "^2.0.0",
-    "@typescript-eslint/eslint-plugin": "^8.6.0",
-    "@typescript-eslint/parser": "^8.6.0",
-    "eslint": "^9.10.0",
-    "typescript": "^5.5.4",
-    "typescript-eslint": "^8.6.0",
+    "@typescript-eslint/eslint-plugin": "^8.54.0",
+		"@typescript-eslint/parser": "^8.54.0",
+		"eslint": "^9.39.2",
+		"eslint-plugin-unused-imports": "^4.3.0",
+    "rimraf": "^6.1.2",
+		"typescript": "^5.9.3",
+		"typescript-eslint": "^8.54.0",
     "winston": "^3.8.2"
   },
   "dependencies": {
