@@ -3,7 +3,7 @@ import format from 'string-format';
 import fs from 'fs-extra';
 import type winston from 'winston';
 import Cache from './util/Cache';
-import { PLUGIN_CONFIG_SCHEMA, type PluginConfigKey, type PluginConfigValue } from './PluginConfig';
+import { PLUGIN_CONFIG_SCHEMA, type PluginConfigKey, type PluginConfigValue } from './config/PluginConfig';
 
 export type I18nKey = keyof typeof I18nSchema;
 

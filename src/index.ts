@@ -9,10 +9,11 @@ import sc from './lib/SoundCloudContext';
 import BrowseController from './lib/controller/browse/BrowseController';
 import SearchController, { type SearchQuery } from './lib/controller/search/SearchController';
 import PlayController from './lib/controller/play/PlayController';
-import { jsPromiseToKew } from './lib/util/Misc';
+import { jsPromiseToKew, kewToJSPromise } from './lib/util/Misc';
 import { type QueueItem } from './lib/controller/browse/view-handlers/ExplodableViewHandler';
 import locales from './assets/locales.json';
 import Model from './lib/model';
+import UIConfigHelper from './lib/config/UIConfigHelper';
 
 interface GotoParams extends QueueItem {
   type: 'album' | 'artist';
@@ -33,52 +34,61 @@ class ControllerSoundCloud {
   }
 
   getUIConfig() {
-    const defer = libQ.defer();
-
-    const langCode = this.#commandRouter.sharedVars.get('language_code');
-    this.#commandRouter.i18nJson(`${__dirname}/i18n/strings_${langCode}.json`,
-      `${__dirname}/i18n/strings_en.json`,
-      `${__dirname}/UIConfig.json`)
-      .then((uiconf: any) => {
-        const generalUIConf = uiconf.sections[0];
-        const playbackConf = uiconf.sections[1];
-        const cacheUIConf = uiconf.sections[2];
-
-        // General
-        const localeOptions = this.#configGetLocaleOptions();
-        const accessToken = sc.getConfigValue('accessToken');
-        generalUIConf.content[0].value = accessToken;
-        generalUIConf.content[2].value = localeOptions.selected;
-        generalUIConf.content[2].options = localeOptions.options;
-        generalUIConf.content[3].value = sc.getConfigValue('itemsPerPage');
-        generalUIConf.content[4].value = sc.getConfigValue('itemsPerSection');
-        generalUIConf.content[5].value = sc.getConfigValue('combinedSearchResults');
-        generalUIConf.content[6].value = sc.getConfigValue('loadFullPlaylistAlbum');
-
-        // Playback
-        playbackConf.content[0].value = sc.getConfigValue('skipPreviewTracks');
-        playbackConf.content[1].value = sc.getConfigValue('addPlayedToHistory');
-        playbackConf.content[1].hidden = !accessToken;
-        // Soundcloud-testing
-        playbackConf.content[2].value = sc.getConfigValue('logTranscodings');
-
-        // Cache
-        const cacheMaxEntries = sc.getConfigValue('cacheMaxEntries');
-        const cacheTTL = sc.getConfigValue('cacheTTL');
-        const cacheEntryCount = sc.getCache().getEntryCount();
-        cacheUIConf.content[0].value = cacheMaxEntries;
-        cacheUIConf.content[1].value = cacheTTL;
-        cacheUIConf.description = cacheEntryCount > 0 ? sc.getI18n('SOUNDCLOUD_CACHE_STATS', cacheEntryCount, Math.round(sc.getCache().getMemoryUsageInKB()).toLocaleString()) : sc.getI18n('SOUNDCLOUD_CACHE_EMPTY');
-
-        defer.resolve(uiconf);
-      })
+    return jsPromiseToKew(this.#doGetUIConfig())
       .fail((error: any) => {
-        sc.getLogger().error(`[soundcloud] getUIConfig(): Cannot populate SoundCloud configuration - ${error}`);
-        defer.reject(Error());
-      }
-      );
+        sc.getLogger().error(`[soundcloud] getUIConfig(): Cannot populate configuration - ${error}`);
+        throw error;
+      });
+  }
 
-    return defer.promise;
+  async #doGetUIConfig() {
+    const langCode = this.#commandRouter.sharedVars.get('language_code');
+    const _uiconf = await kewToJSPromise(this.#commandRouter.i18nJson(
+      `${__dirname}/i18n/strings_${langCode}.json`,
+      `${__dirname}/i18n/strings_en.json`,
+      `${__dirname}/UIConfig.json`)) ;
+    const uiconf = UIConfigHelper.observe(_uiconf);
+
+    const generalUIConf = uiconf.section_general;
+    const playbackConf = uiconf.section_playback;
+    const cacheUIConf = uiconf.section_cache;
+
+    // General
+    const localeOptions = this.#configGetLocaleOptions();
+    const credentialsType = sc.getConfigValue('credentialsType');
+    const accessToken = sc.getConfigValue('accessToken');
+    const cookie = sc.getConfigValue('cookie');
+    generalUIConf.content.credentialsType.value = {
+      value: credentialsType,
+      label: credentialsType === 'accessToken' ? sc.getI18n('SOUNDCLOUD_ACCESS_TOKEN') : sc.getI18n('SOUNDCLOUD_COOKIE')
+    };
+    generalUIConf.content.accessToken.value = accessToken;
+    generalUIConf.content.cookie.value = cookie;
+    generalUIConf.content.locale.value = localeOptions.selected;
+    generalUIConf.content.locale.options = localeOptions.options;
+    generalUIConf.content.itemsPerPage.value = sc.getConfigValue('itemsPerPage');
+    generalUIConf.content.itemsPerSection.value = sc.getConfigValue('itemsPerSection');
+    generalUIConf.content.combinedSearchResults.value = sc.getConfigValue('combinedSearchResults');
+    generalUIConf.content.loadFullPlaylistAlbum.value = sc.getConfigValue('loadFullPlaylistAlbum');
+
+    // Playback
+    playbackConf.content.skipPreviewTracks.value = sc.getConfigValue('skipPreviewTracks');
+    playbackConf.content.addPlayedToHistory.value = sc.getConfigValue('addPlayedToHistory');
+    playbackConf.content.addPlayedToHistory.hidden = credentialsType === 'accessToken' || !cookie;
+    // Soundcloud-testing
+    playbackConf.content.logTranscodings.value = sc.getConfigValue('logTranscodings');
+
+    // Cache
+    const cacheMaxEntries = sc.getConfigValue('cacheMaxEntries');
+    const cacheTTL = sc.getConfigValue('cacheTTL');
+    const cacheEntryCount = sc.getCache().getEntryCount();
+    cacheUIConf.content.cacheMaxEntries.value = cacheMaxEntries;
+    cacheUIConf.content.cacheTTL.value = cacheTTL;
+    cacheUIConf.description = cacheEntryCount > 0 ?
+      sc.getI18n('SOUNDCLOUD_CACHE_STATS', cacheEntryCount, Math.round(sc.getCache().getMemoryUsageInKB()).toLocaleString())
+      : sc.getI18n('SOUNDCLOUD_CACHE_EMPTY');
+
+    return uiconf;
   }
 
   configSaveGeneralSettings(data: any) {
@@ -98,21 +108,33 @@ class ControllerSoundCloud {
       return;
     }
 
+    const oldCredentialsType = sc.getConfigValue('credentialsType');
+    const newCredentialsType = data['credentialsType'].value;
     const oldAccessToken = sc.getConfigValue('accessToken');
     const newAccessToken = data['accessToken'].trim();
+    const oldCookie = sc.getConfigValue('cookie');
+    const newCookie = data['cookie'].trim();
     const oldLocale = sc.getConfigValue('locale');
     const newLocale = data['locale'].value;
+    const credentialsTypeChanged = oldCredentialsType !== newCredentialsType;
     const accessTokenChanged = oldAccessToken !== newAccessToken;
+    const cookieChanged = oldCookie !== newCookie;
     const localeChanged = oldLocale !== newLocale;
 
+    sc.setConfigValue('credentialsType', newCredentialsType);
     sc.setConfigValue('accessToken', newAccessToken);
+    sc.setConfigValue('cookie', newCookie);
     sc.setConfigValue('locale', newLocale);
     sc.setConfigValue('itemsPerPage', itemsPerPage);
     sc.setConfigValue('itemsPerSection', itemsPerSection);
     sc.setConfigValue('combinedSearchResults', combinedSearchResults);
     sc.setConfigValue('loadFullPlaylistAlbum', !!data['loadFullPlaylistAlbum']);
 
-    if (accessTokenChanged || localeChanged) {
+    if (credentialsTypeChanged ||
+      (oldCredentialsType === 'accessToken' && accessTokenChanged) ||
+      (oldCredentialsType === 'cookie' && cookieChanged) ||
+      localeChanged
+    ) {
       sc.getCache().clear();
     }
 
@@ -120,8 +142,12 @@ class ControllerSoundCloud {
       Model.setLocale(newLocale);
     }
 
-    if (accessTokenChanged) {
+    if (newCredentialsType === 'accessToken' && (credentialsTypeChanged || accessTokenChanged)) {
       Model.setAccessToken(newAccessToken);
+      sc.refreshUIConfig();
+    }
+    else if (newCredentialsType === 'cookie' && (credentialsTypeChanged || cookieChanged)) {
+      Model.setCookie(newCookie);
       sc.refreshUIConfig();
     }
 
@@ -173,7 +199,10 @@ class ControllerSoundCloud {
     }));
 
     const configValue = sc.getConfigValue('locale');
-    const selected = options.find((option) => option.value === configValue);
+    const selected = options.find((option) => option.value === configValue) || {
+      value: '',
+      label: ''
+    };
 
     return {
       options,
@@ -195,10 +224,24 @@ class ControllerSoundCloud {
     this.#searchController = new SearchController();
     this.#playController = new PlayController();
 
-    const accessToken = sc.getConfigValue('accessToken');
-    if (accessToken) {
-      Model.setAccessToken(accessToken);
+    const credentialsType = sc.getConfigValue('credentialsType');
+    switch (credentialsType) {
+      case 'accessToken': {
+        const accessToken = sc.getConfigValue('accessToken');
+        if (accessToken) {
+          Model.setAccessToken(accessToken);
+        }
+        break;
+      }
+      case 'cookie': {
+        const cookie = sc.getConfigValue('cookie');
+        if (cookie) {
+          Model.setCookie(cookie);
+        }
+        break;
+      }
     }
+
     Model.setLocale(sc.getConfigValue('locale'));
 
     this.#addToBrowseSources();

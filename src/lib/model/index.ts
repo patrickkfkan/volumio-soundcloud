@@ -50,6 +50,10 @@ export default class Model {
     BaseModel.setAccessToken(value);
   }
 
+  static setCookie(value: string) {
+    BaseModel.setCookie(value);
+  }
+
   static setLocale(value: string) {
     BaseModel.setLocale(value);
   }
