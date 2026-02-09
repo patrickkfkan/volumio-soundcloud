@@ -41,6 +41,9 @@ class Model {
     static setAccessToken(value) {
         BaseModel_1.default.setAccessToken(value);
     }
+    static setCookie(value) {
+        BaseModel_1.default.setCookie(value);
+    }
     static setLocale(value) {
         BaseModel_1.default.setLocale(value);
     }
