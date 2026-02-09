@@ -113,7 +113,7 @@ export default class TrackModel extends BaseModel {
     return null;
   }
 
-  getStreamingUrl(transcodingUrl: string) {
-    return this.getSoundCloudAPI().getStreamingUrl(transcodingUrl);
+  async getStreamingUrl(transcodingUrl: string, trackAuthorization?: string) {
+    return (await this.getSoundCloudAPI().getStreamingData({transcodingUrl, trackAuthorization}))?.url;
   }
 }

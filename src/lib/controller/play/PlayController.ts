@@ -59,7 +59,7 @@ export default class PlayController {
       throw Error('No transcoding found');
     }
 
-    let streamingUrl = await model.getStreamingUrl(transcodingUrl);
+    let streamingUrl = await model.getStreamingUrl(transcodingUrl, trackData.trackAuthorization || undefined);
     if (!streamingUrl) {
       throw Error('No stream found');
     }

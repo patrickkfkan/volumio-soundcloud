@@ -96,6 +96,7 @@ export default class Mapper {
       playableState,
       duration: data.durations.playback,
       transcodings,
+      trackAuthorization: data.mediaInfo.trackAuthorization,
       user: user ? await this.mapUser(user) : null
     };
 
