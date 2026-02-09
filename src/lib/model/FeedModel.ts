@@ -1,5 +1,5 @@
 import BaseModel, { type LoopFetchCallbackParams, type LoopFetchResult } from './BaseModel';
-import { Album, Constants, FeedItem, Playlist, Track } from 'soundcloud-fetch';
+import { Album, Constants, type FeedItem, Playlist, Track } from 'soundcloud-fetch';
 import Mapper from './Mapper';
 import type PlaylistEntity from '../entities/PlaylistEntity';
 import type AlbumEntity from '../entities/AlbumEntity';

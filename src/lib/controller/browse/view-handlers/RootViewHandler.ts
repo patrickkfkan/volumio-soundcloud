@@ -2,7 +2,7 @@ import sc from '../../../SoundCloudContext';
 import type SelectionEntity from '../../../entities/SelectionEntity';
 import { ModelType } from '../../../model';
 import BaseViewHandler from './BaseViewHandler';
-import { FeedView } from './FeedViewHandler';
+import { type FeedView } from './FeedViewHandler';
 import { type HistoryView } from './HistoryViewHandler';
 import { type LibraryView } from './LibraryViewHandler';
 import { type SelectionView } from './SelectionViewHandler';

@@ -3,7 +3,7 @@ import type AlbumEntity from '../../../entities/AlbumEntity';
 import type PlaylistEntity from '../../../entities/PlaylistEntity';
 import type TrackEntity from '../../../entities/TrackEntity';
 import { ModelType } from '../../../model';
-import { FeedModelGetFeedItemsParams } from '../../../model/FeedModel';
+import { type FeedModelGetFeedItemsParams } from '../../../model/FeedModel';
 import BaseViewHandler from './BaseViewHandler';
 import type View from './View';
 import { RendererType } from './renderers';
