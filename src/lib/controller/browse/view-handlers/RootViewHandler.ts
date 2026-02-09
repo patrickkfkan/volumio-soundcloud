@@ -23,7 +23,8 @@ export default class RootViewHandler extends BaseViewHandler<RootView> {
     const fetches = [
       this.#getMe(),
       this.#getTopFeaturedTracks(),
-      this.#getMixedSelections()
+      this.#getSelections('mixed'),
+      this.#getSelections('charts')
     ];
 
     const fetchResults = await Promise.all(fetches);
@@ -184,12 +185,12 @@ export default class RootViewHandler extends BaseViewHandler<RootView> {
     }
   }
 
-  async #getMixedSelections(): Promise<RenderedList[]> {
+  async #getSelections(type: 'mixed' | 'charts'): Promise<RenderedList[]> {
     try {
-      const selections = await this.getModel(ModelType.Selection).getSelections({ mixed: true });
-      const lists = selections.items.reduce<RenderedList[]>((result, selection, index) => {
+      const selections = await this.getModel(ModelType.Selection).getSelections({ type });
+      const lists = selections.reduce<RenderedList[]>((result, selection) => {
         if (selection.items.length > 0) {
-          result.push(this.#getListFromSelection(selection, index));
+          result.push(this.#getListFromSelection(type, selection));
         }
         return result;
       }, []);
@@ -201,7 +202,7 @@ export default class RootViewHandler extends BaseViewHandler<RootView> {
     }
   }
 
-  #getListFromSelection(selection: SelectionEntity, index: number): RenderedList {
+  #getListFromSelection(type: 'mixed' | 'charts', selection: SelectionEntity): RenderedList {
     const limit = sc.getConfigValue('itemsPerSection');
     const slice = selection.items.slice(0, limit);
     const renderer = this.getRenderer(RendererType.Playlist);
@@ -217,6 +218,7 @@ export default class RootViewHandler extends BaseViewHandler<RootView> {
       if (nextPageRef) {
         const selectionView: SelectionView = {
           name: 'selections',
+          type,
           selectionId: selection.id,
           pageRef: nextPageRef
         };
@@ -229,21 +231,9 @@ export default class RootViewHandler extends BaseViewHandler<RootView> {
       if (!ViewHelper.supportsEnhancedTitles()) {
         listTitle = selection.title;
       }
-      else if (index === 0) {
-        listTitle = `
-              <div style="width: 100%;">
-                  <div style="padding-bottom: 8px; border-bottom: 1px solid; margin-bottom: 24px;">
-                      ${sc.getI18n('SOUNDCLOUD_TRENDING_PLAYLISTS')}
-                  </div>
-                  <span style="font-size: 16px; color: #bdbdbd;">${selection.title}</span>
-              </div>`;
-      }
       else {
         listTitle = `<span style="font-size: 16px; color: #bdbdbd;">${selection.title}</span>`;
       }
-    }
-    else {
-      listTitle = sc.getI18n('SOUNDCLOUD_TRENDING_PLAYLISTS');
     }
     return {
       title: listTitle,

@@ -67,7 +67,6 @@
   "SOUNDCLOUD_TRACK_PARSER_BLOCKED": "<span style='color: #b38536;'>Not available in your region</span>",
   "SOUNDCLOUD_TRACK_PARSER_SNIPPED": "<span style='color: #b38536;'>(Preview)</span>",
   "SOUNDCLOUD_TRACK_EXPLODE_SNIPPED": "(Preview)",
-  "SOUNDCLOUD_TRENDING_PLAYLISTS": "Trending Playlists",
   "SOUNDCLOUD_SKIP_BLOCKED_TRACK": "Skipping blocked track {}",
   "SOUNDCLOUD_SKIP_PREVIEW_TRACK": "Skipping preview track {}",
   "SOUNDCLOUD_VISIT_LINK_PLAYLIST": "View this playlist on SoundCloud",
