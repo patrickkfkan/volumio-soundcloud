@@ -12,7 +12,6 @@ import { type PlaylistView } from '../browse/view-handlers/PlaylistViewHandler';
 import { type AlbumView } from '../browse/view-handlers/AlbumViewHandler';
 import { type UserView } from '../browse/view-handlers/UserViewHandler';
 import { type TrackView } from '../browse/view-handlers/TrackViewHandler';
-import { type MPVService, type VLCService } from 'volumio-ext-players';
 import { ExternalPlayers } from './ExternalPlayers';
 
 export default class PlayController {

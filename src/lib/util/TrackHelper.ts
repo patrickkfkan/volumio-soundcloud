@@ -1,4 +1,3 @@
-import { MIMEType } from 'util';
 import sc from '../SoundCloudContext';
 import type TrackEntity from '../entities/TrackEntity';
 
