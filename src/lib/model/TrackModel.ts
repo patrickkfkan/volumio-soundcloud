@@ -82,7 +82,15 @@ export default class TrackModel extends BaseModel {
       };
       return sc.getCache().getOrSet(
         this.getCacheKeyForFetch('tracks', cacheKeyParams),
-        () => api.getTopFeaturedTracks(queryParams)
+        async () => {
+          const collection = await api.getTopFeaturedTracks(queryParams)
+          // This doesn't contain playlist / artist info now.
+          // Fetch them again using getTracks().
+          const trackIds = collection.items.map((track) => track.id).filter((id) => id !== undefined);
+          const fullTracks = await api.getTracks(trackIds);
+          collection.items = fullTracks;
+          return collection;
+        }
       );
     }
     throw Error('Missing or invalid criteria for tracks');
