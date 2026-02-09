@@ -96,6 +96,9 @@ class BaseViewHandler {
                 case model_1.ModelType.Me:
                     model = model_1.default.getInstance(model_1.ModelType.Me);
                     break;
+                case model_1.ModelType.Feed:
+                    model = model_1.default.getInstance(model_1.ModelType.Feed);
+                    break;
                 default:
                     throw Error(`Unknown model type: ${type}`);
             }

@@ -2,6 +2,7 @@ import sc from '../../../SoundCloudContext';
 import type SelectionEntity from '../../../entities/SelectionEntity';
 import { ModelType } from '../../../model';
 import BaseViewHandler from './BaseViewHandler';
+import { FeedView } from './FeedViewHandler';
 import { type HistoryView } from './HistoryViewHandler';
 import { type LibraryView } from './LibraryViewHandler';
 import { type SelectionView } from './SelectionViewHandler';
@@ -112,10 +113,21 @@ export default class RootViewHandler extends BaseViewHandler<RootView> {
         uri: `${this.uri}/${ViewHelper.constructUriSegmentFromView(userView)}`
       };
 
+      const feedView: FeedView = {
+        name: 'feed'
+      };
+      const feedItem: RenderedListItem = {
+        service: 'soundcloud',
+        type: 'item-no-menu',
+        title: sc.getI18n('SOUNDCLOUD_FEED'),
+        icon: 'fa fa-feed',
+        uri: `${this.uri}/${ViewHelper.constructUriSegmentFromView(feedView)}`
+      };
+
       const meName = myProfile.firstName || myProfile.lastName || myProfile.username;
       const list: RenderedList = {
         title: sc.getI18n('SOUNDCLOUD_LIST_TITLE_WELCOME', meName),
-        items: [ historyItem, likesItem, libraryPlaylistsItem, libraryAlbumsItem, libraryStationsItem, followingItem ],
+        items: [ historyItem, likesItem, libraryPlaylistsItem, libraryAlbumsItem, libraryStationsItem, followingItem, feedItem ],
         availableListViews: [ 'grid', 'list' ]
       };
 
