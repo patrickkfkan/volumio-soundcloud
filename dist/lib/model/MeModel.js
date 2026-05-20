@@ -58,7 +58,7 @@ class MeModel extends BaseModel_1.default {
         return null;
     }
     async addToPlayHistory(track, origin) {
-        if (!this.hasAccessToken() || !track.urn) {
+        if (!this.hasCookie() || !track.urn) {
             return;
         }
         const api = this.getSoundCloudAPI();
@@ -75,23 +75,29 @@ class MeModel extends BaseModel_1.default {
             }
             if (setOrUrn) {
                 try {
-                    await api.me.addToPlayHistory(track.urn, setOrUrn);
+                    await api.me.addToPlayHistory(track.urn, setOrUrn, {
+                        onSendPlayTrackEventError: (err) => {
+                            SoundCloudContext_1.default.getLogger().log('error', SoundCloudContext_1.default.getErrorMessage('Error sending play event in addToPlayHistory():', err, false));
+                            return false;
+                        }
+                    });
                 }
                 catch (error) {
                     SoundCloudContext_1.default.getLogger().error(SoundCloudContext_1.default.getErrorMessage('Failed to add to play history - will retry without track origin:', error, true));
                     await this.addToPlayHistory(track);
+                    return;
                 }
             }
             else {
                 await api.me.addToPlayHistory(track.urn);
             }
+            SoundCloudContext_1.default.getLogger().info(`Added "${track.title}" to play history`);
         }
         catch (error) {
-            SoundCloudContext_1.default.getLogger().error(SoundCloudContext_1.default.getErrorMessage('Failed to add to play history:', error, true));
+            SoundCloudContext_1.default.getLogger().error(SoundCloudContext_1.default.getErrorMessage(`Failed to add "${track.title}" to play history:`, error, true));
         }
     }
 }
-exports.default = MeModel;
 _MeModel_instances = new WeakSet(), _MeModel_getLikesFetchPromise = async function _MeModel_getLikesFetchPromise(params) {
     const api = this.getSoundCloudAPI();
     const continuationContents = await this.commonGetLoopFetchResultByPageToken(params);
@@ -127,7 +133,7 @@ _MeModel_instances = new WeakSet(), _MeModel_getLikesFetchPromise = async functi
     return SoundCloudContext_1.default.getCache().getOrSet(this.getCacheKeyForFetch('libraryItems', queryParams), () => api.me.getLibraryItems(queryParams));
 }, _MeModel_filterFetchedLibraryItem = function _MeModel_filterFetchedLibraryItem(item, params) {
     switch (params.type) {
-        case 'album':
+        case 'album': {
             const isCreatedAlbum = item.itemType === 'Album';
             const isLikedAlbum = item.itemType === 'AlbumLike';
             if (params.filter === 'created') {
@@ -137,7 +143,8 @@ _MeModel_instances = new WeakSet(), _MeModel_getLikesFetchPromise = async functi
                 return isLikedAlbum;
             }
             return isCreatedAlbum || isLikedAlbum;
-        case 'playlist':
+        }
+        case 'playlist': {
             const isCreatedPlaylist = item.itemType === 'Playlist';
             const isLikedPlaylist = item.itemType === 'PlaylistLike' ||
                 (item.itemType === 'SystemPlaylistLike' && !__classPrivateFieldGet(this, _MeModel_instances, "m", _MeModel_isArtistStation).call(this, item));
@@ -148,6 +155,7 @@ _MeModel_instances = new WeakSet(), _MeModel_getLikesFetchPromise = async functi
                 return isLikedPlaylist;
             }
             return isCreatedPlaylist || isLikedPlaylist;
+        }
         case 'station':
             return __classPrivateFieldGet(this, _MeModel_instances, "m", _MeModel_isArtistStation).call(this, item);
     }
@@ -156,4 +164,5 @@ _MeModel_instances = new WeakSet(), _MeModel_getLikesFetchPromise = async functi
 }, _MeModel_convertFetchedLibraryItemToEntity = async function _MeModel_convertFetchedLibraryItemToEntity(item) {
     return Mapper_1.default.mapLibraryItem(item);
 };
+exports.default = MeModel;
 //# sourceMappingURL=MeModel.js.map

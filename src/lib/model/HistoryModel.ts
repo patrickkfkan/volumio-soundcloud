@@ -1,9 +1,9 @@
-import BaseModel, { LoopFetchCallbackParams, LoopFetchResult } from './BaseModel';
-import { Playlist, Constants, SystemPlaylist, PlayHistoryItem, Album, Track } from 'soundcloud-fetch';
+import BaseModel, { type LoopFetchCallbackParams, type LoopFetchResult } from './BaseModel';
+import { Playlist, Constants, SystemPlaylist, type PlayHistoryItem, Album, Track } from 'soundcloud-fetch';
 import Mapper from './Mapper';
-import TrackEntity from '../entities/TrackEntity';
-import PlaylistEntity from '../entities/PlaylistEntity';
-import AlbumEntity from '../entities/AlbumEntity';
+import type TrackEntity from '../entities/TrackEntity';
+import type PlaylistEntity from '../entities/PlaylistEntity';
+import type AlbumEntity from '../entities/AlbumEntity';
 import TrackHelper from '../util/TrackHelper';
 
 export interface HistoryModelGetPlayHistoryItemsParams {
@@ -66,7 +66,7 @@ export default class HistoryModel extends BaseModel {
   }
 
   #onGetPlayHistoryLoopFetchEnd(result: LoopFetchResult<AlbumEntity | PlaylistEntity | TrackEntity>) {
-    const tracks = result.items.filter((item) => item.type === 'track') as TrackEntity[];
+    const tracks = result.items.filter((item) => item.type === 'track');
     TrackHelper.cacheTracks(tracks, this.getCacheKeyForFetch.bind(this, 'track'));
     return result;
   }

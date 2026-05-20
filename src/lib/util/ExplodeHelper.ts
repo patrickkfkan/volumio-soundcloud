@@ -1,6 +1,6 @@
 import sc from '../SoundCloudContext';
-import { ExplodedTrackInfo, QueueItem } from '../controller/browse/view-handlers/ExplodableViewHandler';
-import { TrackView } from '../controller/browse/view-handlers/TrackViewHandler';
+import { type ExplodedTrackInfo, type QueueItem } from '../controller/browse/view-handlers/ExplodableViewHandler';
+import { type TrackView } from '../controller/browse/view-handlers/TrackViewHandler';
 import ViewHelper from '../controller/browse/view-handlers/ViewHelper';
 
 export default class ExplodeHelper {

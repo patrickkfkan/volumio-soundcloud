@@ -1,7 +1,7 @@
-import { Constants, User } from 'soundcloud-fetch';
+import { Constants, type User } from 'soundcloud-fetch';
 import sc from '../SoundCloudContext';
-import BaseModel, { LoopFetchCallbackParams } from './BaseModel';
-import UserEntity from '../entities/UserEntity';
+import BaseModel, { type LoopFetchCallbackParams } from './BaseModel';
+import type UserEntity from '../entities/UserEntity';
 import Mapper from './Mapper';
 
 export interface UserModelGetUsersParams {

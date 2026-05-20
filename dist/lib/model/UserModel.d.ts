@@ -1,5 +1,5 @@
 import BaseModel from './BaseModel';
-import UserEntity from '../entities/UserEntity';
+import type UserEntity from '../entities/UserEntity';
 export interface UserModelGetUsersParams {
     search?: string;
     myFollowing?: boolean;

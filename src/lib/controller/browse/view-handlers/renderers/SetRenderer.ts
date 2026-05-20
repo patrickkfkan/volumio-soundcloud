@@ -1,6 +1,6 @@
 import sc from '../../../../SoundCloudContext';
-import SetEntity from '../../../../entities/SetEntity';
-import BaseRenderer, { RenderedHeader, RenderedListItem } from './BaseRenderer';
+import type SetEntity from '../../../../entities/SetEntity';
+import BaseRenderer, { type RenderedHeader, type RenderedListItem } from './BaseRenderer';
 
 export default abstract class SetRenderer<T extends SetEntity> extends BaseRenderer<T> {
 

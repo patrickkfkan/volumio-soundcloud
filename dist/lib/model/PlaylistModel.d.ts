@@ -1,5 +1,5 @@
 import BaseModel from './BaseModel';
-import PlaylistEntity from '../entities/PlaylistEntity';
+import type PlaylistEntity from '../entities/PlaylistEntity';
 export interface PlaylistModelGetPlaylistsParams {
     search?: string;
     userId?: number;

@@ -1,6 +1,6 @@
 import md5 from 'md5';
 import sc from '../SoundCloudContext';
-import SoundCloud, { Collection, CollectionContinuation, EntityType } from 'soundcloud-fetch';
+import SoundCloud, { type Collection, CollectionContinuation, type EntityType } from 'soundcloud-fetch';
 
 export interface LoopFetchParams<R, I, C extends LoopFetchCallbackParams, E, F extends LoopFetchResult<E>> extends LoopFetchCallbackParams {
   callbackParams?: C;
@@ -31,6 +31,7 @@ export default abstract class BaseModel {
 
   static #api: SoundCloud;
   static #hasAccessToken = false;
+  static #hasCookie = false;
 
   protected getSoundCloudAPI() {
     return BaseModel.#doGetSoundCloudAPI();
@@ -47,10 +48,22 @@ export default abstract class BaseModel {
     const api = this.#doGetSoundCloudAPI();
     api.setAccessToken(value);
     this.#hasAccessToken = !!value;
+    this.#hasCookie = false;
+  }
+
+  static setCookie(value: string) {
+    const api = this.#doGetSoundCloudAPI();
+    api.setCookie(value);
+    this.#hasAccessToken = !!value;
+    this.#hasCookie = !!value;
   }
 
   hasAccessToken() {
     return BaseModel.#hasAccessToken;
+  }
+
+  hasCookie() {
+    return sc.getConfigValue('credentialsType') === 'cookie' && BaseModel.#hasCookie;
   }
 
   static setLocale(value: string) {

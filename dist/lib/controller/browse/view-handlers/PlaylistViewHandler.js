@@ -53,7 +53,6 @@ class PlaylistViewHandler extends SetViewHandler_1.default {
         return null;
     }
 }
-exports.default = PlaylistViewHandler;
 _PlaylistViewHandler_instances = new WeakSet(), _PlaylistViewHandler_getPlaylist = async function _PlaylistViewHandler_getPlaylist(playlistId) {
     const { type, pageRef } = this.currentView;
     const pageToken = pageRef?.pageToken;
@@ -79,4 +78,5 @@ _PlaylistViewHandler_instances = new WeakSet(), _PlaylistViewHandler_getPlaylist
         tracksLimit: modelParams.tracksLimit
     };
 };
+exports.default = PlaylistViewHandler;
 //# sourceMappingURL=PlaylistViewHandler.js.map

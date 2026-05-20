@@ -88,7 +88,6 @@ class SearchController {
         return icon + s;
     }
 }
-exports.default = SearchController;
 _SearchController_instances = new WeakSet(), _SearchController_doSearch = async function _SearchController_doSearch(uri, type) {
     try {
         const page = await ViewHandlerFactory_1.default.getHandler(uri).browse();
@@ -106,4 +105,5 @@ _SearchController_instances = new WeakSet(), _SearchController_doSearch = async 
         return null;
     }
 };
+exports.default = SearchController;
 //# sourceMappingURL=SearchController.js.map

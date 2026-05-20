@@ -1,8 +1,8 @@
 import sc from '../../../../SoundCloudContext';
-import UserEntity from '../../../../entities/UserEntity';
-import { UserView } from '../UserViewHandler';
+import type UserEntity from '../../../../entities/UserEntity';
+import { type UserView } from '../UserViewHandler';
 import ViewHelper from '../ViewHelper';
-import BaseRenderer, { RenderedHeader, RenderedListItem } from './BaseRenderer';
+import BaseRenderer, { type RenderedHeader, type RenderedListItem } from './BaseRenderer';
 
 export default class UserRenderer extends BaseRenderer<UserEntity> {
 

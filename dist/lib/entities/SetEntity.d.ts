@@ -1,5 +1,5 @@
-import TrackEntity from './TrackEntity';
-import UserEntity from './UserEntity';
+import type TrackEntity from './TrackEntity';
+import type UserEntity from './UserEntity';
 interface SetEntity {
     id?: any;
     title?: string | null;

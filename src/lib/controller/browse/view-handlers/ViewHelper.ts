@@ -1,5 +1,5 @@
 import fs from 'fs';
-import View from './View';
+import type View from './View';
 
 export default class ViewHelper {
 

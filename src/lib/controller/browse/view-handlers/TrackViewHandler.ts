@@ -1,9 +1,9 @@
 import sc from '../../../SoundCloudContext';
 import { ModelType } from '../../../model';
-import { TrackModelGetTracksParams } from '../../../model/TrackModel';
-import ExplodableViewHandler, { ExplodedTrackInfo } from './ExplodableViewHandler';
-import View from './View';
-import { RenderedPage } from './ViewHandler';
+import { type TrackModelGetTracksParams } from '../../../model/TrackModel';
+import ExplodableViewHandler, { type ExplodedTrackInfo } from './ExplodableViewHandler';
+import type View from './View';
+import { type RenderedPage } from './ViewHandler';
 import { RendererType } from './renderers';
 
 export type TrackOrigin = {

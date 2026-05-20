@@ -1,5 +1,5 @@
-import { SearchQuery } from './lib/controller/search/SearchController';
-import { QueueItem } from './lib/controller/browse/view-handlers/ExplodableViewHandler';
+import { type SearchQuery } from './lib/controller/search/SearchController';
+import { type QueueItem } from './lib/controller/browse/view-handlers/ExplodableViewHandler';
 interface GotoParams extends QueueItem {
     type: 'album' | 'artist';
 }
@@ -21,10 +21,13 @@ declare class ControllerSoundCloud {
     stop(): any;
     pause(): any;
     resume(): any;
+    play(): any;
     seek(position: number): any;
     next(): any;
     previous(): any;
     search(query: SearchQuery): any;
+    random(value: boolean): any;
+    repeat(value: boolean, repeatSingle: boolean): any;
     goto(data: GotoParams): any;
 }
 export = ControllerSoundCloud;

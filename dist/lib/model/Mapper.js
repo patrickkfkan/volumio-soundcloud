@@ -34,8 +34,8 @@ class Mapper {
         let title, description;
         let type;
         if (data instanceof soundcloud_fetch_1.SystemPlaylist) {
-            title = data.texts?.title?.full;
-            description = data.texts?.description?.full;
+            title = (data).texts?.title?.full;
+            description = (data).texts?.description?.full;
             type = 'system-playlist';
         }
         else {
@@ -71,6 +71,7 @@ class Mapper {
                 'allowed';
         const transcodings = mediaInfo?.transcodings?.map((t) => ({
             url: t.url,
+            preset: t.preset,
             protocol: t.protocol,
             mimeType: t.mimeType,
             quality: t.quality
@@ -85,6 +86,7 @@ class Mapper {
             playableState,
             duration: data.durations.playback,
             transcodings,
+            trackAuthorization: data.mediaInfo.trackAuthorization,
             user: user ? await this.mapUser(user) : null
         };
         return result;
@@ -138,7 +140,6 @@ class Mapper {
         return result;
     }
 }
-exports.default = Mapper;
 _a = Mapper, _Mapper_getThumbnail = async function _Mapper_getThumbnail(data) {
     let artwork;
     if (data instanceof soundcloud_fetch_1.User) {
@@ -170,4 +171,5 @@ _a = Mapper, _Mapper_getThumbnail = async function _Mapper_getThumbnail(data) {
     }
     return null;
 };
+exports.default = Mapper;
 //# sourceMappingURL=Mapper.js.map

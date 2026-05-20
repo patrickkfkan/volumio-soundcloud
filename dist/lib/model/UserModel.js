@@ -40,7 +40,6 @@ class UserModel extends BaseModel_1.default {
         return null;
     }
 }
-exports.default = UserModel;
 _UserModel_instances = new WeakSet(), _UserModel_getUsersFetchPromise = async function _UserModel_getUsersFetchPromise(params) {
     const api = this.getSoundCloudAPI();
     const continuationContents = await this.commonGetLoopFetchResultByPageToken(params);
@@ -70,4 +69,5 @@ _UserModel_instances = new WeakSet(), _UserModel_getUsersFetchPromise = async fu
 }, _UserModel_convertFetchedUserToEntity = function _UserModel_convertFetchedUserToEntity(data) {
     return Mapper_1.default.mapUser(data);
 };
+exports.default = UserModel;
 //# sourceMappingURL=UserModel.js.map

@@ -34,7 +34,6 @@ class HistoryModel extends BaseModel_1.default {
         });
     }
 }
-exports.default = HistoryModel;
 _HistoryModel_instances = new WeakSet(), _HistoryModel_getPlayHistoryFetchPromise = async function _HistoryModel_getPlayHistoryFetchPromise(params) {
     const api = this.getSoundCloudAPI();
     const continuationContents = await this.commonGetLoopFetchResultByPageToken(params);
@@ -63,4 +62,5 @@ _HistoryModel_instances = new WeakSet(), _HistoryModel_getPlayHistoryFetchPromis
     TrackHelper_1.default.cacheTracks(tracks, this.getCacheKeyForFetch.bind(this, 'track'));
     return result;
 };
+exports.default = HistoryModel;
 //# sourceMappingURL=HistoryModel.js.map

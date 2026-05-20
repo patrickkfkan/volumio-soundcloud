@@ -1,24 +1,25 @@
 import sc from '../../../SoundCloudContext';
 import { ModelType } from '../../../model';
 import BaseViewHandler from './BaseViewHandler';
-import View from './View';
-import { RenderedList, RenderedPage } from './ViewHandler';
+import type View from './View';
+import { type RenderedList, type RenderedPage } from './ViewHandler';
 import { RendererType } from './renderers';
-import { RenderedListItem } from './renderers/BaseRenderer';
+import { type RenderedListItem } from './renderers/BaseRenderer';
 
 export interface SelectionView extends View {
   name: 'selections';
+  type: 'mixed' | 'charts';
   selectionId?: string;
 }
 
 export default class SelectionViewHandler extends BaseViewHandler<SelectionView> {
 
   async browse(): Promise<RenderedPage> {
-    const { selectionId, pageRef } = this.currentView;
+    const { type, selectionId, pageRef } = this.currentView;
     const selections = await this.getModel(ModelType.Selection).getSelections({
-      mixed: true
+      type
     });
-    const selection = selections.items.find((s) => s.id === selectionId);
+    const selection = selections.find((s) => s.id === selectionId);
     if (!selection) {
       throw Error('Failed to fetch selection');
     }

@@ -52,7 +52,6 @@ class HistoryViewHandler extends BaseViewHandler_1.default {
         };
     }
 }
-exports.default = HistoryViewHandler;
 _HistoryViewHandler_instances = new WeakSet(), _HistoryViewHandler_browseType = async function _HistoryViewHandler_browseType(type, inSection) {
     const { pageRef } = this.currentView;
     const pageToken = pageRef?.pageToken;
@@ -88,4 +87,5 @@ _HistoryViewHandler_instances = new WeakSet(), _HistoryViewHandler_browseType = 
     }
     return null;
 };
+exports.default = HistoryViewHandler;
 //# sourceMappingURL=HistoryViewHandler.js.map

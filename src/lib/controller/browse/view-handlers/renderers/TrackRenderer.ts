@@ -1,8 +1,8 @@
 import sc from '../../../../SoundCloudContext';
-import TrackEntity from '../../../../entities/TrackEntity';
-import { TrackOrigin, TrackView } from '../TrackViewHandler';
+import type TrackEntity from '../../../../entities/TrackEntity';
+import { type TrackOrigin, type TrackView } from '../TrackViewHandler';
 import ViewHelper from '../ViewHelper';
-import BaseRenderer, { RenderedListItem } from './BaseRenderer';
+import BaseRenderer, { type RenderedListItem } from './BaseRenderer';
 
 export default class TrackRenderer extends BaseRenderer<TrackEntity> {
 

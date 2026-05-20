@@ -1,5 +1,5 @@
-import BaseModel, { LoopFetchResult } from './BaseModel';
-import TrackEntity from '../entities/TrackEntity';
+import BaseModel, { type LoopFetchResult } from './BaseModel';
+import type TrackEntity from '../entities/TrackEntity';
 export interface TrackModelGetTracksParams {
     search?: string;
     userId?: number;
@@ -12,6 +12,6 @@ export default class TrackModel extends BaseModel {
     #private;
     getTracks(params: TrackModelGetTracksParams): Promise<LoopFetchResult<TrackEntity>>;
     getTrack(trackId: number): Promise<TrackEntity | null>;
-    getStreamingUrl(transcodingUrl: string): Promise<string | null>;
+    getStreamingUrl(transcodingUrl: string, trackAuthorization?: string): Promise<string | undefined>;
 }
 //# sourceMappingURL=TrackModel.d.ts.map

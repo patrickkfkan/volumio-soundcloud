@@ -1,4 +1,4 @@
-import { ExplodedTrackInfo, QueueItem } from '../controller/browse/view-handlers/ExplodableViewHandler';
+import { type ExplodedTrackInfo, type QueueItem } from '../controller/browse/view-handlers/ExplodableViewHandler';
 export default class ExplodeHelper {
     #private;
     static createQueueItemFromExplodedTrackInfo(data: ExplodedTrackInfo): QueueItem | null;

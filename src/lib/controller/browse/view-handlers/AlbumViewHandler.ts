@@ -1,12 +1,12 @@
 import sc from '../../../SoundCloudContext';
-import AlbumEntity from '../../../entities/AlbumEntity';
+import type AlbumEntity from '../../../entities/AlbumEntity';
 import { ModelType } from '../../../model';
-import { AlbumModelGetAlbumParams } from '../../../model/AlbumModel';
-import { LoopFetchResult } from '../../../model/BaseModel';
-import SetViewHandler, { SetView, SetViewHandlerGetSetsParams } from './SetViewHandler';
-import { TrackOrigin } from './TrackViewHandler';
+import { type AlbumModelGetAlbumParams } from '../../../model/AlbumModel';
+import { type LoopFetchResult } from '../../../model/BaseModel';
+import SetViewHandler, { type SetView, type SetViewHandlerGetSetsParams } from './SetViewHandler';
+import { type TrackOrigin } from './TrackViewHandler';
 import { RendererType } from './renderers';
-import BaseRenderer from './renderers/BaseRenderer';
+import type BaseRenderer from './renderers/BaseRenderer';
 
 export interface AlbumView extends SetView {
   name: 'albums';

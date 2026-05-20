@@ -1,11 +1,11 @@
 import sc from '../SoundCloudContext';
-import BaseModel, { LoopFetchCallbackParams, LoopFetchResult } from './BaseModel';
-import { Playlist, Constants, SystemPlaylist, Album, LibraryItem, Like, Track } from 'soundcloud-fetch';
+import BaseModel, { type LoopFetchCallbackParams, type LoopFetchResult } from './BaseModel';
+import { Playlist, Constants, SystemPlaylist, Album, type LibraryItem, type Like, Track } from 'soundcloud-fetch';
 import Mapper from './Mapper';
-import PlaylistEntity from '../entities/PlaylistEntity';
-import AlbumEntity from '../entities/AlbumEntity';
-import TrackEntity from '../entities/TrackEntity';
-import { TrackOrigin } from '../controller/browse/view-handlers/TrackViewHandler';
+import type PlaylistEntity from '../entities/PlaylistEntity';
+import type AlbumEntity from '../entities/AlbumEntity';
+import type TrackEntity from '../entities/TrackEntity';
+import { type TrackOrigin } from '../controller/browse/view-handlers/TrackViewHandler';
 
 export interface MeModelGetLikesParams {
   pageToken?: string;
@@ -119,7 +119,7 @@ export default class MeModel extends BaseModel {
 
   #filterFetchedLibraryItem(item: LibraryItem, params: GetLibraryItemsLoopFetchCallbackParams) {
     switch (params.type) {
-      case 'album':
+      case 'album': {
         const isCreatedAlbum = item.itemType === 'Album';
         const isLikedAlbum = item.itemType === 'AlbumLike';
         if (params.filter === 'created') {
@@ -129,8 +129,8 @@ export default class MeModel extends BaseModel {
           return isLikedAlbum;
         }
         return isCreatedAlbum || isLikedAlbum;
-
-      case 'playlist':
+      }
+      case 'playlist': {
         const isCreatedPlaylist = item.itemType === 'Playlist';
         const isLikedPlaylist = item.itemType === 'PlaylistLike' ||
           (item.itemType === 'SystemPlaylistLike' && !this.#isArtistStation(item));
@@ -141,7 +141,7 @@ export default class MeModel extends BaseModel {
           return isLikedPlaylist;
         }
         return isCreatedPlaylist || isLikedPlaylist;
-
+      }
       case 'station':
         return this.#isArtistStation(item);
     }
@@ -172,7 +172,7 @@ export default class MeModel extends BaseModel {
   }
 
   async addToPlayHistory(track: TrackEntity, origin?: TrackOrigin) {
-    if (!this.hasAccessToken() || !track.urn) {
+    if (!this.hasCookie() || !track.urn) {
       return;
     }
     const api = this.getSoundCloudAPI();
@@ -189,7 +189,12 @@ export default class MeModel extends BaseModel {
       }
       if (setOrUrn) {
         try {
-          await api.me.addToPlayHistory(track.urn, setOrUrn);
+          await api.me.addToPlayHistory(track.urn, setOrUrn, {
+            onSendPlayTrackEventError: (err) => {
+              sc.getLogger().log('error', sc.getErrorMessage('Error sending play event in addToPlayHistory():', err, false));
+              return false;
+            }
+          });
         }
         catch (error) {
           sc.getLogger().error(
@@ -198,14 +203,16 @@ export default class MeModel extends BaseModel {
               error, true));
 
           await this.addToPlayHistory(track);
+          return;
         }
       }
       else {
         await api.me.addToPlayHistory(track.urn);
       }
+      sc.getLogger().info(`Added "${track.title}" to play history`);
     }
     catch (error) {
-      sc.getLogger().error(sc.getErrorMessage('Failed to add to play history:', error, true));
+      sc.getLogger().error(sc.getErrorMessage(`Failed to add "${track.title}" to play history:`, error, true));
     }
   }
 }

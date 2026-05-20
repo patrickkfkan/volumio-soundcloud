@@ -1,4 +1,4 @@
-import SetEntity from './SetEntity';
+import type SetEntity from './SetEntity';
 
 export interface RegularPlaylistEntity extends SetEntity {
   type: 'playlist';

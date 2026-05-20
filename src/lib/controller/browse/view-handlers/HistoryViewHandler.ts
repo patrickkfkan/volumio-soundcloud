@@ -1,12 +1,12 @@
 import sc from '../../../SoundCloudContext';
-import AlbumEntity from '../../../entities/AlbumEntity';
-import PlaylistEntity from '../../../entities/PlaylistEntity';
-import TrackEntity from '../../../entities/TrackEntity';
+import type AlbumEntity from '../../../entities/AlbumEntity';
+import type PlaylistEntity from '../../../entities/PlaylistEntity';
+import type TrackEntity from '../../../entities/TrackEntity';
 import { ModelType } from '../../../model';
-import { HistoryModelGetPlayHistoryItemsParams } from '../../../model/HistoryModel';
+import { type HistoryModelGetPlayHistoryItemsParams } from '../../../model/HistoryModel';
 import BaseViewHandler from './BaseViewHandler';
-import View from './View';
-import { RenderedPage } from './ViewHandler';
+import type View from './View';
+import { type RenderedPage } from './ViewHandler';
 import ViewHandlerFactory from './ViewHandlerFactory';
 import ViewHelper from './ViewHelper';
 import { RendererType } from './renderers';

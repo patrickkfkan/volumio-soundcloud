@@ -69,7 +69,6 @@ class LibraryViewHandler extends BaseViewHandler_1.default {
         return page;
     }
 }
-exports.default = LibraryViewHandler;
 _LibraryViewHandler_instances = new WeakSet(), _LibraryViewHandler_renderToListItem = function _LibraryViewHandler_renderToListItem(item) {
     if (item.type === 'album') {
         return this.getRenderer(renderers_1.RendererType.Album).renderToListItem(item, true);
@@ -90,7 +89,7 @@ _LibraryViewHandler_instances = new WeakSet(), _LibraryViewHandler_renderToListI
         return SoundCloudContext_1.default.getI18n('SOUNDCLOUD_STATIONS');
     }
     return undefined;
-}, _LibraryViewHandler_browseFilters = async function _LibraryViewHandler_browseFilters() {
+}, _LibraryViewHandler_browseFilters = function _LibraryViewHandler_browseFilters() {
     const view = this.currentView;
     const { filter = 'all' } = view;
     const options = __classPrivateFieldGet(this, _LibraryViewHandler_instances, "m", _LibraryViewHandler_getFilterOptions).call(this);
@@ -128,12 +127,12 @@ _LibraryViewHandler_instances = new WeakSet(), _LibraryViewHandler_renderToListI
         availableListViews: ['list'],
         items: listItems
     };
-    return {
+    return Promise.resolve({
         navigation: {
             prev: { uri: this.constructPrevUri() },
             lists: [list]
         }
-    };
+    });
 }, _LibraryViewHandler_getFilterOptions = function _LibraryViewHandler_getFilterOptions() {
     const options = [
         {
@@ -151,4 +150,5 @@ _LibraryViewHandler_instances = new WeakSet(), _LibraryViewHandler_renderToListI
     ];
     return options;
 };
+exports.default = LibraryViewHandler;
 //# sourceMappingURL=LibraryViewHandler.js.map

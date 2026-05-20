@@ -1,5 +1,5 @@
 import BaseModel from './BaseModel';
-import AlbumEntity from '../entities/AlbumEntity';
+import type AlbumEntity from '../entities/AlbumEntity';
 export interface AlbumModelGetAlbumsParams {
     search?: string;
     userId?: number;

@@ -1,8 +1,8 @@
-import BaseModel, { LoopFetchResult } from './BaseModel';
-import PlaylistEntity from '../entities/PlaylistEntity';
-import AlbumEntity from '../entities/AlbumEntity';
-import TrackEntity from '../entities/TrackEntity';
-import { TrackOrigin } from '../controller/browse/view-handlers/TrackViewHandler';
+import BaseModel, { type LoopFetchResult } from './BaseModel';
+import type PlaylistEntity from '../entities/PlaylistEntity';
+import type AlbumEntity from '../entities/AlbumEntity';
+import type TrackEntity from '../entities/TrackEntity';
+import { type TrackOrigin } from '../controller/browse/view-handlers/TrackViewHandler';
 export interface MeModelGetLikesParams {
     pageToken?: string;
     pageOffset?: number;

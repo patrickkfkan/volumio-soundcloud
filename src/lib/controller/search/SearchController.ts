@@ -1,9 +1,9 @@
 import sc from '../../SoundCloudContext';
-import { AlbumView } from '../browse/view-handlers/AlbumViewHandler';
-import { PlaylistView } from '../browse/view-handlers/PlaylistViewHandler';
-import { TrackView } from '../browse/view-handlers/TrackViewHandler';
-import { UserView } from '../browse/view-handlers/UserViewHandler';
-import { RenderedList } from '../browse/view-handlers/ViewHandler';
+import { type AlbumView } from '../browse/view-handlers/AlbumViewHandler';
+import { type PlaylistView } from '../browse/view-handlers/PlaylistViewHandler';
+import { type TrackView } from '../browse/view-handlers/TrackViewHandler';
+import { type UserView } from '../browse/view-handlers/UserViewHandler';
+import { type RenderedList } from '../browse/view-handlers/ViewHandler';
 import ViewHandlerFactory from '../browse/view-handlers/ViewHandlerFactory';
 import ViewHelper from '../browse/view-handlers/ViewHelper';
 

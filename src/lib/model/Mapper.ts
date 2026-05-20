@@ -1,10 +1,10 @@
-import { Album, EntityType, LibraryItem, Playlist, Selection, SystemPlaylist, Track, User } from 'soundcloud-fetch';
-import UserEntity from '../entities/UserEntity';
-import PlaylistEntity from '../entities/PlaylistEntity';
-import TrackEntity from '../entities/TrackEntity';
-import AlbumEntity from '../entities/AlbumEntity';
-import { ArtworkImageUrls, AvatarImageUrls } from 'soundcloud-fetch/dist/mjs/lib/entities/Entity';
-import SelectionEntity from '../entities/SelectionEntity';
+import { Album, type EntityType, type LibraryItem, Playlist, type Selection, SystemPlaylist, Track, User } from 'soundcloud-fetch';
+import type UserEntity from '../entities/UserEntity';
+import type PlaylistEntity from '../entities/PlaylistEntity';
+import type TrackEntity from '../entities/TrackEntity';
+import type AlbumEntity from '../entities/AlbumEntity';
+import { type ArtworkImageUrls, type AvatarImageUrls } from 'soundcloud-fetch/dist/mjs/lib/entities/Entity';
+import type SelectionEntity from '../entities/SelectionEntity';
 
 export default class Mapper {
 
@@ -38,8 +38,8 @@ export default class Mapper {
     let type: 'playlist' | 'system-playlist';
 
     if (data instanceof SystemPlaylist) {
-      title = (data as SystemPlaylist).texts?.title?.full;
-      description = (data as SystemPlaylist).texts?.description?.full;
+      title = (data).texts?.title?.full;
+      description = (data).texts?.description?.full;
       type = 'system-playlist';
     }
     else {
@@ -80,6 +80,7 @@ export default class Mapper {
           'allowed';
     const transcodings: TrackEntity['transcodings'] = mediaInfo?.transcodings?.map((t) => ({
       url: t.url,
+      preset: t.preset,
       protocol: t.protocol,
       mimeType: t.mimeType,
       quality: t.quality
@@ -95,6 +96,7 @@ export default class Mapper {
       playableState,
       duration: data.durations.playback,
       transcodings,
+      trackAuthorization: data.mediaInfo.trackAuthorization,
       user: user ? await this.mapUser(user) : null
     };
 

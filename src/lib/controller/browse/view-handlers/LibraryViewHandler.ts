@@ -1,14 +1,14 @@
 import sc from '../../../SoundCloudContext';
-import AlbumEntity from '../../../entities/AlbumEntity';
-import PlaylistEntity from '../../../entities/PlaylistEntity';
+import type AlbumEntity from '../../../entities/AlbumEntity';
+import type PlaylistEntity from '../../../entities/PlaylistEntity';
 import { ModelType } from '../../../model';
-import { MeModelGetLibraryItemsParams } from '../../../model/MeModel';
+import { type MeModelGetLibraryItemsParams } from '../../../model/MeModel';
 import BaseViewHandler from './BaseViewHandler';
-import View from './View';
-import { RenderedList, RenderedPage } from './ViewHandler';
+import type View from './View';
+import { type RenderedList, type RenderedPage } from './ViewHandler';
 import ViewHelper from './ViewHelper';
 import { RendererType } from './renderers';
-import { RenderedListItem } from './renderers/BaseRenderer';
+import { type RenderedListItem } from './renderers/BaseRenderer';
 
 export interface LibraryView extends View {
   name: 'library';
@@ -99,7 +99,7 @@ export default class LibraryViewHandler extends BaseViewHandler<LibraryView> {
     return undefined;
   }
 
-  async #browseFilters(): Promise<RenderedPage> {
+  #browseFilters(): Promise<RenderedPage> {
     const view = this.currentView;
     const { filter = 'all' } = view;
 
@@ -144,12 +144,12 @@ export default class LibraryViewHandler extends BaseViewHandler<LibraryView> {
       items: listItems
     };
 
-    return {
+    return Promise.resolve({
       navigation: {
         prev: { uri: this.constructPrevUri() },
         lists: [ list ]
       }
-    };
+    });
   }
 
   #getFilterOptions() {
